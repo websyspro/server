@@ -1,0 +1,22 @@
+{
+    "name": "websyspro/server",
+    "description": "Library for managing controllers and services",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Websyspro\\Server\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "websyspro",
+            "email": "cpd.emersontsa@gmail.com"
+        }
+    ],
+    "require": {},
+    "scripts": {
+        "post-install-cmd": [
+            "php index.php --update-database=yes"
+        ]
+    }
+}
