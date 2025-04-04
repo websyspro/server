@@ -1,8 +1,7 @@
 <?php
 
-namespace Websyspro\Server\Tests\Controllers;
+namespace Websyspro\Server\Tests\Controllers\Accounts;
 
-use Exception;
 use Websyspro\Server\Databases\StructureData;
 use Websyspro\Server\Tests\Services\UserService;
 use Websyspro\Server\Decorators\AllowAnonymous;

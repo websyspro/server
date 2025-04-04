@@ -10,7 +10,7 @@ use Websyspro\Server\Commons\Util;
 #[Attribute(Attribute::TARGET_METHOD)]
 class HttpGet {
   public function __construct(
-    private readonly string $name
+    private readonly string $name = ""
   ){}
 
   public function getEndpoint(

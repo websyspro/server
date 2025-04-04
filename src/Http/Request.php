@@ -2,10 +2,10 @@
 
 namespace Websyspro\Server\Http
 {
+	use Websyspro\Server\Commons\Util;
 	use Websyspro\Server\Enums\ContentType;
 	use Websyspro\Server\Enums\RequestMethod;
 	use Websyspro\Server\Enums\RequestType;
-	use Websyspro\Server\Util;
 
   class Request
 	{
@@ -223,6 +223,16 @@ namespace Websyspro\Server\Http
 						)
 					)
 				]
+			);
+		}
+
+		public static function controllerParse(
+			string $controller
+		): string {
+			return strtolower(
+				preg_replace( 
+					"/.*\\\\(\w+)Controllers$/", "$1", $controller
+				)
 			);
 		}
 	}

@@ -16,12 +16,15 @@ use Websyspro\Server\Http\Response;
 use Websyspro\Server\Reflections\ReflectUtils;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Databases\StructureData;
+use Websyspro\Server\Decorators\ControllerList;
+use Websyspro\Server\Http\Request;
 
 class Application
 {
   public string $requestUri;
   public string $base;
   public string $version;
+  public string $app;
   public string $controller;
   public array $endpoint;
   public string $requestMethod;
@@ -80,14 +83,12 @@ class Application
 
   private function setEnvironment(
   ): void {
-    [ $this->base, 
-      $this->version, 
-      $this->controller
+    [ $this->base, $this->version, $this->app, $this->controller
     ] = explode( "/", $this->requestUri );
 
     if($this->hasEndpoint()){
       $this->endpoint = array_slice(
-        explode("/", $this->requestUri), 3
+        explode( "/", $this->requestUri), 4
       );
     }
   }
@@ -175,7 +176,7 @@ class Application
     $endpointValidates[] = $this->endpointValidateMethod($reflectionAttribute);
     $endpointValidates[] = $this->endpointValidatePathsCount($reflectionAttribute);
     $endpointValidates[] = $this->endpointValidatePathsItems($reflectionAttribute);
-
+  
     return in_array(false, $endpointValidates) !== true;
   }
 
@@ -203,10 +204,31 @@ class Application
     );
   }
 
+  private function getControllers(
+  ): array {
+    [ $controllerApp ] = Util::Filter($this->controllers, fn( string $controller ) => (
+      Request::controllerParse($controller) === $this->app
+    ));
+
+    [ $controllerAttribute ] = (
+      ReflectUtils::getReflectClass(
+        $controllerApp
+      )->getAttributes()
+    );
+
+    if( $controllerAttribute->newInstance() instanceof ControllerList ){
+      return $controllerAttribute->newInstance()->get();
+    }
+
+    return [];
+  }
+
   private function setEnvironmentController(
   ): void {
+    $this->getControllers();
+
     [ $this->currentController ] = Util::Filter(
-      $this->controllers, fn(string | object $controller) => (
+      $this->getControllers(), fn(string | object $controller) => (
         $this->controllerValidate($controller)
       )
     );
@@ -229,7 +251,7 @@ class Application
 
     [ $this->currentEndpoint ] = Util::Filter(
       $controllerMethods, fn(string $method) => (
-        $this->endpointValidate($this->currentController, $method)
+        $this->endpointValidate( $this->currentController, $method )
       )
     );
     
