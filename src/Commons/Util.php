@@ -107,4 +107,14 @@ class Util
       $joinList
     );
   } 
+
+  public static function Log(
+    string $logText
+  ): void {
+    $currentDate = date( "d/m/Y, H:i:s" );
+
+    $stdoutStream = fopen('php://stdout', 'w'); 
+    fwrite( $stdoutStream, "\x1b[32mWebSysPro - \x1b[37m{$currentDate}\x1b[32m LOG \x1b[33m[Server]\x1b[37m \x1b[32m{$logText}\x1b[37m \x1b[37m - ms\n" );
+    fclose( $stdoutStream );
+  }
 }

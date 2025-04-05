@@ -234,6 +234,8 @@ namespace Websyspro\Server\Databases
       Connect::on( 
         $database
       )->query( $command );
+
+      Util::Log( $mensage );
     }
   }
 }
