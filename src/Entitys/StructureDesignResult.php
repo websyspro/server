@@ -4,10 +4,10 @@ namespace Websyspro\Server\Entitys
 {
   use ReflectionProperty;
   use Websyspro\Server\Commons\Util;
-    use Websyspro\Server\Databases\Interfaces\ForeignKeyItem;
-    use Websyspro\Server\Decorators\Entity\Enums\AttributeType;
-    use Websyspro\Server\Entitys\Commons\EntityUtil;
-    use Websyspro\Server\Reflections\ReflectUtils;
+  use Websyspro\Server\Databases\Interfaces\ForeignKeyItem;
+  use Websyspro\Server\Decorators\Entity\Enums\AttributeType;
+  use Websyspro\Server\Entitys\Commons\EntityUtil;
+  use Websyspro\Server\Reflections\ReflectUtils;
 
   class StructureDesignResult
   extends StructureResult
@@ -84,6 +84,28 @@ namespace Websyspro\Server\Entitys
       $this->columns = $this->getAttributeType(
         AttributeType::Columns->name
       );
+
+      $columnsStart = [
+        "id"
+      ];
+      
+      $columnsEnd = [ 
+        "actived", "activedBy", "activedAt",
+        "createdBy","createdAt", "updatedBy",
+        "updatedAt", "deleted", "deletedBy", "deletedAt"
+      ];
+
+      $this->columns = array_merge(
+        Util::Filter( $this->columns, fn( StructureAttribute $column ) => (
+          in_array( $column->name, $columnsStart ) === true
+        )),
+        Util::Filter( $this->columns, fn( StructureAttribute $column ) => (
+          in_array( $column->name, array_merge( $columnsStart, $columnsEnd )) === false
+        )),
+        Util::Filter( $this->columns, fn( StructureAttribute $column ) => (
+          in_array( $column->name, $columnsEnd ) === true
+        ))
+      );
     }
 
     private function setUniques(
@@ -114,10 +136,6 @@ namespace Websyspro\Server\Entitys
           )
         )
       ); 
-
-      // $this->foreigns = $this->getAttributeType(
-      //   AttributeType::Foreigns->name
-      // );      
     }
 
     private function setRequireds(
