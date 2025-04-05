@@ -9,7 +9,7 @@ namespace Websyspro\Server\Databases\Entity
   use Websyspro\Server\Decorators\Entity\Generations\AutoIncrement;
   use Websyspro\Server\Decorators\Entity\Requireds\NotNull;
 
-  class EntityBase
+  class BaseEntity
   {
     #[NotNull()]
     #[BigNumber()]

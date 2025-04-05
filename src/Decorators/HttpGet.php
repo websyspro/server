@@ -15,6 +15,10 @@ class HttpGet {
 
   public function getEndpoint(
   ): array {
+    if( empty( $this->name )){
+      return [];
+    }
+
     return explode(
       "/", Util::ParseRequestUri($this->name)
     );

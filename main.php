@@ -1,15 +1,15 @@
 <?php
 
 use Websyspro\Server\Application;
-use Websyspro\Server\Tests\Controllers\AccountsControllers;
-use Websyspro\Server\Tests\Database\TestDatabase;
+use Websyspro\Server\Tests\Apps\LittleShop\LittleShopControllers;
+use Websyspro\Server\Tests\Apps\LittleShop\LittleShopDatabase;
 
 Application::Init(
   controllers: [
-    AccountsControllers::class
+    LittleShopControllers::class
   ],
   databases: [
-    TestDatabase::class
+    LittleShopDatabase::class,
   ],
   entitys: []
 );

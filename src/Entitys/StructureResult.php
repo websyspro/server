@@ -24,8 +24,12 @@ namespace Websyspro\Server\Entitys
 
     public function getDatabase(
     ): string {
-      return EntityUtil::DatabaseParse(
-        $this->database
+      return sprintf(
+        "%s%s", connect->prefix, (
+          EntityUtil::DatabaseParse(
+            $this->database
+          )
+        )
       );
     }
 

@@ -3,6 +3,7 @@
 namespace Websyspro\Server\Databases
 {
   use ReflectionAttribute;
+  use Websyspro\Server\Commons\Log;
   use Websyspro\Server\Commons\Util;
   use Websyspro\Server\Databases\Commands\AutoIncrementCreate;
   use Websyspro\Server\Databases\Commands\ColumnsCreate;
@@ -11,11 +12,13 @@ namespace Websyspro\Server\Databases
   use Websyspro\Server\Databases\Commands\IndexCreate;
   use Websyspro\Server\Databases\Commands\PrimaryKeyCreate;
   use Websyspro\Server\Databases\Commands\UniqueCreate;
+  use Websyspro\Server\Databases\Connect\DB;
   use Websyspro\Server\Entitys\Commons\EntityUtil;
   use Websyspro\Server\Entitys\StructureDesign;
   use Websyspro\Server\Entitys\StructurePersistedResult;
   use Websyspro\Server\Entitys\StructurePersisteds;
   use Websyspro\Server\Entitys\StructureDesignResult;
+  use Websyspro\Server\Enums\LogType;
   use Websyspro\Server\Reflections\ReflectUtils;
 
   class StructureData
@@ -231,11 +234,18 @@ namespace Websyspro\Server\Databases
       string $command,
       string $mensage
     ): void {
-      Connect::on( 
-        $database
-      )->query( $command );
+      $executeSuccessfully = (
+        DB::set($database )->execute(
+          $command
+        )
+      );
 
-      Util::Log( $mensage );
+      if( $executeSuccessfully ){
+        Log::Message(
+          LogType::Database,
+          $mensage
+        );
+      }
     }
   }
 }

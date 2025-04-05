@@ -73,6 +73,8 @@ class Response
 	public const ERROR_CONTROLLER_NOT_FOUND = "Controller not found";
 	public const ERROR_ROUTE_NOT_FOUND = "Route not found";
 
+	public const ERROR_INTERNAL_SERVER = "Internal server error";
+
 	public function __construct(
 		public mixed $message,
 		public int $httpStatus

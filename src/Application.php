@@ -7,6 +7,7 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
+use Websyspro\Server\Commons\Log;
 use Websyspro\Server\Decorators\AllowAnonymous;
 use Websyspro\Server\Decorators\Authenticate;
 use Websyspro\Server\Decorators\Controller;
@@ -17,6 +18,7 @@ use Websyspro\Server\Reflections\ReflectUtils;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Databases\StructureData;
 use Websyspro\Server\Decorators\ControllerList;
+use Websyspro\Server\Exceptions\NotFound;
 use Websyspro\Server\Http\Request;
 
 class Application
@@ -32,14 +34,22 @@ class Application
   public string | null $currentController = null;
   public string | null $currentEndpoint = null;
 
+  
+
   public function __construct(
     private readonly array $controllers = [],
     private readonly array $entitys = [],
     private readonly array $databases = []
   ){
+    $this->setTimer();
     $this->isUpdateDatabase()
       ? $this->startUpdateDatabase()
       : $this->startEnvironment();
+  }
+
+  public function setTimer(
+  ): void {
+    Log::setStartTimer();
   }
 
   private function hasEndpoint(
@@ -207,17 +217,20 @@ class Application
   private function getControllers(
   ): array {
     [ $controllerApp ] = Util::Filter($this->controllers, fn( string $controller ) => (
-      Request::controllerParse($controller) === $this->app
+      Request::controllerParse( $controller ) === $this->app
     ));
 
-    [ $controllerAttribute ] = (
-      ReflectUtils::getReflectClass(
-        $controllerApp
-      )->getAttributes()
-    );
+    if ( is_null( $controllerApp ) === false ) {
+      [ $controllerAttribute ] = (
+        ReflectUtils::getReflectClass(
+          $controllerApp
+        )->getAttributes()
+      );
 
-    if( $controllerAttribute->newInstance() instanceof ControllerList ){
-      return $controllerAttribute->newInstance()->get();
+    
+      if( $controllerAttribute->newInstance() instanceof ControllerList ){
+        return $controllerAttribute->newInstance()->get();
+      }
     }
 
     return [];
@@ -225,19 +238,14 @@ class Application
 
   private function setEnvironmentController(
   ): void {
-    $this->getControllers();
-
     [ $this->currentController ] = Util::Filter(
       $this->getControllers(), fn(string | object $controller) => (
         $this->controllerValidate($controller)
       )
     );
 
-    if(is_null($this->currentController)){
-      throw new Exception(
-        Response::ERROR_CONTROLLER_NOT_FOUND,
-        Response::HTTP_NOT_FOUND
-      );
+    if( is_null( $this->currentController )){
+      NotFound::handle( Response::ERROR_CONTROLLER_NOT_FOUND );
     }
   }
 
@@ -256,11 +264,8 @@ class Application
     );
     
 
-    if(is_null($this->currentEndpoint)){
-      throw new Exception(
-        Response::ERROR_ROUTE_NOT_FOUND,
-        Response::HTTP_NOT_FOUND
-      );
+    if( is_null( $this->currentEndpoint )){
+      NotFound::handle( Response::ERROR_ROUTE_NOT_FOUND );
     }
   }
 

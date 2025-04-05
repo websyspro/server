@@ -4,7 +4,8 @@ namespace Websyspro\Server\Entitys
 {
   use Websyspro\Server\Commons\Util;
   use Websyspro\Server\Databases\Connect;
-  use Websyspro\Server\Decorators\Entity\Enums\AttributeType;
+    use Websyspro\Server\Databases\Connect\DB;
+    use Websyspro\Server\Decorators\Entity\Enums\AttributeType;
 
   class StructurePersistedResult 
   extends StructureResult
@@ -39,9 +40,7 @@ namespace Websyspro\Server\Entitys
 
     private function setProperties(
     ): void {
-      $this->properties = Connect::on(
-        $this->getDatabase()
-      )->query(
+      $this->properties = DB::set( $this->getDatabase())->query(
         "select information_schema.columns.column_name as name
 	             ,information_schema.columns.column_type as type
             ,if(information_schema.columns.is_nullable = 'NO', 'S', 'N') as required
@@ -50,26 +49,26 @@ namespace Websyspro\Server\Entitys
            from information_schema.columns
           where information_schema.columns.table_schema = '{$this->getDatabase()}'
             and information_schema.columns.table_name = '{$this->getEntity()}'"
-      )->fetchAll();
+      )->all();
     }
 
     private function setEntityUniques(
     ): void {
       $this->uniques = Util::Mapper(
-        Connect::on( $this->getDatabase())->query(
+        DB::set( $this->getDatabase())->query(
           "select information_schema.table_constraints.constraint_name as name
              from information_schema.table_constraints
             where information_schema.table_constraints.table_schema = '{$this->getDatabase()}'
               and information_schema.table_constraints.table_name = '{$this->getEntity()}'
               and information_schema.table_constraints.constraint_type = 'UNIQUE'"
-        )->fetchAll(), fn( object $constraint ) => $constraint->name
+        )->all(), fn( object $constraint ) => $constraint->name
       );
     }
 
     private function setEntityIndexes(
     ): void {
       $this->indexes = Util::Mapper(
-        Connect::on( $this->getDatabase())->query(
+        DB::set( $this->getDatabase())->query(
           "select information_schema.statistics.index_name as name
              from information_schema.statistics
             where information_schema.statistics.table_schema = '{$this->getDatabase()}'
@@ -77,20 +76,20 @@ namespace Websyspro\Server\Entitys
               and information_schema.statistics.index_name like 'INDEX_%'
               and information_schema.statistics.non_unique = 1
          group by information_schema.statistics.index_name"
-        )->fetchAll(), fn( object $index ) => $index->name
+        )->all(), fn( object $index ) => $index->name
       );      
     }
 
     private function setEntityForeignKeys(
     ): void {
       $this->foreigns = Util::Mapper(
-        Connect::on( $this->getDatabase())->query(
+        DB::set( $this->getDatabase())->query(
           "select information_schema.key_column_usage.constraint_name as name
              from information_schema.key_column_usage 
             where information_schema.key_column_usage.table_schema = '{$this->getDatabase()}'
               and information_schema.key_column_usage.table_name = '{$this->getEntity()}' 
               and information_schema.key_column_usage.referenced_table_name is not null"
-        )->fetchAll(), fn( object $foreign ) => $foreign->name
+        )->all(), fn( object $foreign ) => $foreign->name
       ); 
     }
 

@@ -229,7 +229,7 @@ namespace Websyspro\Server\Http
 		public static function controllerParse(
 			string $controller
 		): string {
-			return strtolower(
+			return Util::camelToKebab(
 				preg_replace( 
 					"/.*\\\\(\w+)Controllers$/", "$1", $controller
 				)
