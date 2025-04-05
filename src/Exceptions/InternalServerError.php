@@ -12,7 +12,10 @@ namespace Websyspro\Server\Exceptions
     public static function handle(
       string $message
     ): Exception {
-      Log::Error( LogType::Service, $message );
+      Log::Error(
+        LogType::Service,
+        $message
+      );
       
       return throw new Exception(
         message: Response::ERROR_INTERNAL_SERVER,

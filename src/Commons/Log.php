@@ -25,18 +25,29 @@ namespace Websyspro\Server\Commons
 
     public static function getNow(
     ): string {
-      return date( "d/m/Y, H:i:s" );
+      return date( "[D M  d H:i:s Y]" );
+    }
+
+    public static function getOrigem(
+    ): string {
+      [ "REMOTE_ADDR" => $remoteAddr, 
+        "SERVER_PORT" => $serverPort ] = $_SERVER;
+
+      return $remoteAddr !== null && $serverPort !== null
+        ? "[{$remoteAddr}]:{$serverPort}"
+        : "[::1]:00000";
     }
     
     public static function Message(
       LogType $logType,
       string $logText
     ): void {
-      $getTimer = Log::getNowTimer();
-      $getNow = Log::getNow();
-  
       fwrite( fopen('php://stdout', 'w'), (
-        "\x1b[32mWebSysPro - \x1b[37m{$getNow}\x1b[32m LOG \x1b[33m[{$logType->value}] \x1b[32m{$logText}\x1b[37m \x1b[37m+{$getTimer}ms\n"
+        sprintf("\x1b[37m%s %s\x1b[32m LOG \x1b[33m[{$logType->value}] \x1b[32m{$logText}\x1b[37m \x1b[37m+%sms\n", 
+          Log::getNow(),
+          Log::getOrigem(),
+          Log::getNowTimer(),
+        )
       ));
     }
 
@@ -44,11 +55,12 @@ namespace Websyspro\Server\Commons
       LogType $logType,
       string $logText      
     ): void {
-      $getTimer = Log::getNowTimer();
-      $getNow = Log::getNow();
-  
       fwrite( fopen('php://stdout', 'w'), (
-        "\x1b[32mWebSysPro - \x1b[37m{$getNow}\x1b[32m LOG \x1b[33m[{$logType->value}] \x1b[31m{$logText} \x1b[37m+{$getTimer}ms\n"
+        sprintf( "\x1b[37m%s %s\x1b[32m LOG \x1b[33m[{$logType->value}] \x1b[31m{$logText} \x1b[37m+%sms\n",
+          Log::getNow(),
+          Log::getOrigem(),
+          Log::getNowTimer(),
+        )
       ));
     }
   }

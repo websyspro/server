@@ -56,7 +56,6 @@ namespace Websyspro\Server\Databases\Commands
     ): void {
       Util::Mapper( $this->designs->columns, (
         function( StructureAttribute $structureAttribute ){
-
           $this->persisteds->hasColumnName( $structureAttribute->name ) && (
           $this->persisteds->getColumnName( $structureAttribute->name )->args !== $structureAttribute->args ||
           $this->persisteds->isRequired( $structureAttribute->name ) !== $this->designs->isRequired( $structureAttribute->name ))

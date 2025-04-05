@@ -16,13 +16,17 @@ namespace Websyspro\Server\Entitys
     ){
       $this->attributes = Util::Mapper(
         $this->reflectionProperty->getAttributes(), 
-          fn( ReflectionAttribute $reflectionAttribute ) => (
-            new StructureAttribute(
+          function( ReflectionAttribute $reflectionAttribute ){
+            $newInstance = ReflectUtils::newInstance(
+              $reflectionAttribute
+            );
+
+            return new StructureAttribute(
               $this->reflectionProperty->getName(),
-              ReflectUtils::newInstance($reflectionAttribute)->attributeType->name,
-              ReflectUtils::newInstance($reflectionAttribute)->get()
-            )
-          )
+              $newInstance->attributeType->name,
+              $newInstance->get()
+            );
+          }
       );
     }
 

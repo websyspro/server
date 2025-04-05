@@ -12,6 +12,8 @@ namespace Websyspro\Server\Decorators\Entity\Columns
       AttributeType::Columns
     );
 
+    public function __construct(){}
+
     public function get(
     ): string {
       return "time";

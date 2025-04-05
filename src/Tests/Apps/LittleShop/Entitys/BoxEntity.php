@@ -29,7 +29,7 @@ namespace Websyspro\Server\Tests\Apps\LittleShop\Entitys
     #[Text(255)]
     public string $printer;
 
-    #[Datetime()]
+    #[Datetime(10,2)]
     public string $openingAt;
 
     #[Decimal(10,2)]

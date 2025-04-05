@@ -19,7 +19,7 @@ namespace Websyspro\Server\Decorators\Entity\Columns
 
     public function get(
     ): string {
-      return "decimal({$this->countNumbers}, {$this->countNumbersFloats})";
+      return "decimal({$this->countNumbers},{$this->countNumbersFloats})";
     }
   }
 }

@@ -48,15 +48,15 @@ namespace Websyspro\Server\Entitys
     ): void {
       Util::Mapper(
         ReflectUtils::getProperties( $this->entity ), 
-          fn( ReflectionProperty $reflectionProperty ) => (
+          function( ReflectionProperty $reflectionProperty ){
             $this->properties[
               $reflectionProperty->getName()
             ] = (
               ( new StructureAttributeList(
                 $reflectionProperty 
               ))->getAttributes()
-            )
-          )
+            );
+          }
       );
     }
 

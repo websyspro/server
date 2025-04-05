@@ -13,7 +13,7 @@ namespace Websyspro\Server\Decorators\Entity\Constraints
     );
         
     public function __construct(
-      public readonly int $order = 1
+      public int $order = 1
     ){}
 
     public function get(

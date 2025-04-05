@@ -11,6 +11,8 @@ namespace Websyspro\Server\Decorators\Entity\Columns
     public AttributeType $attributeType = (
       AttributeType::Columns
     );
+
+    public function __construct(){}
        
     public function get(
     ): string {

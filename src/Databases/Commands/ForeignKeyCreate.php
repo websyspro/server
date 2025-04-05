@@ -57,7 +57,7 @@ namespace Websyspro\Server\Databases\Commands
     ): void {
       if( $this->persisteds->hasForeigns() === true ){
         Util::Mapper( $this->persisteds->foreigns, function( string $name ){
-          if( in_array( $name, $this->designs->getForeignsName())) {
+          if( in_array( $name, $this->designs->getForeignsName()) === false ) {
             $this->command[] = "alter table {$this->persisteds->getEntity()} drop foreign key {$name};";
             $this->message[] = "Foreign key constraint {$name} drop with successfully to {$this->persisteds->getEntity()}";
             $this->command[] = "alter table {$this->persisteds->getEntity()} drop index {$name};";

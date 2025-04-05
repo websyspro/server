@@ -3,7 +3,7 @@
         'name' => 'websyspro/server',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '0c4d7d3e92073d00fbc225ee35bbac9f1e5159ad',
+        'reference' => 'f651697361f8e4306de7b5fe25f2951095955b98',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'websyspro/server' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0c4d7d3e92073d00fbc225ee35bbac9f1e5159ad',
+            'reference' => 'f651697361f8e4306de7b5fe25f2951095955b98',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

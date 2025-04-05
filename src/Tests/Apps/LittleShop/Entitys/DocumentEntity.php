@@ -21,13 +21,11 @@ namespace Websyspro\Server\Tests\Apps\LittleShop\Entitys
 
     #[BigNumber()]
     #[Index(2)]
-    #[Index(3)]
     #[ForeignKey(BoxEntity::class)]
     public int $idBox;
 
     #[BigNumber()]
     #[Index(2)]
-    #[Index(3)]
     #[ForeignKey(OperatorEntity::class)]
     public int $idOperator;
 

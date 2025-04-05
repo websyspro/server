@@ -12,6 +12,8 @@ namespace Websyspro\Server\Decorators\Entity\Constraints
       AttributeType::PrimaryKey
     );
 
+    public function __construct(){}
+
     public function get(
     ): string {
       return "primary key";

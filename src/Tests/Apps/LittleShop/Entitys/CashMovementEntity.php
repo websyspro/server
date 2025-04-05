@@ -31,7 +31,7 @@ namespace Websyspro\Server\Tests\Apps\LittleShop\Entitys
     #[Decimal(10,2)]
     public int $number;
   
-    #[Text(233)]
+    #[Text(255)]
     public int $observations;
   }
 }
