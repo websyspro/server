@@ -13,10 +13,5 @@
             "email": "cpd.emersontsa@gmail.com"
         }
     ],
-    "require": {},
-    "scripts": {
-        "post-install-cmd": [
-            "php index.php --update-database=yes"
-        ]
-    }
+    "require": {}
 }

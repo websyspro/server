@@ -3,18 +3,9 @@
 namespace Websyspro\Server\Commons;
 
 use ReflectionFunction;
-use Websyspro\Server\Enums\LogType;
 
 class Util
 {
-  public static function ParseRequestUri(
-    string $requestUri
-  ): string {
-    return preg_replace(
-      [ "/^\/*/", "/\/\?/", "/\/*$/" ], "", $requestUri
-    );
-  }
-
   public static function Reduce(
     array $MapperArr,
     mixed $MapperCurr,     
@@ -87,33 +78,11 @@ class Util
        === array_values($second);
   }
 
-  public static function isValidArray(
-    array $isValidArr = []
-  ): bool {
-    return is_array( $isValidArr ) && empty( $isValidArr );
-  }
-
-  public static function isEmptyArray(
-    array $value = []
-  ): bool {
-    return is_array( $value ) && empty( $value ) === true;
-  }
-
-  public static function join(
-    string $joinStr,
-    array $joinList
-  ): string {
-    return implode(
-      $joinStr,
-      $joinList
-    );
-  }
-
-  public static function camelToKebab(
-    string $string
-  ): string {
-    return strtolower(
-      preg_replace( "/([a-z])([A-Z])/", "$1-$2", $string )
+  public static function ValueOfArray(
+    array $arrList = []
+  ): mixed {
+    return end(
+      $arrList
     );
   }
 }
