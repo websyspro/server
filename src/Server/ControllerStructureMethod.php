@@ -42,10 +42,11 @@ class ControllerStructureMethod
     );
 
     if( $attribute !== null ){
-      $this->method = $attribute->newInstance()->methodType->name;
-      $this->endpoint = explode( "/", Util::ParseRequestUri(
-        $attribute->newInstance()->endpoint
-      ));
+      $attribute = $attribute->newInstance();
+
+      $this->method = $attribute->methodType->name;
+      $this->endpoint = empty( $attribute->endpoint )
+        ? [] : explode( "/", Util::ParseRequestUri( $attribute->endpoint ));
     }
   }
 
@@ -86,11 +87,15 @@ class ControllerStructureMethod
 
   private function setClassInstance(
   ): object {
-    return (
-      ReflectDependences::getDependences(
-        $this->className
-      )
-    );
+    if(method_exists( $this->className, "__construct" )){
+      return (
+        ReflectDependences::getDependences(
+          $this->className
+        )
+      );
+    }
+
+    return new $this->className();
   }
 
   private function getMethodName(

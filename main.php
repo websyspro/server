@@ -15,23 +15,33 @@ use Websyspro\Server\Server\Response;
 #[Authenticate()]
 class UserController
 {
-  public function __construct()
-  {}
+  // public function __construct()
+  // {}
 
-  #[Post( "list" )]
+  #[Post()]
   #[FileValidator()]
-  public function getList(
-    #[Body()] array $body
+  public function postList(
   ): Response {
-    return Response::json( $body );
+    return Response::json(
+      [ "postPostList" ]
+    );
   }
+ 
+  #[Get()]
+  #[AllowAnonymous()]
+  public function getEmptylist(
+  ): Response {
+    return Response::json(
+      [ "getEmptylist" ]
+    );
+  }  
 
   #[Get( "list" )]
   #[AllowAnonymous()]
-  public function list(
+  public function getList(
   ): Response {
     return Response::json(
-      [ "Test" => "Thiago" ]
+      [ "getList" ]
     );
   }
 }
@@ -59,3 +69,5 @@ Application::server(
     PedidosControllers::class
   ]
 );
+
+

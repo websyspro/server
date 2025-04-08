@@ -110,14 +110,15 @@ class ControllerStructure
     ) !== true;
   }  
 
-  public function getMethodo(
+  public function find(
     Request $request   
   ): array {
     return Util::Filter(
       $this->endpoints, (
         fn( ControllerStructureMethod $controllerStructureMethod ) => (
           in_array(
-            false, [ $this->equalsMethod( $request, $controllerStructureMethod ),
+            false, [ 
+              $this->equalsMethod( $request, $controllerStructureMethod ),
               $this->equalsPaths( $request, $controllerStructureMethod ),
               $this->equalsPathsItems( $request, $controllerStructureMethod )
             ]

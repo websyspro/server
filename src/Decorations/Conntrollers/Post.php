@@ -13,6 +13,6 @@ class Post
   public MethodType $methodType = MethodType::Post;
 
   public function __construct(
-    public readonly string $endpoint
+    public readonly string $endpoint = ""
   ){}
 }

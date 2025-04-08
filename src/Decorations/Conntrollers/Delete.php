@@ -11,6 +11,6 @@ class Delete
   public AttributeType $attributeType = AttributeType::Endpoint;
 
   public function __construct(
-    public readonly string $endpoint
+    public readonly string $endpoint = ""
   ){}
 }

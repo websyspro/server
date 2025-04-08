@@ -13,6 +13,6 @@ class Get
   public MethodType $methodType = MethodType::Get;
 
   public function __construct(
-    public readonly string $endpoint
+    public readonly string $endpoint = ""
   ){}
 }

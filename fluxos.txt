@@ -1,2 +1,1 @@
-1 - Criar Decorations Relacionados a Entity
-2 - Criar Estrutura Relacionados a Entity
+Bug de execução de method quando o controle não tem construtor

@@ -101,18 +101,18 @@ class Application
 
   private function setEndpoint(
   ): void {
-    [ $mt ] = $this->controllerStructure->getMethodo(
-      $this->request
+    [ $find ] = (
+      $this->controllerStructure->find(
+        $this->request
+      )
     );
 
-    if( $mt === null ){
-      Error::NotFound(
-        "Route not found"
-      );
+    if( $find === null ){
+      Error::NotFound( "Route not found" );
     }
 
     $this->setResponse(
-      $mt->setExecute()
+      $find->setExecute()
     );
   }
 
