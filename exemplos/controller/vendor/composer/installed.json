@@ -1,0 +1,44 @@
+{
+    "packages": [
+        {
+            "name": "websyspro/server",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/server.git",
+                "reference": "acc7959a67b4b726d00327278d7a30f93913717f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/server/zipball/acc7959a67b4b726d00327278d7a30f93913717f",
+                "reference": "acc7959a67b4b726d00327278d7a30f93913717f",
+                "shasum": ""
+            },
+            "time": "2025-04-07T22:47:55+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Websyspro\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "cpd.emersontsa@gmail.com"
+                }
+            ],
+            "description": "Library for managing controllers and services",
+            "support": {
+                "issues": "https://github.com/websyspro/server/issues",
+                "source": "https://github.com/websyspro/server/tree/main"
+            },
+            "install-path": "../websyspro/server"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

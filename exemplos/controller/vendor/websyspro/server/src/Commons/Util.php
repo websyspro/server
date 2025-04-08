@@ -6,14 +6,6 @@ use ReflectionFunction;
 
 class Util
 {
-  public static function hasCli(
-  ): bool {
-    return (
-      php_sapi_name() 
-        === "cli"
-    );
-  }
-
   public static function Reduce(
     array $MapperArr,
     mixed $MapperCurr,     
@@ -91,53 +83,6 @@ class Util
   ): mixed {
     return end(
       $arrList
-    );
-  }
-
-  public static function ParseRequestUri(
-    string $requestUri
-  ): string {
-    return preg_replace(
-      [ "/(?<=[^\/])\?/", "/^\/*/", "/\/*$/"  ], 
-      [ "/?", "" ], $requestUri 
-    );
-  }
-
-  public static function DropParamsFromUri(
-    string $requestUri
-  ): string {
-    return preg_replace(
-      "/\?.+/", "", $requestUri
-    );
-  }
-
-  public static function camelToKebab(
-    string $string
-  ): string {
-    return strtolower(
-      preg_replace(
-        "/([a-z])([A-Z])/", "$1-$2", $string
-      )
-    );
-  }
-
-  public static function getModuleFromController(
-    string $controller
-  ): string {
-    return Util::camelToKebab(
-      preg_replace(
-        "/Controller.+$/", "", $controller
-      )
-    );
-  }
-
-  public static function getController(
-    string $controller
-  ): string {
-    return Util::camelToKebab(
-      preg_replace(
-        "/Controller$/", "", $controller
-      )
     );
   }
 }

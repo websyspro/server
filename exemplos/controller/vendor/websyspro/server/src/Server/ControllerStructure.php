@@ -6,6 +6,7 @@ use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\ReflectMethod;
 use Websyspro\Server\Enums\Reflect\AttributeType;
+use Websyspro\Server\Interfaces\Conntrollers\IMethod;
 
 class ControllerStructure
 {
@@ -66,63 +67,11 @@ class ControllerStructure
       Util::Mapper(
         $this->reflect->getMethods(), (
           fn( ReflectMethod $reflectMethod ) => (
-            new ControllerStructureMethod(
-              $reflectMethod
-            )
+            new IMethod( $reflectMethod )
           )
         )
-      ), fn( ControllerStructureMethod $imethod ) => (
+      ), fn( IMethod $imethod ) => (
         $imethod->methodName !== "__construct"
-      )
-    );
-  }
-
-  private function equalsMethod(
-    Request $request,
-    ControllerStructureMethod $controllerStructureMethod
-  ): bool {
-    return strtolower( $request->requestMethod )
-       === strtolower( $controllerStructureMethod->method );
-  }
-
-  private function equalsPaths(
-    Request $request,
-    ControllerStructureMethod $controllerStructureMethod    
-  ): bool {
-    return sizeof( $request->endpoint )
-       === sizeof( $controllerStructureMethod->endpoint );
-  }
-
-  private function equalsPathsItems(
-    Request $request,
-    ControllerStructureMethod $controllerStructureMethod    
-  ): bool {
-    return in_array( 
-      false, Util::Mapper( 
-        $request->endpoint, (
-          fn( string $path, int $index ) => (
-            preg_match( "/^:/", $path ) || (
-              $path === $controllerStructureMethod->endpoint[ $index ]
-            )
-          )
-        )
-      )
-    ) !== true;
-  }  
-
-  public function getMethodo(
-    Request $request   
-  ): array {
-    return Util::Filter(
-      $this->endpoints, (
-        fn( ControllerStructureMethod $controllerStructureMethod ) => (
-          in_array(
-            false, [ $this->equalsMethod( $request, $controllerStructureMethod ),
-              $this->equalsPaths( $request, $controllerStructureMethod ),
-              $this->equalsPathsItems( $request, $controllerStructureMethod )
-            ]
-          ) !== true
-        )
       )
     );
   }

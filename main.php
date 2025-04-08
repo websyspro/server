@@ -1,54 +1,61 @@
 <?php
 
-use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Decorations\Conntrollers\Body;
 use Websyspro\Server\Decorations\Conntrollers\Controller;
+use Websyspro\Server\Decorations\Conntrollers\ControllerList;
 use Websyspro\Server\Decorations\Conntrollers\Get;
 use Websyspro\Server\Decorations\Conntrollers\Post;
-use Websyspro\Server\Decorations\Conntrollers\Query;
-use Websyspro\Server\Decorations\Entitys\Columns\Number;
-use Websyspro\Server\Decorations\Entitys\Columns\Varchar;
 use Websyspro\Server\Decorations\Middlewares\Authenticate;
 use Websyspro\Server\Decorations\Middlewares\FileValidator;
-use Websyspro\Server\Interfaces\Conntrollers\IMethod;
-use Websyspro\Server\Server\ControllerStructure;
+use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
+use Websyspro\Server\Server\Application;
+use Websyspro\Server\Server\Response;
 
-#[Controller( "controller" )]
+#[Controller( "user" )]
 #[Authenticate()]
-class TestEntity
+class UserController
 {
-  #[Number()]
-  public int $id;
+  public function __construct()
+  {}
 
-  #[Varchar()]
-  public string $name;
-
-  public function __construct(
-  ){}
-
-  #[Post( "test/post" )]
+  #[Post( "list" )]
+  #[FileValidator()]
   public function getList(
-    #[Body( "testBody" )] array $bodyRows,
-    #[Query( "testQuery" )] array $queryRows
-  ): array {
-    return [ $bodyRows, $queryRows ];
+    #[Body()] array $body
+  ): Response {
+    return Response::json( $body );
   }
 
-  #[Get( "test/user" )]
-  #[FileValidator()]
-  public function getUser(
-    #[Body( "testBody" )] array $bodyRows,
-  ): array {
-    return [ $bodyRows ];
+  #[Get( "list" )]
+  #[AllowAnonymous()]
+  public function list(
+  ): Response {
+    return Response::json(
+      [ "Test" => "Thiago" ]
+    );
   }
 }
 
-$controllerStructure = new ControllerStructure(
-  TestEntity::class
-);
+#[Controller( "roles" )]
+class RolesController {}
 
-Util::Mapper(
-  $controllerStructure->endpoints, fn( IMethod $imethod ) => (
-    $imethod->setExecute()
-  )
+#[ControllerList([
+  UserController::class,
+  RolesController::class
+])]
+class AccountsControllers {}
+
+#[Controller( "product" )]
+class ProductController {}
+
+#[ControllerList([
+  ProductController::class
+])]
+class PedidosControllers {}
+
+Application::server(
+  controllers: [
+    AccountsControllers::class,
+    PedidosControllers::class
+  ]
 );
