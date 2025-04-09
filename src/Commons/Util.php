@@ -124,12 +124,8 @@ class Util
   public static function getModuleFromController(
     string $controller
   ): string {
-    return Util::camelToKebab(
-      preg_replace(
-        "/Controller.+$/", "", preg_replace(
-          "/^.*\\\\/", "", $controller
-        )
-      )
+    return Util::getController(
+      $controller
     );
   }
 
@@ -138,7 +134,9 @@ class Util
   ): string {
     return Util::camelToKebab(
       preg_replace(
-        "/Controller$/", "", $controller
+        "/Controller.*$/", "",preg_replace(
+          "/^.*\\\\/", "", $controller
+        )
       )
     );
   }
