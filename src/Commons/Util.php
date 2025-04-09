@@ -126,7 +126,9 @@ class Util
   ): string {
     return Util::camelToKebab(
       preg_replace(
-        "/Controller.+$/", "", $controller
+        "/Controller.+$/", "", preg_replace(
+          "/^.*\\\\/", "", $controller
+        )
       )
     );
   }
