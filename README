@@ -1,0 +1,12 @@
+# Websyspro/server
+
+Library for managing controllers and services
+
+## 📦 Requisitos
+
+- PHP >= 8.0 (ou sua versão)
+- Composer
+
+## 🚀 Instalação
+
+composer websyspro/server
