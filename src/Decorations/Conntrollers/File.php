@@ -8,7 +8,7 @@ use Websyspro\Server\Enums\Request\RequestType;
 use Websyspro\Server\Server\RequestData;
 
 #[Attribute( Attribute::TARGET_PARAMETER )]
-class Body
+class File
 {
   public AttributeType $attributeType = AttributeType::Parameter;
 
@@ -18,8 +18,8 @@ class Body
 
   public function execute(
   ): array | object | string | null {
-    $requestBody = RequestData::getBody(
-      RequestType::BODY
+    $requestBody = RequestData::getFiles(
+      RequestType::FILE
     );
     
     if( is_array( $requestBody )){

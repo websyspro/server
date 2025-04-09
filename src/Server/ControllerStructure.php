@@ -99,10 +99,10 @@ class ControllerStructure
   ): bool {
     return in_array( 
       false, Util::Mapper( 
-        $request->endpoint, (
+        $controllerStructureMethod->endpoint, (
           fn( string $path, int $index ) => (
             preg_match( "/^:/", $path ) || (
-              $path === $controllerStructureMethod->endpoint[ $index ]
+              $path === $request->endpoint[ $index ]
             )
           )
         )

@@ -108,11 +108,15 @@ class Application
     );
 
     if( $find === null ){
-      Error::NotFound( "Route not found" );
+      Error::NotFound(
+        "Route not found"
+      );
     }
 
     $this->setResponse(
-      $find->setExecute()
+      $find->setRun(
+        $this->request
+      )
     );
   }
 

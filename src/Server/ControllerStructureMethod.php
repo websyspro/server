@@ -6,6 +6,7 @@ use ReflectionAttribute;
 use Websyspro\Server\Commons\ReflectDependences;
 use Websyspro\Server\Commons\ReflectMethod;
 use Websyspro\Server\Commons\Util;
+use Websyspro\Server\Decorations\Conntrollers\Param;
 use Websyspro\Server\Enums\Reflect\AttributeType;
 use Websyspro\Server\Interfaces\Reflections\IAttributesByProperty;
 use Websyspro\Server\Interfaces\Reflections\IParameter;
@@ -103,7 +104,8 @@ class ControllerStructureMethod
     return $this->methodName;
   }  
 
-  public function setExecute(
+  public function setRun(
+    Request $request
   ): mixed {
     return call_user_func_array([ 
       $this->setClassInstance(), 
@@ -114,9 +116,11 @@ class ControllerStructureMethod
           Util::ValueOfArray(
             Util::Mapper( $parameter->attributes, (
               fn( IAttributesByProperty $attributesByProperty ) => (
-                $attributesByProperty->reflectionAttribute
-                  ->newInstance()
-                  ->execute()
+                $attributesByProperty->reflectionAttribute->getName() === Param::class
+                  ? $attributesByProperty->reflectionAttribute
+                      ->newInstance()->execute( $this->endpoint, $request->endpoint )
+                  : $attributesByProperty->reflectionAttribute
+                      ->newInstance()->execute()    
               )
             ))
           )
