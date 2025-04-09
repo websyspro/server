@@ -16,7 +16,7 @@ class ControllerStructure
   public Reflect $reflect;
 
   public function __construct(
-    public readonly string $entityClass
+    public readonly string $objectClass
   ){
     $this->setReflect();
     $this->setControllerName();
@@ -28,7 +28,7 @@ class ControllerStructure
   private function setReflect(
   ): void {
     $this->reflect = new Reflect(
-      $this->entityClass
+      $this->objectClass
     );
   }
 

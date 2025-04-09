@@ -13,11 +13,11 @@ class Reflect
   public ReflectionClass $reflectionClass;
 
   public function __construct(
-    private readonly string $entityClass
+    private readonly string $objectClass
   ){
     $this->reflectionClass = (
       new ReflectionClass(
-        $this->entityClass
+        $this->objectClass
       )
     );
   }
