@@ -1,6 +1,7 @@
 {
     "name": "websyspro/server",
     "description": "Library for managing controllers and services",
+    "license": "MIT",
     "type": "library",
     "autoload": {
         "psr-4": {
