@@ -8,11 +8,11 @@ use ReflectionParameter;
 class ReflectDependences
 {
   public static function getDependences(
-    string $entityClass
+    string $objectClass
   ): object {
     $reflectionClass = (
       new ReflectionClass(
-        $entityClass
+        $objectClass
       )
     );
 
@@ -36,14 +36,14 @@ class ReflectDependences
 
         return call_user_func_array([
           new ReflectionClass(
-            $entityClass
+            $objectClass
           ), "newInstance"
         ], $getParametersList );
       }
 
-      return new $entityClass();
+      return new $objectClass();
     }
 
-    return new $entityClass();
+    return new $objectClass();
   }
 }
