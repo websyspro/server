@@ -39,7 +39,7 @@ class UserController
     #[Param()] array $param
   ): Response {
     return Response::json(
-      $file
+      $body
     );
   }  
 
@@ -74,5 +74,6 @@ Application::server(
   controllers: [
     AccountsControllers::class,
     PedidosControllers::class
-  ]
+  ],
+  databases: []
 );

@@ -29,7 +29,7 @@ class Error
     string $message
   ): Exception {
     return throw new Exception(
-      message: Response::ERROR_INTERNAL_SERVER,
+      message: $message,
       code: Response::HTTP_INTERNAL_SERVER_ERROR
     );
   }

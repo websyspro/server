@@ -5,6 +5,7 @@ namespace Websyspro\Server\Server;
 use Exception;
 use ReflectionAttribute;
 use ReflectionClass;
+use Websyspro\Server\Commons\Log;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Exceptions\Error;
 
@@ -16,7 +17,8 @@ class Application
   public ControllerStructure $controllerStructure;
 
   public function __construct(
-    private array $controllers
+    private array $controllers,
+    private array $databases
   ){
     Util::hasCli()
       ? $this->setClient()
@@ -24,7 +26,9 @@ class Application
   }
 
   private function setClient(
-  ): void {}
+  ): void {
+    Log::setStartTimer();
+  }
 
   private function setServer(
   ): void {
@@ -129,10 +133,12 @@ class Application
   }
 
   public static function server(
-    array $controllers
+    array $controllers,
+    array $databases
   ): Application {
     return new static(
-      controllers: $controllers
+      controllers: $controllers,
+      databases: $databases
     );
   }
 }

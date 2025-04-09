@@ -1,1 +1,0 @@
-Bug de execução de method quando o controle não tem construtor

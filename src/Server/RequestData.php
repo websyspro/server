@@ -52,7 +52,7 @@ class RequestData
     return $params;
   }
   
-  public static function getFiles(
+  public static function getFile(
     RequestType $requestType
   ): array {
     return (

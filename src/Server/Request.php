@@ -3,6 +3,7 @@
 namespace Websyspro\Server\Server;
 
 use Websyspro\Server\Commons\Util;
+use Websyspro\Server\Enums\Request\RequestType;
 
 class Request
 {
@@ -46,4 +47,33 @@ class Request
       ), 4 ), fn( string $path ) => $path !== ""
     );
   }
+
+  public static function data(
+		string | null $key,
+		RequestType $requestType,
+		array $controllerEndpoint = [],
+    array $requestEndpoint = []
+	): array | object | string | null {
+		$requestData = match($requestType)
+		{
+			RequestType::FILE => RequestData::getFile( RequestType::FILE ),
+			RequestType::BODY => RequestData::getBody( RequestType::BODY ),
+			RequestType::QUERY => RequestData::getQuery( RequestType::QUERY ),
+			RequestType::PARAMS => RequestData::getParams(
+				$controllerEndpoint, $requestEndpoint
+			)
+		};
+		
+		if( is_array( $requestData )){
+			if( is_null( $key ) === false ){
+				if( isset( $requestData[ $key ] )){
+					return $requestData[ $key ];
+				} else return null;
+			}
+
+			return $requestData;
+		}
+
+		return null;
+	}
 }
