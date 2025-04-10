@@ -11,4 +11,9 @@ class Date
 {
   public AttributeType $attributeType = AttributeType::Column;
   public ColumnType $columnType = ColumnType::Date;
+
+  public function type(
+  ): string {
+    return "date";
+  }
 }

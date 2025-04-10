@@ -11,4 +11,9 @@ class Flag
 {
   public AttributeType $attributeType = AttributeType::Column;
   public ColumnType $columnType = ColumnType::Flag;
+
+  public function type(
+  ): string {
+    return "smallint";
+  }
 }

@@ -25,7 +25,7 @@ class Util
   }  
 
   public static function Mapper(
-    array $MapperArr,
+    array | object $MapperArr,
     callable $MapperEvt,
     array $MapperArrResult = []      
   ): array {
@@ -39,7 +39,6 @@ class Util
 
     return $MapperArrResult;      
   }
-
   
   public static function Filter(
     array $MapperArr,
@@ -60,7 +59,31 @@ class Util
       }
     }
 
-    return array_values($MapperArrResult);
+    return $MapperArrResult;
+  }
+
+  public static function FilterByKey(
+    array $MapperArr,
+    callable $MapperEvt,
+    array $MapperArrResult = []    
+  ): array {
+    foreach( $MapperArr as $key => $val ){
+      if( $MapperEvt( $key ) === true) {
+        $MapperArrResult[ $key ] = $val;
+      }
+    }
+
+    return $MapperArrResult;
+  }
+
+  public static function Join(
+    string $joinStr,
+    array $joinArr
+  ): string {
+    return implode(
+      $joinStr,
+      $joinArr
+    );
   }
 
   public static function arrayCountEquais(
@@ -140,4 +163,14 @@ class Util
       )
     );
   }
+
+  public static function getEntity(
+    string $controller
+  ): string {
+    return preg_replace(
+      "/Entity.*$/", "",preg_replace(
+        "/^.*\\\\/", "", $controller
+      )
+    );
+  }  
 }

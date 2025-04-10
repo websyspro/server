@@ -16,4 +16,9 @@ class Decimal
     public readonly int $numberOfDigits = 10,
     public readonly int $numberDigitsAfterTheComma = 2
   ){}
+
+  public function type(
+  ): string {
+    return "varchar({$this->numberOfDigits},{$this->numberDigitsAfterTheComma})";
+  } 
 }

@@ -11,4 +11,9 @@ class Datetime
 {
   public AttributeType $attributeType = AttributeType::Column;
   public ColumnType $columnType = ColumnType::Datetime;
+
+  public function type(
+  ): string {
+    return "datetime";
+  }  
 }

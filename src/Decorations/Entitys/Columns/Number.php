@@ -11,4 +11,9 @@ class Number
 {
   public AttributeType $attributeType = AttributeType::Column;
   public ColumnType $columnType = ColumnType::Number;
+
+  public function type(
+  ): string {
+    return "bigint";
+  }
 }

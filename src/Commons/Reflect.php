@@ -22,6 +22,11 @@ class Reflect
     );
   }
 
+  public function getClass(
+  ): string {
+    return $this->objectClass;
+  }
+
   public function getAttriutes(
   ): array {
     return Util::Mapper(

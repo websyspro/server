@@ -15,4 +15,9 @@ class Varchar
   public function __construct(
     public readonly int $size = 255
   ){}
+
+  public function type(
+  ): string {
+    return "varchar({$this->size})";
+  }  
 }

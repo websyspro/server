@@ -2,4 +2,15 @@
 
 namespace Websyspro\Server\Decorations\Entitys\Statistics;
 
-class Index {}
+use Attribute;
+use Websyspro\Server\Enums\Reflect\AttributeType;
+
+#[Attribute( Attribute::TARGET_PROPERTY )]
+class Index
+{
+  public AttributeType $attributeType = AttributeType::Indexes;
+
+  public function __construct(
+    public readonly int $indexGroup = 1
+  ){}
+}
