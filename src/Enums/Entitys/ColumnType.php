@@ -2,13 +2,13 @@
 
 namespace Websyspro\Server\Enums\Entitys;
 
-enum ColumnType: int
+enum ColumnType: string
 {
-  case Number = 1;
-  case Varchar = 2;
-  case Decimal = 3;
-  case Time = 4;
-  case Date = 5;
-  case Datetime = 6;
-  case Flag = 7;
+  case Number = "number";
+  case Text = "text";
+  case Decimal = "decimal";
+  case Time = "time";
+  case Date = "date";
+  case Datetime = "datetime";
+  case Flag = "flag";
 }

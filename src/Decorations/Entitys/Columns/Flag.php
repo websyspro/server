@@ -13,7 +13,10 @@ class Flag
   public ColumnType $columnType = ColumnType::Flag;
 
   public function type(
-  ): string {
-    return "smallint";
-  }
+  ): object {
+    return (object)[
+      "type" => "flag",
+      "args" => ""
+    ];
+  } 
 }

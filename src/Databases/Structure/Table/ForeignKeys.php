@@ -4,7 +4,6 @@ namespace Websyspro\Server\Databases\Structure\Table;
 
 use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\Util;
-use Websyspro\Server\Databases\Structure\StructureTable;
 use Websyspro\Server\Enums\Reflect\AttributeType;
 use Websyspro\Server\Interfaces\Entitys\IForeignKey;
 use Websyspro\Server\Interfaces\Reflections\IProperty;

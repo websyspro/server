@@ -13,7 +13,10 @@ class Number
   public ColumnType $columnType = ColumnType::Number;
 
   public function type(
-  ): string {
-    return "bigint";
-  }
+  ): object {
+    return (object)[
+      "type" => "number",
+      "args" => ""
+    ];
+  } 
 }

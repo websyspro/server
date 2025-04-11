@@ -13,7 +13,10 @@ class Date
   public ColumnType $columnType = ColumnType::Date;
 
   public function type(
-  ): string {
-    return "date";
+  ): object {
+    return (object)[
+      "type" => "date",
+      "args" => ""
+    ];
   }
 }

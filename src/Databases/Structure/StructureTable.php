@@ -24,7 +24,7 @@ class StructureTable
   public ForeignKeys $foreignKeys;
 
   public function __construct(
-    public readonly string $entity,
+    public readonly string | null $entity = null,
     public readonly string | null $databae = null
   ){
     $this->setReflect();
@@ -50,7 +50,7 @@ class StructureTable
     );
 
     return (object)[
-      "entity" => $this->entity, 
+      "entity" => Util::getEntity( $this->entity ), 
       "entityKey" => $foreignKey
     ];
   }

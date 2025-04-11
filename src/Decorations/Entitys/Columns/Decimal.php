@@ -18,7 +18,10 @@ class Decimal
   ){}
 
   public function type(
-  ): string {
-    return "varchar({$this->numberOfDigits},{$this->numberDigitsAfterTheComma})";
-  } 
+  ): object {
+    return (object)[
+      "type" => "decimal",
+      "args" => "{$this->numberOfDigits},{$this->numberDigitsAfterTheComma}"
+    ];
+  }   
 }

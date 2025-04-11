@@ -7,16 +7,16 @@ use Websyspro\Server\Enums\Entitys\ColumnType;
 use Websyspro\Server\Enums\Reflect\AttributeType;
 
 #[Attribute( Attribute::TARGET_PROPERTY )]
-class Datetime
+class Time
 {
   public AttributeType $attributeType = AttributeType::Column;
-  public ColumnType $columnType = ColumnType::Datetime;
+  public ColumnType $columnType = ColumnType::Time;
 
   public function type(
   ): object {
     return (object)[
-      "type" => "datetime",
+      "type" => "time",
       "args" => ""
     ];
-  } 
+  }
 }
