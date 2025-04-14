@@ -112,8 +112,8 @@ class ControllerStructure
 
   public function findEndpoint(
     Request $request   
-  ): array {
-    $endpoint = (
+  ): ControllerStructureMethod {
+    [ $endpoint ] = (
       Util::Filter( $this->endpoints, (
         fn( ControllerStructureMethod $csm ) => (
           in_array( false, [ 

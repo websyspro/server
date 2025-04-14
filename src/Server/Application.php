@@ -195,21 +195,25 @@ class Application
 
   private function setEndpoint(
   ): void {
-    [ $this->controllerStructureMethod ] = (
-      $this->controllerStructure->findEndpoint( $this->request )
+    $this->controllerStructureMethod = (
+      $this->controllerStructure->findEndpoint(
+        $this->request
+      )
     );
 
-    if( $this->controllerStructureMethod === null ){
+    if( is_null( $this->controllerStructureMethod )){
       Error::NotFound( Controllers::RouteNotFound );
+    } else {
+      $this->setRunMiddlewares();
+      $this->setEndpointExecute();
     }
-
-    $this->setRunMiddlewares();
-    $this->setEndpointExecute();
   }
 
   private function setEndpointExecute(
   ): void {
-    $this->controllerStructureMethod->setExecute( $this->request );
+    $this->controllerStructureMethod->setExecute(
+      $this->request
+    );
   }
 
   public static function server(
