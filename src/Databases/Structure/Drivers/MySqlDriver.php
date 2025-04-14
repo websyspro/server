@@ -611,7 +611,7 @@ class MySqlDriver extends AbstractDriver
   private function setMapperEntityCommandList(
     StructureCommand $command
   ): void {
-    [ $commandSuccess ] = (
+    [ $hasSuccess ] = (
       Util::Mapper( $command->scripts, (
         fn( string $script ) => (
           DB::set( $this->getData())->execute( $script )
@@ -619,7 +619,7 @@ class MySqlDriver extends AbstractDriver
       ))
     );
 
-    if( $commandSuccess === true ){
+    if( $hasSuccess === true ){
       Log::Message( LogType::Database, $command->message );
     }
   }
