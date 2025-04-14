@@ -170,9 +170,13 @@ class Util
   public static function getData(
     string $database
   ): string {
-    return sprintf( "%s%s", connect->prefix, (
-      preg_replace( "/Database$/", "", $database )
-    ));
+    return (
+      sprintf( "%s%s", connect->prefix, (
+        preg_replace( "/Database$/", "", preg_replace(
+          "/^.*\\\\/", "", $database
+        ))
+      ))
+    );
   }
 
   public static function getModuleFromController(
@@ -188,7 +192,7 @@ class Util
   ): string {
     return Util::camelToKebab(
       preg_replace(
-        "/Controller.*$/", "",preg_replace(
+        "/Controller.*$/", "", preg_replace(
           "/^.*\\\\/", "", $controller
         )
       )
