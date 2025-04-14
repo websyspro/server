@@ -2,6 +2,7 @@
 
 namespace Websyspro\Server\Server;
 
+use ReflectionAttribute;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\ReflectMethod;
@@ -85,7 +86,7 @@ class ControllerStructure
        === strtolower( $csm->method );
   }
 
-  private function equalsPaths(
+  private function equalsCountPaths(
     Request $request,
     ControllerStructureMethod $csm    
   ): bool {
@@ -112,20 +113,28 @@ class ControllerStructure
 
   public function findEndpoint(
     Request $request   
-  ): ControllerStructureMethod {
-    [ $endpoint ] = (
+  ): array {
+    return Util::Mapper(
       Util::Filter( $this->endpoints, (
         fn( ControllerStructureMethod $csm ) => (
           in_array( false, [ 
             $this->equalsMethod( $request, $csm ),
-            $this->equalsPaths( $request, $csm ),
+            $this->equalsCountPaths( $request, $csm ),
             $this->equalsPathsItems( $request, $csm )
           ]) !== true
         )
-      ))
-    );
+      )), function( ControllerStructureMethod $csm ){
+        $csm->middlewares = Util::Mapper(
+          $csm->middlewares, (
+            fn( ReflectionAttribute $reflectionAttribute ) => (
+              $reflectionAttribute->newInstance()
+            )
+          )
+        );
 
-    return $endpoint;
+        return $csm;
+      }
+    );
   }
 
   private function setUnReflect(

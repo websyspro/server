@@ -195,7 +195,7 @@ class Application
 
   private function setEndpoint(
   ): void {
-    $this->controllerStructureMethod = (
+    [ $this->controllerStructureMethod ] = (
       $this->controllerStructure->findEndpoint(
         $this->request
       )
