@@ -559,6 +559,16 @@ class MySqlDriver extends AbstractDriver
     }
   }
 
+  private function setMapperCommandType(
+    CommandType $commandType
+  ): array {
+    return Util::Filter( $this->commands, (
+      fn( StructureCommand $sc ) => (
+        $sc->commandType === $commandType
+      ) 
+    ));
+  }
+
   private function setMapperEntityCommands(
   ): void {
     if( sizeof( $this->commands ) !== 0 ){
@@ -571,13 +581,13 @@ class MySqlDriver extends AbstractDriver
 
     Util::Mapper(
       array_merge(
-        Util::Filter( $this->commands, fn( StructureCommand $sc ) => $sc->commandType === CommandType::Entitys ),
-        Util::Filter( $this->commands, fn( StructureCommand $sc ) => $sc->commandType === CommandType::Columns ),
-        Util::Filter( $this->commands, fn( StructureCommand $sc ) => $sc->commandType === CommandType::PrimaryKeys ),
-        Util::Filter( $this->commands, fn( StructureCommand $sc ) => $sc->commandType === CommandType::Generationns ),
-        Util::Filter( $this->commands, fn( StructureCommand $sc ) => $sc->commandType === CommandType::Uniques ),
-        Util::Filter( $this->commands, fn( StructureCommand $sc ) => $sc->commandType === CommandType::Statistics ),
-        Util::Filter( $this->commands, fn( StructureCommand $sc ) => $sc->commandType === CommandType::ForeignKeys )
+        $this->setMapperCommandType( CommandType::Entitys ),
+        $this->setMapperCommandType( CommandType::Columns ),
+        $this->setMapperCommandType( CommandType::PrimaryKeys ),
+        $this->setMapperCommandType( CommandType::Generationns ),
+        $this->setMapperCommandType( CommandType::Uniques ),
+        $this->setMapperCommandType( CommandType::Statistics ),
+        $this->setMapperCommandType( CommandType::ForeignKeys )
       ), (
       fn( StructureCommand $sc ) => (
         $this->setMapperEntityCommandList( $sc )
