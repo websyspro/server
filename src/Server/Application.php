@@ -7,6 +7,7 @@ use ReflectionAttribute;
 use ReflectionClass;
 use Websyspro\Server\Commons\Log;
 use Websyspro\Server\Commons\Util;
+use Websyspro\Server\Consts\Controllers;
 use Websyspro\Server\Databases\Structure\StructureDatabase;
 use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
 use Websyspro\Server\Decorations\Middlewares\Authenticate;
@@ -18,7 +19,8 @@ class Application
   public Request $request;
   public Response $response;
 
-  public ControllerStructure $controllerStructure;
+  public ControllerStructure | null $controllerStructure;
+  public ControllerStructureMethod | null $controllerStructureMethod;
 
   public function __construct(
     private array $controllers,
@@ -105,9 +107,9 @@ class Application
 
   private function setServer(
   ): void {
-    $this->request = (
+    [ $this->request ] = [
       new Request()
-    );
+    ];
     
     if( $this->request ){
       try {
@@ -142,9 +144,7 @@ class Application
     );
 
     if( sizeof( $this->controllers ) === 0 ){
-      Error::NotFound(
-        "Module not found"
-      );
+      Error::NotFound( Controllers::ModuleNotFound );
     }
   }
 
@@ -166,7 +166,7 @@ class Application
     );
 
     if( $controller === null ){
-      Error::NotFound( "Controller not found" );
+      Error::NotFound( Controllers::ControllerNotFound );
     }
     
     $this->controllerStructure = (
@@ -177,54 +177,39 @@ class Application
   }
 
   private function setRunMiddlewares(
-    array $controllerMiddlewares = [],
-    array $endpointMiddlewares = []
   ): void {
     Util::Mapper(
       array_merge(
-        Util::Filter( $controllerMiddlewares, (
+        Util::Filter( $this->controllerStructure->middlewares, (
           fn( object $middleware ) => (
             $middleware instanceof Authenticate && Util::ValueOfArray(
-              Util::Filter( $endpointMiddlewares, (
+              Util::Filter( $this->controllerStructureMethod->middlewares, (
                 fn( object $middleware ) => $middleware instanceof AllowAnonymous
               ))
             ) === false
           )
-        )), $endpointMiddlewares
+        )), $this->controllerStructureMethod->middlewares
       ), fn( object $middleware ) => $middleware->execute()
     );
   }
 
   private function setEndpoint(
   ): void {
-    [ $endpoint ] = (
-      $this->controllerStructure->findEndpoint(
-        $this->request
-      )
+    [ $this->controllerStructureMethod ] = (
+      $this->controllerStructure->findEndpoint( $this->request )
     );
 
-    if( $endpoint === null ){
-      Error::NotFound( "Route not found" );
+    if( $this->controllerStructureMethod === null ){
+      Error::NotFound( Controllers::RouteNotFound );
     }
 
-    $this->setRunMiddlewares(
-      $this->controllerStructure->middlewares,
-      $endpoint->middlewares 
-    );
-
-    $this->setResponse(
-      $endpoint->setRun(
-        $this->request
-      )
-    );
+    $this->setRunMiddlewares();
+    $this->setEndpointExecute();
   }
 
-  private function setResponse(
-    Response $response
+  private function setEndpointExecute(
   ): void {
-    if( $response instanceof Response ){
-      exit( $response->context());
-    }   
+    $this->controllerStructureMethod->setExecute( $this->request );
   }
 
   public static function server(

@@ -106,10 +106,10 @@ class ControllerStructureMethod
     return $this->methodName;
   }  
 
-  public function setRun(
+  public function setExecute(
     Request $request
-  ): mixed {
-    return call_user_func_array([ 
+  ): void {
+    $response = call_user_func_array([ 
       $this->setClassInstance(), 
       $this->getMethodName()
     ], Util::Mapper(
@@ -129,6 +129,10 @@ class ControllerStructureMethod
         )
       )
     ));
+
+    if( $response instanceof Response ){
+      exit( $response->context());
+    }
   }
 
   private function setUnReflectMethod(
