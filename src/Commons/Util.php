@@ -39,22 +39,37 @@ class Util
 
     return $MapperArrResult;      
   }
+
+  public static function isAssociative(
+    array $arr
+  ): bool {
+    return array_keys($arr) !== (
+      range( 0, count($arr) - 1 )
+    );
+  }
   
   public static function Filter(
     array $MapperArr,
     callable $MapperEvt,
     array $MapperArrResult = []    
   ): array {
+    $keyOrder = 0;
+    $isAssociative = (
+      Util::isAssociative(
+        $MapperArr
+      ) === false
+    );
+
     foreach( $MapperArr as $key => $val ){
       if ((
         new ReflectionFunction($MapperEvt)
       )->getNumberOfParameters() === 2) {
-        if ( $MapperEvt( $val, $key ) === true ) {
-          $MapperArrResult[ $key ] = $val;
+        if ( $MapperEvt( $val, $isAssociative ? $keyOrder++ : $key ) === true ) {
+          $MapperArrResult[ $isAssociative ? $keyOrder : $key ] = $val;
         }
       } else {
         if( $MapperEvt( $val ) === true) {
-          $MapperArrResult[ $key ] = $val;
+          $MapperArrResult[ $isAssociative ? $keyOrder++ : $key ] = $val;
         }
       }
     }

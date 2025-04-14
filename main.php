@@ -4,6 +4,7 @@ use Websyspro\Server\Databases\Structure\StructureDatabase;
 use Websyspro\Server\Decorations\Conntrollers\Controller;
 use Websyspro\Server\Decorations\Conntrollers\ControllerList;
 use Websyspro\Server\Decorations\Conntrollers\Get;
+use Websyspro\Server\Decorations\Conntrollers\Param;
 use Websyspro\Server\Decorations\Conntrollers\Post;
 use Websyspro\Server\Decorations\Databases\EntityList;
 use Websyspro\Server\Decorations\Entitys\Columns\Datetime;
@@ -17,6 +18,8 @@ use Websyspro\Server\Decorations\Entitys\Constraints\Unique;
 use Websyspro\Server\Decorations\Entitys\Generations\AutoIncrement;
 use Websyspro\Server\Decorations\Entitys\Requireds\NotNull;
 use Websyspro\Server\Decorations\Entitys\Statistics\Index;
+use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
+use Websyspro\Server\Decorations\Middlewares\Authenticate;
 use Websyspro\Server\Server\Application;
 use Websyspro\Server\Server\Response;
 
@@ -272,19 +275,23 @@ extends BaseEntity
 ])]
 class AccountsDatabase {}
 
+#[Authenticate()]
 #[Controller( "designs" )]
 class DesignsController
 {
   #[Get()]
+  #[AllowAnonymous()]
   public function get(
   ): Response {
     return Response::json( "..." );
   }
 
-  #[Post( "accouts/:useremail" )]
+  #[Post( "accounts/:email" )]
+  #[AllowAnonymous()]
   public function getAccoutsUserEmail(
+    #[Param()] array $param
   ): Response {
-    return Response::json( "..." );
+    return Response::json( $param );
   }
 }
 

@@ -33,12 +33,12 @@ class ControllerStructureMethod
 
   private function setMethods(
   ): void {
-    [ $attribute ] = Util::Filter( 
-      $this->reflectMethod->attributes, (
+    [ $attribute ] = (
+      Util::Filter( $this->reflectMethod->attributes, (
         fn( ReflectionAttribute $attribute ) => (
           $attribute->newInstance()->attributeType === 
             AttributeType::Endpoint
-        )
+        ))
       )
     );
 
@@ -53,13 +53,15 @@ class ControllerStructureMethod
 
   private function setMiddlewares(
   ): void {
-    $this->middlewares = Util::Filter( 
-      $this->reflectMethod->attributes, (
-        fn( ReflectionAttribute $attribute ) => (
-          $attribute->newInstance()->attributeType === 
-            AttributeType::Middleware
+    $this->middlewares = Util::Mapper(
+      Util::Filter( 
+        $this->reflectMethod->attributes, (
+          fn( ReflectionAttribute $attribute ) => (
+            $attribute->newInstance()->attributeType === 
+              AttributeType::Middleware
+          )
         )
-      )
+      ), fn( ReflectionAttribute $attribute ) => $attribute->newInstance()  
     );
   }
 

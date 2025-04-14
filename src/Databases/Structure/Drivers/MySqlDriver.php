@@ -4,14 +4,14 @@ namespace Websyspro\Server\Databases\Structure\Drivers;
 
 use Websyspro\Server\Commons\Log;
 use Websyspro\Server\Commons\Util;
+use Websyspro\Server\Enums\LogType;
+use Websyspro\Server\Enums\Entitys\CommandType;
+use Websyspro\Server\Interfaces\Entitys\IForeignKey;
 use Websyspro\Server\Databases\Connect\DB;
 use Websyspro\Server\Databases\Structure\StructureCommand;
 use Websyspro\Server\Databases\Structure\StructureEntity;
 use Websyspro\Server\Databases\Structure\StructureDesignTable;
 use Websyspro\Server\Databases\Structure\StructurePersistedTable;
-use Websyspro\Server\Enums\Entitys\CommandType;
-use Websyspro\Server\Enums\LogType;
-use Websyspro\Server\Interfaces\Entitys\IForeignKey;
 
 class MySqlDriver extends AbstractDriver
 {
@@ -41,17 +41,28 @@ class MySqlDriver extends AbstractDriver
     $this->setMapperEntityPersistedsForeignKeys();
   }
 
+  private function getQuery(
+    string $sql
+  ): array {
+    return DB::set(
+      $this->getData()
+    )->query( $sql )->all();
+  }
+
   private function setMapperEntityPersistedsData(
   ): void {
     $this->mysqlScripts = new MySqlScripts(
       $this->getData()
     );
 
-    [ $this->properties, $this->uniques, $this->statistics, $this->foreignKeys ] = [
-      DB::set( $this->getData() )->query( $this->mysqlScripts->getProperties())->all(),
-      DB::set( $this->getData() )->query( $this->mysqlScripts->getUniques())->all(),
-      DB::set( $this->getData() )->query( $this->mysqlScripts->getStatistics())->all(),
-      DB::set( $this->getData() )->query( $this->mysqlScripts->getForeignKeys())->all()
+    [ $this->properties, 
+      $this->uniques, 
+      $this->statistics, 
+      $this->foreignKeys ] = [
+      $this->getQuery( $this->mysqlScripts->getProperties()),
+      $this->getQuery( $this->mysqlScripts->getUniques()),
+      $this->getQuery( $this->mysqlScripts->getStatistics()),
+      $this->getQuery( $this->mysqlScripts->getForeignKeys())
     ];
   }
 
@@ -562,11 +573,13 @@ class MySqlDriver extends AbstractDriver
   private function setMapperCommandType(
     CommandType $commandType
   ): array {
-    return Util::Filter( $this->commands, (
-      fn( StructureCommand $sc ) => (
-        $sc->commandType === $commandType
-      ) 
-    ));
+    return (
+      Util::Filter( $this->commands, (
+        fn( StructureCommand $sc ) => (
+          $sc->commandType === $commandType
+        ) 
+      ))
+    );
   }
 
   private function setMapperEntityCommands(

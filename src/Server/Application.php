@@ -8,6 +8,8 @@ use ReflectionClass;
 use Websyspro\Server\Commons\Log;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Databases\Structure\StructureDatabase;
+use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
+use Websyspro\Server\Decorations\Middlewares\Authenticate;
 use Websyspro\Server\Enums\LogType;
 use Websyspro\Server\Exceptions\Error;
 
@@ -174,22 +176,44 @@ class Application
     );
   }
 
+  private function setRunMiddlewares(
+    array $controllerMiddlewares = [],
+    array $endpointMiddlewares = []
+  ): void {
+    Util::Mapper(
+      array_merge(
+        Util::Filter( $controllerMiddlewares, (
+          fn( object $middleware ) => (
+            $middleware instanceof Authenticate && Util::ValueOfArray(
+              Util::Filter( $endpointMiddlewares, (
+                fn( object $middleware ) => $middleware instanceof AllowAnonymous
+              ))
+            ) === false
+          )
+        )), $endpointMiddlewares
+      ), fn( object $middleware ) => $middleware->execute()
+    );
+  }
+
   private function setEndpoint(
   ): void {
-    [ $find ] = (
-      $this->controllerStructure->find(
+    [ $endpoint ] = (
+      $this->controllerStructure->findEndpoint(
         $this->request
       )
     );
 
-    if( $find === null ){
-      Error::NotFound(
-        "Route not found"
-      );
+    if( $endpoint === null ){
+      Error::NotFound( "Route not found" );
     }
 
+    $this->setRunMiddlewares(
+      $this->controllerStructure->middlewares,
+      $endpoint->middlewares 
+    );
+
     $this->setResponse(
-      $find->setRun(
+      $endpoint->setRun(
         $this->request
       )
     );

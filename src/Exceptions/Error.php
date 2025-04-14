@@ -33,4 +33,13 @@ class Error
       code: Response::HTTP_INTERNAL_SERVER_ERROR
     );
   }
+
+  public static function Unauthorized(
+    string $message
+  ): Exception {
+    return throw new Exception(
+      message: $message,
+      code: Response::HTTP_UNAUTHORIZED
+    );
+  }
 }

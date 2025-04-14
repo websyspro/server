@@ -79,27 +79,27 @@ class ControllerStructure
 
   private function equalsMethod(
     Request $request,
-    ControllerStructureMethod $controllerStructureMethod
+    ControllerStructureMethod $csm
   ): bool {
     return strtolower( $request->requestMethod )
-       === strtolower( $controllerStructureMethod->method );
+       === strtolower( $csm->method );
   }
 
   private function equalsPaths(
     Request $request,
-    ControllerStructureMethod $controllerStructureMethod    
+    ControllerStructureMethod $csm    
   ): bool {
     return sizeof( $request->endpoint )
-       === sizeof( $controllerStructureMethod->endpoint );
+       === sizeof( $csm->endpoint );
   }
 
   private function equalsPathsItems(
     Request $request,
-    ControllerStructureMethod $controllerStructureMethod    
+    ControllerStructureMethod $csm    
   ): bool {
     return in_array( 
       false, Util::Mapper( 
-        $controllerStructureMethod->endpoint, (
+        $csm->endpoint, (
           fn( string $path, int $index ) => (
             preg_match( "/^:/", $path ) || (
               $path === $request->endpoint[ $index ]
@@ -110,22 +110,22 @@ class ControllerStructure
     ) !== true;
   }  
 
-  public function find(
+  public function findEndpoint(
     Request $request   
   ): array {
-    return Util::Filter(
-      $this->endpoints, (
-        fn( ControllerStructureMethod $controllerStructureMethod ) => (
-          in_array(
-            false, [ 
-              $this->equalsMethod( $request, $controllerStructureMethod ),
-              $this->equalsPaths( $request, $controllerStructureMethod ),
-              $this->equalsPathsItems( $request, $controllerStructureMethod )
-            ]
-          ) !== true
+    $endpoint = (
+      Util::Filter( $this->endpoints, (
+        fn( ControllerStructureMethod $csm ) => (
+          in_array( false, [ 
+            $this->equalsMethod( $request, $csm ),
+            $this->equalsPaths( $request, $csm ),
+            $this->equalsPathsItems( $request, $csm )
+          ]) !== true
         )
-      )
+      ))
     );
+
+    return $endpoint;
   }
 
   private function setUnReflect(
