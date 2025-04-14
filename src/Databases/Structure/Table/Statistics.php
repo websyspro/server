@@ -56,7 +56,7 @@ class Statistics
 
   private function getEntity(
   ): string {
-    return Util::getEntity(
+    return Util::parseEntity(
       $this->reflect->getClass()
     );
   }

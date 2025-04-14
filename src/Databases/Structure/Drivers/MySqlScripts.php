@@ -18,7 +18,11 @@ class MySqlScripts
   public function setEntity(
     string $entity
   ){
-    $this->entity = $entity;
+    $this->entity = (
+      Util::parseEntity(
+        $entity
+      )
+    );
   }  
 
   public function getProperties(

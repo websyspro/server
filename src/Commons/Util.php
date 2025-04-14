@@ -192,6 +192,16 @@ class Util
     ));
   }
 
+  public static function parseEntity(
+    string $controller
+  ): string {
+    return preg_replace(
+      "/Entity.*$/", "",preg_replace(
+        "/^.*\\\\/", "", $controller
+      )
+    );
+  } 
+
   public static function getModuleFromController(
     string $controller
   ): string {
@@ -211,14 +221,4 @@ class Util
       )
     );
   }
-
-  public static function getEntity(
-    string $controller
-  ): string {
-    return preg_replace(
-      "/Entity.*$/", "",preg_replace(
-        "/^.*\\\\/", "", $controller
-      )
-    );
-  }  
 }

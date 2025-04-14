@@ -28,7 +28,7 @@ class IForeignKey
   private function setEntity(
   ): void {
     $this->entity = (
-      Util::getEntity(
+      Util::parseEntity(
         $this->reflect->getClass()
       )
     );

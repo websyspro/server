@@ -64,7 +64,7 @@ class StructureDesignTable
     );
 
     return (object)[
-      "entity" => Util::getEntity( $this->entity ), 
+      "entity" => Util::parseEntity( $this->entity ), 
       "entityKey" => $foreignKey
     ];
   }
