@@ -18,6 +18,22 @@ class ForeignKeys
     $this->columnsMapper();
   }
 
+  public function exists(
+  ): bool {
+    return sizeof(
+      $this->items
+    ) !== 0;
+  }  
+
+  public function names(
+  ): array {
+    return Util::Mapper(
+      $this->items, fn( IForeignKey $iForeignKey ) => (
+        $iForeignKey->name
+      )
+    );
+  }
+
   private function columnsMapper(
   ): void {
     Util::Mapper( 

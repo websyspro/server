@@ -7,6 +7,8 @@ use ReflectionAttribute;
 use ReflectionClass;
 use Websyspro\Server\Commons\Log;
 use Websyspro\Server\Commons\Util;
+use Websyspro\Server\Databases\Structure\StructureDatabase;
+use Websyspro\Server\Enums\LogType;
 use Websyspro\Server\Exceptions\Error;
 
 class Application
@@ -28,6 +30,75 @@ class Application
   private function setClient(
   ): void {
     Log::setStartTimer();
+    $this->setClientDatabaseMapper();
+    $this->setClientModuleMapper();
+  }
+
+  private function setClientDatabaseMapper(
+  ): void {
+    if( sizeof( $this->databases ) !== 0 ){
+      Util::Mapper( $this->databases, (
+        fn( string $database ) => (
+          new StructureDatabase(
+            $database
+          )
+        )
+      ));
+    }    
+  }
+
+  private function setClientModuleMapper(
+  ): void {
+    if( sizeof( $this->controllers ) !== 0 ){
+      Util::Mapper( $this->controllers, (
+        fn( string $controllers ) => (
+          $this->setClientModuleControllerMapper(
+            $controllers
+          )
+        )
+      ));
+    } 
+  }
+
+  private function setClientModuleControllerMapper(
+    string $controllers
+  ): void {
+    Util::Mapper(
+      Util::ValueOfArray(
+        Util::Mapper(
+          ( new ReflectionClass( $controllers ))->getAttributes(), 
+            fn( ReflectionAttribute $controller ) => (
+              $controller->newInstance()->controllers
+            )
+        )
+      ), fn( string $controller ) => (
+      $this->setClientModuleControllerEndpointsMapper(
+        ucfirst( Util::getModuleFromController( $controllers )), new ControllerStructure( $controller )
+      )
+    ));
+  }
+
+  private function setClientModuleControllerEndpointsMapper(
+    string $module,
+    ControllerStructure $controller
+  ): void {
+    Log::Message( LogType::Controller, "Mapper Module [{$module}]");
+
+    if(sizeof( $controller->endpoints ) !== 0){
+      Log::Message( LogType::Controller, (
+        "Mapper Controller [{$controller->name}]"
+      ));
+
+      Util::Mapper( $controller->endpoints, (
+        fn( ControllerStructureMethod $csm ) => (
+          Log::Message( LogType::Controller, (
+            sprintf( "Mapper route { %s, %s }", (
+              sizeof( $csm->endpoint ) === 0 ? "/" : Util::Join( "/", $csm->endpoint )
+            ), $csm->method )
+          ))
+        ) 
+      ));
+    }
   }
 
   private function setServer(
@@ -62,7 +133,7 @@ class Application
   ): void {
     $this->controllers = Util::Filter(
       $this->controllers, fn( string $controller ) => (
-        Util::getModuleFromController($controller) === (
+        Util::getModuleFromController( $controller ) === (
           $this->request->module
         )
       )

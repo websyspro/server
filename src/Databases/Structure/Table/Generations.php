@@ -30,5 +30,20 @@ class Generations
         )
       )
     );
-  } 
+  }
+
+  public function hasGeneration(
+    string $name
+  ): bool {
+    return in_array(
+      $name, $this->items
+    );
+  }
+
+  public function exists(
+  ): bool {
+    return sizeof(
+      $this->items
+    ) !== 0;
+  }
 }

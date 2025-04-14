@@ -12,7 +12,7 @@ use Websyspro\Server\Databases\Structure\Table\Requireds;
 use Websyspro\Server\Databases\Structure\Table\Statistics;
 use Websyspro\Server\Databases\Structure\Table\Uniques;
 
-class StructureTable
+class StructureDesignTable
 {
   public Reflect $reflect;
   public Columns $columns;
@@ -37,6 +37,20 @@ class StructureTable
     $this->setForeignKeys();
     $this->setClear();
   }
+
+  public function getBase(
+  ): string {
+    return preg_replace(
+      "/Database$/", "", $this->databae
+    );
+  }
+
+  public function getEntity(
+  ): string {
+    return preg_replace(
+      "/Entity$/", "", $this->entity
+    );
+  }  
 
   public function getForeingKey(
   ): object | null {

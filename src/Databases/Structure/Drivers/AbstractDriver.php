@@ -3,16 +3,26 @@
 namespace Websyspro\Server\Databases\Structure\Drivers;
 
 use Websyspro\Server\Commons\Util;
+use Websyspro\Server\Databases\Structure\StructureEntity;
 use Websyspro\Server\Enums\Entitys\ColumnType;
 
 class AbstractDriver
 {
+  public array $commands = [];
+
   public function __construct(
     public array $entitys,
     public string $database,
   ){
     $this->setMapperColumns();
     $this->setMapperStart();
+  }
+
+  public function getData(
+  ): string {
+    return Util::getData(
+      $this->database
+    );
   }
 
   public function setColumnParseType(
@@ -36,7 +46,7 @@ class AbstractDriver
   public function setMapperColumns(
   ): void {
     Util::Mapper(
-      $this->entitys, fn( object $entity ) => (
+      $this->entitys, fn( StructureEntity $entity ) => (
         $entity->design->columns->items = $this->setColumnParseType(
           $entity->design->columns->items
         )

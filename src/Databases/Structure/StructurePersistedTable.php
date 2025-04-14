@@ -37,6 +37,13 @@ class StructurePersistedTable
     $this->setForeignKeys();
   }
 
+  public function getEntity(
+  ): string {
+    return preg_replace(
+      "/Entity$/", "", $this->entity
+    );
+  }
+
   private function setColumns(
   ): void {
     $this->columns = new ColumnsPersisteds(

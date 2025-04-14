@@ -10,13 +10,31 @@ use Websyspro\Server\Interfaces\Reflections\IProperty;
 class Statistics
 {
   public array $items = [];
+  private array $itemsGroups = [];
 
   public function __construct(
     private readonly Reflect $reflect
   ){
     $this->columnsMapper();
     $this->columnsMapperJoins();
+  }
+
+  public function hasStatistic(
+    string $name
+  ): bool {
+    return in_array(
+      $name, array_keys(
+        $this->items
+      )
+    ) === true;
   } 
+
+  public function exists(
+  ): bool {
+    return sizeof(
+      $this->items
+    ) !== 0;
+  }  
   
   private function columnsMapper(
   ): void {
@@ -25,7 +43,7 @@ class Statistics
         fn( IProperty $property ) => (
           Util::Mapper( $property->atributes, fn( object $attribute ) => (
             $attribute->attributeType !== AttributeType::Indexes ? [] : (
-              $this->items[] = (object)[
+              $this->itemsGroups[] = (object)[
                 "name" => $property->name,
                 "ords" => $attribute->indexGroup
               ]
@@ -36,16 +54,25 @@ class Statistics
     );
   }
 
+  private function getEntity(
+  ): string {
+    return Util::getEntity(
+      $this->reflect->getClass()
+    );
+  }
+
   private function columnsMapperJoins(
   ): void {
-    $this->items = Util::Mapper(
+    Util::Mapper(
       Util::Reduce(
-        $this->items, [], function( array $groups, object $property ){
+        $this->itemsGroups, [], function( array $groups, object $property ){
           $groups[$property->ords][] = $property->name;
           return $groups;
         }
-      ), fn( array $groups ) => sprintf(
-        "INDEX_%s", Util::Join( "_", $groups )
+      ), fn( array $groups ) => (
+        $this->items[
+          sprintf( "INDEX_%s_%s", $this->getEntity(), Util::Join( "_", $groups ))
+        ] = implode( ",", $groups )
       )
     );
   }

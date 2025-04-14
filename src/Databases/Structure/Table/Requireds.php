@@ -34,7 +34,16 @@ class Requireds
 
   public function isRequired(
     string $name
+  ): bool {
+    return in_array(
+      $name, $this->items
+    );
+  }
+
+  public function getRequired(
+    string $name
   ): string {
-    return in_array( $name, $this->items );
+    return $this->isRequired( $name )
+      ? "not null" : "null";
   }
 }

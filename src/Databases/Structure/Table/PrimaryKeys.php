@@ -31,4 +31,11 @@ class PrimaryKeys
       )
     );
   }
+
+  public function exists(
+  ): bool {
+    return sizeof(
+      $this->items
+    ) !== 0;
+  }
 }

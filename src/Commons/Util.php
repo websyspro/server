@@ -86,6 +86,14 @@ class Util
     );
   }
 
+  public static function JoinColumns(
+    array $joinArr
+  ): string {
+    return implode(
+      ", ", $joinArr
+    );
+  }
+
   public static function arrayCountEquais(
     array $first,
     array $second
@@ -142,6 +150,14 @@ class Util
         "/([a-z])([A-Z])/", "$1-$2", $string
       )
     );
+  }
+
+  public static function getData(
+    string $database
+  ): string {
+    return sprintf( "%s%s", connect->prefix, (
+      preg_replace( "/Database$/", "", $database )
+    ));
   }
 
   public static function getModuleFromController(

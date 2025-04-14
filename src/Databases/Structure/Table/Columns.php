@@ -34,6 +34,38 @@ class Columns
     );
   }
 
+  public function hasColumn(
+    string $name
+  ): bool {
+    return in_array(
+      $name, array_keys(
+        $this->items
+      )
+    ) === true;
+  }
+
+  public function getColumn(
+    string $name
+  ): array {
+    return Util::FilterByKey(
+      $this->items, fn( string $name ) => (
+        $this->hasColumn( $name)
+      )
+    );
+  }
+
+  public function before(
+    string $name
+  ): string {
+    return array_keys( $this->items )[
+      array_search(
+        $name, array_keys(
+          $this->items
+        )
+      ) - 1
+    ];
+  }
+
   private function columnsStart(
   ): array {
     return explode( "|", (

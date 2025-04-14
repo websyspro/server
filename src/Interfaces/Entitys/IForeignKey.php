@@ -4,7 +4,7 @@ namespace Websyspro\Server\Interfaces\Entitys;
 
 use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\Util;
-use Websyspro\Server\Databases\Structure\StructureTable;
+use Websyspro\Server\Databases\Structure\StructureDesignTable;
 use Websyspro\Server\Interfaces\Reflections\IProperty;
 
 class IForeignKey
@@ -41,7 +41,7 @@ class IForeignKey
 
   private function setReference(
   ): void {
-    $this->reference = ( new StructureTable(
+    $this->reference = ( new StructureDesignTable(
       $this->attribute->referenceClass
     ))->getForeingKey();
   }

@@ -4,6 +4,7 @@ use Websyspro\Server\Databases\Structure\StructureDatabase;
 use Websyspro\Server\Decorations\Conntrollers\Controller;
 use Websyspro\Server\Decorations\Conntrollers\ControllerList;
 use Websyspro\Server\Decorations\Conntrollers\Get;
+use Websyspro\Server\Decorations\Conntrollers\Post;
 use Websyspro\Server\Decorations\Databases\EntityList;
 use Websyspro\Server\Decorations\Entitys\Columns\Datetime;
 use Websyspro\Server\Decorations\Entitys\Columns\Decimal;
@@ -100,14 +101,14 @@ class CustomerEntity
 extends BaseEntity
 {
   #[Text(255)]
-  public string $name;
+  public string $Name;
 
   #[Text(14)]
   #[Unique()]
-  public string $cpf;
+  public string $Cpf;
 
   #[Datetime()]
-  public string $lastPurchaseAt;
+  public string $LastPurchaseAt;
 }
 
 class DocumentEntity
@@ -115,10 +116,10 @@ extends BaseEntity
 {
   #[Text(1)]
   #[Index(1)]
-  public string $type;
+  public string $Type;
 
   #[Text(1)]
-  public string $state;
+  public string $State;
 
   #[Number()]
   #[Index(2)]
@@ -179,10 +180,10 @@ extends BaseEntity
   #[Number()]
   #[Index()]
   #[ForeignKey(BoxEntity::class)]
-  public int $dBox;
+  public int $BoxId;
 
   #[Decimal(10,2)]
-  public int $number;
+  public int $Number;
 
   #[Text(255)]
   public int $observations;
@@ -192,10 +193,10 @@ class ConfigEntity
 extends BaseEntity
 {
   #[Text(32)]
-  public string $passwordReleaseDiscount;
+  public string $PasswordReleaseDiscount;
 
   #[Decimal(10,2)]
-  public string $purchaseLimitPerCustomer;
+  public string $PurchaseLimitPerCustomer;
 
   #[Number()]
   #[ForeignKey(BoxEntity::class)]
@@ -206,7 +207,7 @@ class ProductGroupEntity
 extends BaseEntity
 {
   #[Text(64)]
-  public string $name;
+  public string $Name;
 }
 
 class ProductEntity
@@ -214,23 +215,23 @@ extends BaseEntity
 {
   #[Text(255)]
   #[Index()]
-  public string $name;
+  public string $Name;
 
   #[Decimal(10,2)]
-  public float $value;
+  public float $Value;
 
   #[Number()]
   #[ForeignKey(ProductGroupEntity::class)]
-  public int $idProductGroup;
+  public int $ProductGroupId;
 
   #[Text(1)]
-  public string $state;
+  public string $State;
 
   #[Decimal(10,2)]
-  public float $amount;
+  public float $Amount;
 
   #[Decimal(10,2)]
-  public float $totalStock;
+  public float $TotalStock;
 }
 
 class DocumentItemEntity
@@ -238,23 +239,23 @@ extends BaseEntity
 {
   #[Number()]
   #[ForeignKey(DocumentEntity::class)]
-  public string $idDocument;
+  public string $DocumentId;
 
   #[Number()]
   #[ForeignKey(ProductEntity::class)]
-  public string $idProduct;
+  public string $ProductId;
 
   #[Decimal(10,2)]
-  public float $value;
+  public float $Value;
 
   #[Decimal(10,2)]
-  public float $amount;
+  public float $Amount;
 
   #[Decimal(10,2)]
-  public float $discount;
+  public float $Discount;
 
   #[Decimal(10,2)]
-  public float $totalValue;
+  public float $TotalValue;
 }
 
 
@@ -277,11 +278,13 @@ class DesignsController
   #[Get()]
   public function get(
   ): Response {
-    return Response::json(
-      new StructureDatabase(
-        AccountsDatabase::class
-      )
-    );
+    return Response::json( "..." );
+  }
+
+  #[Post( "accouts/:useremail" )]
+  public function getAccoutsUserEmail(
+  ): Response {
+    return Response::json( "..." );
   }
 }
 
@@ -294,5 +297,7 @@ Application::server(
   controllers: [
     DevControllers::class 
   ],
-  databases: []
+  databases: [
+    AccountsDatabase::class
+  ]
 );

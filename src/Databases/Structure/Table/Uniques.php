@@ -10,6 +10,7 @@ use Websyspro\Server\Interfaces\Reflections\IProperty;
 class Uniques
 {
   public array $items = [];
+  private array $itemsGroups = [];
 
   public function __construct(
     private readonly Reflect $reflect
@@ -17,6 +18,23 @@ class Uniques
     $this->columnsMapper();
     $this->columnsMapperJoins();
   } 
+
+  public function exists(
+  ): bool {
+    return sizeof(
+      $this->items
+    ) !== 0;
+  }
+  
+  public function hasUnique(
+    string $name
+  ): bool {
+    return in_array(
+      $name, array_keys(
+        $this->items
+      )
+    ) === true;
+  }  
   
   private function columnsMapper(
   ): void {
@@ -25,7 +43,7 @@ class Uniques
         fn( IProperty $property ) => (
           Util::Mapper( $property->atributes, fn( object $attribute ) => (
             $attribute->attributeType !== AttributeType::Uniques ? [] : (
-              $this->items[] = (object)[
+              $this->itemsGroups[] = (object)[
                 "name" => $property->name,
                 "ords" => $attribute->uniqueGroup
               ]
@@ -36,16 +54,25 @@ class Uniques
     );
   }
 
+  private function getEntity(
+  ): string {
+    return Util::getEntity(
+      $this->reflect->getClass()
+    );
+  }
+
   private function columnsMapperJoins(
   ): void {
-    $this->items = Util::Mapper(
+    Util::Mapper(
       Util::Reduce(
-        $this->items, [], function( array $groups, object $property ){
+        $this->itemsGroups, [], function( array $groups, object $property ){
           $groups[$property->ords][] = $property->name;
           return $groups;
         }
-      ), fn( array $groups ) => sprintf(
-        "UNIQUE_%s", Util::Join( "_", $groups )
+      ), fn( array $groups ) => (
+        $this->items[
+          sprintf( "UNIQUE_%s_%s", $this->getEntity(), Util::Join( "_", $groups ))
+        ] = implode( ",", $groups )
       )
     );
   }
