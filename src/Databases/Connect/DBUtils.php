@@ -5,9 +5,8 @@ namespace Websyspro\Server\Databases\Connect
   use PDO;
   use PDOException;
   use PDOStatement;
-    use Websyspro\Server\Commons\Util;
-    use Websyspro\Server\Exceptions\Error;
-  use Websyspro\Server\Exceptions\InternalServerError;
+  use Websyspro\Server\Commons\Util;
+  use Websyspro\Server\Exceptions\Error;
   use Websyspro\Server\Interfaces\Connects\Config;
 
   class DBUtils
@@ -41,19 +40,7 @@ namespace Websyspro\Server\Databases\Connect
     
     public function getDatabaseWithPrefix(
     ): string {
-      $this->database = Util::getData(
-        $this->database ?? (
-          connect->database
-        )
-      );
-      
-      $hasPrefixed = substr(
-        $this->database, 0, strlen( connect->prefix )
-      ) === connect->prefix;
-
-      return $hasPrefixed ? $this->database : sprintf(
-        "%s%s", connect->prefix, $this->database
-      );
+      return $this->database;
     }
 
     public function connectUser(

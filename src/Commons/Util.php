@@ -3,6 +3,7 @@
 namespace Websyspro\Server\Commons;
 
 use ReflectionFunction;
+use Websyspro\Server\Server\Application;
 
 class Util
 {
@@ -168,15 +169,27 @@ class Util
   }
 
   public static function getData(
-    string $database
+    string $entity
   ): string {
     return (
-      sprintf( "%s%s", connect->prefix, (
-        preg_replace( "/Database$/", "", preg_replace(
-          "/^.*\\\\/", "", $database
-        ))
-      ))
+      Util::ValueOfArray(
+        Util::FilterByKey(
+          Application::$entitys, (
+            fn( string $entityKey ) => (
+              $entity === $entityKey
+            )
+          )
+        )
+      )
     );
+  }
+  
+  public static function parseDatabase(
+    string $database
+  ): string {
+    return preg_replace( "/Database$/", "", preg_replace(
+      "/^.*\\\\/", "", $database
+    ));
   }
 
   public static function getModuleFromController(

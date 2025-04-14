@@ -6,6 +6,7 @@ use Exception;
 use ReflectionAttribute;
 use ReflectionClass;
 use Websyspro\Server\Commons\Log;
+use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Consts\Controllers;
 use Websyspro\Server\Databases\Structure\StructureDatabase;
@@ -18,9 +19,10 @@ class Application
 {
   public Request $request;
   public Response $response;
-
   public ControllerStructure | null $controllerStructure;
   public ControllerStructureMethod | null $controllerStructureMethod;
+
+  public static array $entitys = [];
 
   public function __construct(
     private array $controllers,
@@ -34,8 +36,27 @@ class Application
   private function setClient(
   ): void {
     Log::setStartTimer();
+    $this->setClientEntityMapper();
     $this->setClientDatabaseMapper();
     $this->setClientModuleMapper();
+  }
+
+  private function setClientEntityMapper(
+  ): void {
+    Util::Mapper( 
+      $this->databases, 
+      fn( string $database ) => (
+        Util::Mapper( 
+          Util::ValueOfArray(
+            (new Reflect($database)
+          )->getAttriutes())->items,
+        fn( string $entity ) => (
+          Application::$entitys[ $entity ] = (
+            Util::parseDatabase( $database )
+          )
+        ))
+      )
+    );
   }
 
   private function setClientDatabaseMapper(
@@ -113,6 +134,7 @@ class Application
     
     if( $this->request ){
       try {
+        $this->setEntitys();
         $this->setModule();
         $this->setController();
         $this->setEndpoint();
@@ -122,15 +144,9 @@ class Application
     }
   }
 
-  private function setResponseError(
-    Exception $error
+  private function setEntitys(
   ): void {
-    exit(
-      Response::json(
-        $error->getMessage(),
-        $error->getCode()
-      )->context()
-    );
+    $this->setClientEntityMapper();
   }
 
   private function setModule(
@@ -223,6 +239,17 @@ class Application
     return new static(
       controllers: $controllers,
       databases: $databases
+    );
+  }
+
+  private function setResponseError(
+    Exception $error
+  ): void {
+    exit(
+      Response::json(
+        $error->getMessage(),
+        $error->getCode()
+      )->context()
     );
   }
 }

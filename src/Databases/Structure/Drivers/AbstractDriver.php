@@ -20,9 +20,9 @@ class AbstractDriver
 
   public function getData(
   ): string {
-    return Util::getData(
+    return sprintf( "%s%s", connect->prefix, Util::parseDatabase(
       $this->database
-    );
+    ) );
   }
 
   public function setColumnParseType(

@@ -2,12 +2,10 @@
 
 namespace Websyspro\Server\Databases\Structure;
 
-use Websyspro\Server\Commons\Log;
 use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Databases\Structure\Drivers\MySqlDriver;
 use Websyspro\Server\Decorations\Databases\EntityList;
-use Websyspro\Server\Enums\LogType;
 
 class StructureDatabase
 {
