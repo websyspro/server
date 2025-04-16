@@ -8,19 +8,75 @@ use Websyspro\Server\Enums\LogType;
 use Websyspro\Server\Enums\Entitys\CommandType;
 use Websyspro\Server\Interfaces\Entitys\IForeignKey;
 use Websyspro\Server\Databases\Connect\DB;
+use Websyspro\Server\Databases\Structure\Drivers\Scripts\MySQLScript;
 use Websyspro\Server\Databases\Structure\StructureCommand;
 use Websyspro\Server\Databases\Structure\StructureEntity;
 use Websyspro\Server\Databases\Structure\StructureDesignTable;
 use Websyspro\Server\Databases\Structure\StructurePersistedTable;
+use Websyspro\Server\Enums\Entitys\ColumnType;
 
-class MySqlDriver extends AbstractDriver
+class MySqlDriver
 {
+  private MySQLScript | null $mysqlScript = null;
   private array $properties = [];
+
+  public array $commands = [];
   public array $uniques = [];
   public array $statistics = [];
   public array $foreignKeys = [];
 
-  private MySqlScripts | null $mysqlScripts = null;
+
+  public function __construct(
+    public array $entitys,
+    public string $database,
+  ){
+    $this->setMapperColumns();
+    $this->setMapperStart();
+  }
+
+  public function getData(
+  ): string | null {
+    [ $structureEntity ] = (
+      $this->entitys
+    );
+
+    if( $structureEntity instanceof StructureEntity ){
+      return util::parseDatabase(
+        $structureEntity->design->database
+      );
+    }
+
+    return null;
+  }  
+
+  public function setColumnParseType(
+    array $items = []  
+  ): array {
+    return Util::Mapper(
+      $items, fn( object $object ) => (
+        match( $object->type ){
+          ColumnType::Decimal->value => "decimal({$object->args})",
+          ColumnType::Text->value => "varchar({$object->args})",
+          ColumnType::Datetime->value => "datetime",
+          ColumnType::Number->value => "bigint",
+          ColumnType::Flag->value => "smallint",
+          ColumnType::Time->value => "time",
+          ColumnType::Date->value => "date",
+        }
+      )
+    );
+  }
+
+  public function setMapperColumns(
+  ): void {
+    Util::Mapper(
+      $this->entitys, fn( StructureEntity $entity ) => (
+        $entity->design->columns->items = $this->setColumnParseType(
+          $entity->design->columns->items
+        )
+      )
+    );
+  }  
 
   public function setMapperStart(
   ): void {
@@ -51,18 +107,20 @@ class MySqlDriver extends AbstractDriver
 
   private function setMapperEntityPersistedsData(
   ): void {
-    $this->mysqlScripts = new MySqlScripts(
-      $this->getData()
+    $this->mysqlScript = (
+      new MySQLScript(
+        $this->getData()
+      )
     );
 
     [ $this->properties, 
       $this->uniques, 
       $this->statistics, 
       $this->foreignKeys ] = [
-      $this->getQuery( $this->mysqlScripts->getProperties()),
-      $this->getQuery( $this->mysqlScripts->getUniques()),
-      $this->getQuery( $this->mysqlScripts->getStatistics()),
-      $this->getQuery( $this->mysqlScripts->getForeignKeys())
+      $this->getQuery( $this->mysqlScript->getProperties()),
+      $this->getQuery( $this->mysqlScript->getUniques()),
+      $this->getQuery( $this->mysqlScript->getStatistics()),
+      $this->getQuery( $this->mysqlScript->getForeignKeys())
     ];
   }
 
@@ -198,7 +256,7 @@ class MySqlDriver extends AbstractDriver
   private function setMapperEntityDriver(
     StructurePersistedTable $persisted
   ): void {
-    $this->mysqlScripts->setEntity(
+    $this->mysqlScript->setEntity(
       $persisted->getEntity()
     );
   }
@@ -219,7 +277,7 @@ class MySqlDriver extends AbstractDriver
   private function setMapperEntityUpdatedsColumnsCreateds(
     StructureDesignTable $design
   ): void {
-    $this->commands[] = $this->mysqlScripts->entityAdd(
+    $this->commands[] = $this->mysqlScript->entityAdd(
       Util::Mapper( $design->columns->items, fn(string $type, string $name) => (
         "{$name} {$type} {$design->requireds->getRequired( $name )}"
       ))
@@ -236,7 +294,7 @@ class MySqlDriver extends AbstractDriver
           $persisted->columns->hasColumn($name) === false
         )
       ), fn(string $type, string $name) => (
-        $this->commands[] = $this->mysqlScripts->columnAdd(
+        $this->commands[] = $this->mysqlScript->columnAdd(
           $name, $type, $design->requireds->getRequired($name), $design->columns->before($name)
         )
       ) 
@@ -255,7 +313,7 @@ class MySqlDriver extends AbstractDriver
           )
         )
       ), fn(string $type, string $name) => (
-        $this->commands[] = $this->mysqlScripts->columnModifys(
+        $this->commands[] = $this->mysqlScript->columnModifys(
           $name, $type, $design->requireds->getRequired($name)
         )
       )
@@ -272,7 +330,7 @@ class MySqlDriver extends AbstractDriver
           $design->columns->hasColumn( $name ) === false
         )
       ), fn(string $name) => (
-        $this->commands[] = $this->mysqlScripts->columnDrop( $name )
+        $this->commands[] = $this->mysqlScript->columnDrop( $name )
       )
     );
   }
@@ -297,10 +355,10 @@ class MySqlDriver extends AbstractDriver
 
       if( $equalsPrimaryKeys === false ){
         if( $persisted->primaryKeys->exists() ){
-          $this->commands[] = $this->mysqlScripts->primaryKeyDrop();
+          $this->commands[] = $this->mysqlScript->primaryKeyDrop();
         }
 
-        $this->commands[] = $this->mysqlScripts->primaryKeyAdd(
+        $this->commands[] = $this->mysqlScript->primaryKeyAdd(
           Util::joinColumns( $design->primaryKeys->items )
         );
       }
@@ -313,7 +371,7 @@ class MySqlDriver extends AbstractDriver
   ): void {
     if( $persisted->primaryKeys->exists() === true ){
       if( $design->primaryKeys->exists() === false ){
-        $this->commands[] = $this->mysqlScripts->primaryKeyDrop();
+        $this->commands[] = $this->mysqlScript->primaryKeyDrop();
       }
     }
   }
@@ -339,7 +397,7 @@ class MySqlDriver extends AbstractDriver
               in_array($name, $design->generations->items)
             )
           ), fn( string $type, string $name ) => (
-            $this->commands[] = $this->mysqlScripts->generationsAdd(
+            $this->commands[] = $this->mysqlScript->generationsAdd(
               $name, $type, $design->requireds->getRequired($name)
             )
           )
@@ -360,7 +418,7 @@ class MySqlDriver extends AbstractDriver
           ) === false
         ){
           $this->commands[] = (
-            $this->mysqlScripts->generationsUpdate(
+            $this->mysqlScript->generationsUpdate(
               array_merge(
                 Util::Mapper(
                   Util::FilterByKey(
@@ -368,7 +426,7 @@ class MySqlDriver extends AbstractDriver
                       $persisted->generations->hasGeneration( $name )
                     )
                   ), fn( string $type, string $name ) => (
-                    $this->mysqlScripts->generationsTextModify(
+                    $this->mysqlScript->generationsTextModify(
                       $name, $type, $persisted->requireds->getRequired( $name )
                     )
                   ) 
@@ -379,7 +437,7 @@ class MySqlDriver extends AbstractDriver
                       $design->generations->hasGeneration( $name )
                     )
                   ), fn( string $type, string $name ) => (
-                    $this->mysqlScripts->generationsTextAdd(
+                    $this->mysqlScript->generationsTextAdd(
                       $name, $type, $design->requireds->getRequired( $name )
                     )
                   ) 
@@ -404,7 +462,7 @@ class MySqlDriver extends AbstractDriver
               $persisted->generations->hasGeneration( $name )
             )
           ), fn( string $type, string $name ) => (
-            $this->commands[] = $this->mysqlScripts->generationsDrop(
+            $this->commands[] = $this->mysqlScript->generationsDrop(
               $name, $type, $design->requireds->getRequired( $name )
             )
           )  
@@ -429,7 +487,7 @@ class MySqlDriver extends AbstractDriver
     if($persisted->uniques->exists() === false){
       if($design->uniques->exists() === true){
         Util::Mapper( $design->uniques->items, fn( string $columns, string $name ) => (
-          $this->commands[] = $this->mysqlScripts->uniqueAddOrUpdate( $name, $columns )
+          $this->commands[] = $this->mysqlScript->uniqueAddOrUpdate( $name, $columns )
         ));
       }
     }
@@ -443,7 +501,7 @@ class MySqlDriver extends AbstractDriver
       if($design->uniques->exists() === true){
         Util::Mapper( $design->uniques->items, fn( string $columns, string $name ) => (
           in_array( $name, $persisted->uniques->items )  ? [] : (
-            $this->commands[] = $this->mysqlScripts->uniqueAddOrUpdate( $name, $columns )
+            $this->commands[] = $this->mysqlScript->uniqueAddOrUpdate( $name, $columns )
           )
         ));
       }
@@ -457,7 +515,7 @@ class MySqlDriver extends AbstractDriver
     if($persisted->uniques->exists() === true){
       Util::Mapper( $persisted->uniques->items, fn( string $name ) => (
         $design->uniques->hasUnique( $name ) ? [] : (
-          $this->commands[] = $this->mysqlScripts->uniqueDrop( $name )
+          $this->commands[] = $this->mysqlScript->uniqueDrop( $name )
         )
       ));
     }
@@ -479,7 +537,7 @@ class MySqlDriver extends AbstractDriver
     if($persisted->statistics->exists() === false){
       if($design->statistics->exists() === true){
         Util::Mapper( $design->statistics->items, fn( string $columns, string $name ) => (
-          $this->commands[] = $this->mysqlScripts->statisticsAddOrUpdate( $name, $columns )
+          $this->commands[] = $this->mysqlScript->statisticsAddOrUpdate( $name, $columns )
         ));
       }
     }
@@ -493,7 +551,7 @@ class MySqlDriver extends AbstractDriver
       if($design->statistics->exists() === true){
         Util::Mapper( $design->statistics->items, fn( string $columns, string $name ) => (
           in_array( $name, $persisted->statistics->items ) ? [] : (
-            $this->commands[] = $this->mysqlScripts->statisticsAddOrUpdate( $name, $columns )
+            $this->commands[] = $this->mysqlScript->statisticsAddOrUpdate( $name, $columns )
           )
         ));
       }
@@ -507,7 +565,7 @@ class MySqlDriver extends AbstractDriver
     if( $persisted->statistics->exists() === true ){
       Util::Mapper( $persisted->statistics->items, fn( string $name ) => (
         $design->statistics->hasStatistic( $name ) ? [] : (
-          $this->commands[] = $this->mysqlScripts->statisticsDrop( $name )
+          $this->commands[] = $this->mysqlScript->statisticsDrop( $name )
         )
       ));      
     }
@@ -529,7 +587,7 @@ class MySqlDriver extends AbstractDriver
     if( $persisted->foreignKeys->exists() === false ){
       if( $design->foreignKeys->exists() === true ){
         Util::Mapper($design->foreignKeys->items, fn( IForeignKey $iforeign ) => (
-          $this->commands[] = $this->mysqlScripts->foreignKeyAdd( $iforeign )
+          $this->commands[] = $this->mysqlScript->foreignKeyAdd( $iforeign )
         ));
       }
     }
@@ -543,7 +601,7 @@ class MySqlDriver extends AbstractDriver
       if( $design->foreignKeys->exists() === true ){
         Util::Mapper( $design->foreignKeys->items, fn( IForeignKey $iforeign ) => (
           in_array( $iforeign->name, $persisted->foreignKeys->names()) ? [] : (
-            $this->commands[] = $this->mysqlScripts->foreignKeyAdd( $iforeign )
+            $this->commands[] = $this->mysqlScript->foreignKeyAdd( $iforeign )
           )
         ));
       }
@@ -553,8 +611,8 @@ class MySqlDriver extends AbstractDriver
   private function setMapperEntityUpdatedsForeignKeysDropItems(
     string $name
   ): void {
-    $this->commands[] = $this->mysqlScripts->foreignKeyDrop( $name );
-    $this->commands[] = $this->mysqlScripts->foreignKeyDropIndex( $name );
+    $this->commands[] = $this->mysqlScript->foreignKeyDrop( $name );
+    $this->commands[] = $this->mysqlScript->foreignKeyDropIndex( $name );
   }
 
   private function setMapperEntityUpdatedsForeignKeysDrop(

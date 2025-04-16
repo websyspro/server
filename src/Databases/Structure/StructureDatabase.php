@@ -25,9 +25,9 @@ class StructureDatabase
       ( new Reflect( $this->database ))->getAttriutes(), (
         fn( EntityList $entityList ) => (
           Util::Mapper( $entityList->items, fn( string $entity ) => (
-            $this->entitys[$entity] = new StructureEntity(
-              new StructurePersistedTable( $entity, $this->database ),
-              new StructureDesignTable( $entity, $this->database )
+            $this->entitys[] = new StructureEntity(
+              new StructurePersistedTable( $entity ),
+              new StructureDesignTable( $entity )
             )
           ))
         )

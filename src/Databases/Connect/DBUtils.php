@@ -37,10 +37,15 @@ namespace Websyspro\Server\Databases\Connect
         $this->getDatabaseWithPrefix()
       );
     }
+
+    public function getDatabase(
+    ): string {
+      return $this->config->database;
+    }
     
     public function getDatabaseWithPrefix(
     ): string {
-      return $this->database;
+      return sprintf( "%s%s", connect->prefix, $this->database );
     }
 
     public function connectUser(

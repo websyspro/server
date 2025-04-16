@@ -1,6 +1,8 @@
 <?php
 
+use Websyspro\Controller\Apps\Shops\Entitys\BoxEntity as EntitysBoxEntity;
 use Websyspro\Server\Databases\Structure\StructureDatabase;
+use Websyspro\Server\Databases\Structure\StructureDesignTable;
 use Websyspro\Server\Decorations\Conntrollers\Controller;
 use Websyspro\Server\Decorations\Conntrollers\ControllerList;
 use Websyspro\Server\Decorations\Conntrollers\Get;
@@ -283,7 +285,11 @@ class DesignsController
   #[AllowAnonymous()]
   public function get(
   ): Response {
-    return Response::json( "..." );
+    return Response::json(
+      new StructureDesignTable(
+        BoxEntity::class
+      )
+    );
   }
 
   #[Post( "accounts/:email" )]

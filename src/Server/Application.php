@@ -51,9 +51,7 @@ class Application
             (new Reflect($database)
           )->getAttriutes())->items,
         fn( string $entity ) => (
-          Application::$entitys[ $entity ] = (
-            Util::parseDatabase( $database )
-          )
+          Application::$entitys[ $entity ] = $database
         ))
       )
     );

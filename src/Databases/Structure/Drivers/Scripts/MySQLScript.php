@@ -1,19 +1,30 @@
 <?php
 
-namespace Websyspro\Server\Databases\Structure\Drivers;
+namespace Websyspro\Server\Databases\Structure\Drivers\Scripts;
 
 use Websyspro\Server\Commons\Util;
+use Websyspro\Server\Databases\Connect\DB;
 use Websyspro\Server\Enums\Entitys\CommandType;
 use Websyspro\Server\Databases\Structure\StructureCommand;
 use Websyspro\Server\Interfaces\Entitys\IForeignKey;
 
-class MySqlScripts
+class MySQLScript
 {
   public string $entity;
+  public DB $db;
 
   public function __construct(
-    public readonly string $database
-  ){}
+    private readonly string $database
+  ){
+    $this->setDatabase();
+  }
+
+  public function setDatabase(
+  ): void {
+    $this->db = DB::set(
+      $this->database
+    );
+  }
 
   public function setEntity(
     string $entity
@@ -35,7 +46,7 @@ class MySqlScripts
           ,if(information_schema.columns.column_key = 'PRI', 1, 0) as primaryKey
           ,if(information_schema.columns.extra = 'auto_increment', 1, 0) as generation
          from information_schema.columns
-        where information_schema.columns.table_schema = '{$this->database}'
+        where information_schema.columns.table_schema = '{$this->db->getDatabase()}'
      order by information_schema.columns.table_name asc
              ,information_schema.columns.ordinal_position asc"
     );
@@ -47,7 +58,7 @@ class MySqlScripts
       "select information_schema.table_constraints.table_name as entity
              ,information_schema.table_constraints.constraint_name as name
          from information_schema.table_constraints
-        where information_schema.table_constraints.table_schema = '{$this->database}'
+        where information_schema.table_constraints.table_schema = '{$this->db->getDatabase()}'
           and information_schema.table_constraints.constraint_type = 'UNIQUE'"
     );
   }
@@ -58,7 +69,7 @@ class MySqlScripts
       "select information_schema.statistics.table_name as entity 
              ,information_schema.statistics.index_name as name
          from information_schema.statistics
-        where information_schema.statistics.table_schema = '{$this->database}'
+        where information_schema.statistics.table_schema = '{$this->db->getDatabase()}'
           and information_schema.statistics.index_name like 'INDEX_%'
           and information_schema.statistics.non_unique = 1
      group by information_schema.statistics.table_name
@@ -72,7 +83,7 @@ class MySqlScripts
       "select information_schema.key_column_usage.table_name as entity
  	           ,information_schema.key_column_usage.constraint_name as name
          from information_schema.key_column_usage 
-        where information_schema.key_column_usage.table_schema = '{$this->database}' 
+        where information_schema.key_column_usage.table_schema = '{$this->db->getDatabase()}' 
           and information_schema.key_column_usage.referenced_table_name is not null"
     );
   }  

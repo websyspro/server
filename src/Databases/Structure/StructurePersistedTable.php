@@ -2,6 +2,7 @@
 
 namespace Websyspro\Server\Databases\Structure;
 
+use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Databases\Structure\Table\ColumnsPersisteds;
 use Websyspro\Server\Databases\Structure\Table\ForeignKeys;
 use Websyspro\Server\Databases\Structure\Table\ForeignKeysPersisteds;
@@ -24,10 +25,12 @@ class StructurePersistedTable
   public StatisticsPersisteds $statistics;
   public ForeignKeysPersisteds $foreignKeys;
 
+  public string $databae;
+
   public function __construct(
-    public readonly string $entity,
-    public readonly string $databae
+    public string $entity
   ){
+    $this->setDatabase();
     $this->setColumns();
     $this->setRequireds();
     $this->setPrimaryKeys();
@@ -41,6 +44,15 @@ class StructurePersistedTable
   ): string {
     return preg_replace(
       "/Entity$/", "", $this->entity
+    );
+  }
+
+  private function setDatabase(
+  ): void {
+    $this->databae = (
+      Util::getData(
+        $this->entity
+      )
     );
   }
 

@@ -23,10 +23,12 @@ class StructureDesignTable
   public Statistics $statistics;
   public ForeignKeys $foreignKeys;
 
+  public string $database;
+
   public function __construct(
-    public readonly string | null $entity = null,
-    public readonly string | null $databae = null
+    public string | null $entity = null
   ){
+    $this->setDatabase();
     $this->setReflect();
     $this->setColumns();
     $this->setRequireds();
@@ -67,6 +69,15 @@ class StructureDesignTable
       "entity" => Util::parseEntity( $this->entity ), 
       "entityKey" => $foreignKey
     ];
+  }
+
+  private function setDatabase(
+  ): void {
+    $this->database = (
+      Util::getData(
+        $this->entity
+      )
+    );
   }
 
   private function setReflect(
