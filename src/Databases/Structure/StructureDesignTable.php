@@ -40,17 +40,12 @@ class StructureDesignTable
     $this->setClear();
   }
 
-  public function getBase(
-  ): string {
-    return preg_replace(
-      "/Database$/", "", $this->databae
-    );
-  }
-
   public function getEntity(
   ): string {
     return preg_replace(
-      "/Entity$/", "", $this->entity
+      "/Entity$/", "", (
+        $this->entity
+      )
     );
   }  
 

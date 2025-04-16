@@ -37,8 +37,10 @@ class StructureDatabase
 
   private function entitysMapperDriver(
   ): void {
-    $this->mysql = new MySqlDriver(
-      $this->entitys, $this->database
+    $this->mysql = (
+      new MySqlDriver(
+        $this->entitys
+      )
     );
   }
 }

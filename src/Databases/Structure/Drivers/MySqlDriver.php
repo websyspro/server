@@ -27,8 +27,7 @@ class MySqlDriver
 
 
   public function __construct(
-    public array $entitys,
-    public string $database,
+    public array $entitys
   ){
     $this->setMapperColumns();
     $this->setMapperStart();
@@ -645,7 +644,7 @@ class MySqlDriver
     if( sizeof( $this->commands ) !== 0 ){
       Log::Message( LogType::Database, (
         sprintf( "Mapper Database [%s]", (
-          Util::getData( $this->database )
+          $this->getData()
         ))
       ));
     }
