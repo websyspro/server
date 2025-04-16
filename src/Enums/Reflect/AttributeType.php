@@ -15,10 +15,10 @@ enum AttributeType: int
   case Foreigns = 9;
   case PrimaryKey = 10;
   case Generations = 11;
-  case TriggersBeforeCreate = 12;
-  case TriggersBeforeUpdate = 13;
-  case TriggersBeforeDelete = 14;
-  case TriggersAfterCreate = 16;
-  case TriggersAfterUpdate = 17;
-  case TriggersAfterDelete = 18;
+  case EventBeforeInsert = 12;
+  case EventBeforeUpdate = 13;
+  case EventBeforeDelete = 14;
+  case EventAfterInsert = 16;
+  case EventfterUpdate = 17;
+  case EventAfterDelete = 18;
 }

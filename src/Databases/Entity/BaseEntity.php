@@ -2,10 +2,12 @@
 
 namespace Websyspro\Server\Databases\Entity;
 
+use Websyspro\Server\Databases\Entity\Utils\Now;
 use Websyspro\Server\Decorations\Entitys\Columns\Datetime;
 use Websyspro\Server\Decorations\Entitys\Columns\Flag;
 use Websyspro\Server\Decorations\Entitys\Columns\Number;
 use Websyspro\Server\Decorations\Entitys\Constraints\PrimaryKey;
+use Websyspro\Server\Decorations\Entitys\Events\BeforeInsert;
 use Websyspro\Server\Decorations\Entitys\Generations\AutoIncrement;
 use Websyspro\Server\Decorations\Entitys\Requireds\NotNull;
 
@@ -27,6 +29,7 @@ class BaseEntity
 
   #[NotNull()]
   #[Datetime()]
+  #[BeforeInsert(Now::class)]
   public string $ActivedAt;
 
   #[NotNull()]

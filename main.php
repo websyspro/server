@@ -17,6 +17,7 @@ use Websyspro\Server\Decorations\Entitys\Columns\Text;
 use Websyspro\Server\Decorations\Entitys\Constraints\ForeignKey;
 use Websyspro\Server\Decorations\Entitys\Constraints\PrimaryKey;
 use Websyspro\Server\Decorations\Entitys\Constraints\Unique;
+use Websyspro\Server\Decorations\Entitys\Events\BeforeInsert;
 use Websyspro\Server\Decorations\Entitys\Generations\AutoIncrement;
 use Websyspro\Server\Decorations\Entitys\Requireds\NotNull;
 use Websyspro\Server\Decorations\Entitys\Statistics\Index;
@@ -50,7 +51,8 @@ class BaseEntity
   public int $CreatedBy;
 
   #[NotNull()]
-  #[Datetime()]    
+  #[Datetime()]
+  #[BeforeInsert()]    
   public string $CreatedAt;
 
   #[Number()]
