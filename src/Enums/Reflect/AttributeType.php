@@ -19,6 +19,6 @@ enum AttributeType: int
   case EventBeforeUpdate = 13;
   case EventBeforeDelete = 14;
   case EventAfterInsert = 16;
-  case EventfterUpdate = 17;
+  case EventAfterUpdate = 17;
   case EventAfterDelete = 18;
 }

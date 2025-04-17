@@ -12,17 +12,19 @@ class BeforeDelete
   public AttributeType $attributeType = AttributeType::EventBeforeDelete;
   
   public function __construct(
-    public readonly mixed $mixed
+    public readonly mixed $value
   ){}
 
   public function get(
   ): mixed {
-    if( Util::isNotClass( $this->mixed )){
-      return $this->mixed;
-    } else {
+    if( Util::isNotClass( $this->value )){
+      return $this->value;
+    } else if( class_exists( $this->value )){
       return call_user_func_array(
-        [ $this->mixed, "get" ], []
+        [ $this->value, "get" ], []
       );
     }
+
+    return null;
   }
 }

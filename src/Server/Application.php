@@ -115,9 +115,9 @@ class Application
       Util::Mapper( $controller->endpoints, (
         fn( ControllerStructureMethod $csm ) => (
           Log::Message( LogType::Controller, (
-            sprintf( "Mapper route { %s, %s }", (
+            sprintf( "Mapper route {%s, %s}", (
               sizeof( $csm->endpoint ) === 0 ? "/" : Util::Join( "/", $csm->endpoint )
-            ), $csm->method )
+            ), strtoupper( $csm->method ))
           ))
         ) 
       ));

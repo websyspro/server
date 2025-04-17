@@ -5,6 +5,7 @@ namespace Websyspro\Server\Databases\Structure;
 use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Databases\Structure\Table\Columns;
+use Websyspro\Server\Databases\Structure\Table\Events;
 use Websyspro\Server\Databases\Structure\Table\ForeignKeys;
 use Websyspro\Server\Databases\Structure\Table\Generations;
 use Websyspro\Server\Databases\Structure\Table\PrimaryKeys;
@@ -22,6 +23,7 @@ class StructureDesignTable
   public Uniques $uniques;
   public Statistics $statistics;
   public ForeignKeys $foreignKeys;
+  public Events $events;
 
   public string $database;
 
@@ -37,6 +39,7 @@ class StructureDesignTable
     $this->setUniques();
     $this->setStatistics();
     $this->setForeignKeys();
+    $this->setEvents();
     $this->setClear();
   }
 
@@ -129,6 +132,13 @@ class StructureDesignTable
   private function setForeignKeys(
   ): void {
     $this->foreignKeys = new ForeignKeys(
+      $this->reflect
+    );
+  }
+
+  private function setEvents(
+  ): void {
+    $this->events = new Events(
       $this->reflect
     );
   }

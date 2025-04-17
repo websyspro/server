@@ -9,20 +9,22 @@ use Websyspro\Server\Enums\Reflect\AttributeType;
 #[Attribute( Attribute::TARGET_PROPERTY )]
 class AfterUpdate
 {
-  public AttributeType $attributeType = AttributeType::EventfterUpdate;
+  public AttributeType $attributeType = AttributeType::EventAfterUpdate;
   
   public function __construct(
-    public readonly mixed $mixed
+    public readonly mixed $value
   ){}
 
   public function get(
   ): mixed {
-    if( Util::isNotClass( $this->mixed )){
-      return $this->mixed;
-    } else {
+    if( Util::isNotClass( $this->value )){
+      return $this->value;
+    } else if( class_exists( $this->value )){
       return call_user_func_array(
-        [ $this->mixed, "get" ], []
+        [ $this->value, "get" ], []
       );
     }
+
+    return null;
   }
 }
