@@ -21,10 +21,12 @@ class BaseEntity
 
   #[Flag()]
   #[NotNull()]
+  #[BeforeInsert(1)]
   public bool $Actived;
 
   #[NotNull()]
   #[Number()]
+  #[BeforeInsert(1)]
   public int $ActivedBy;
 
   #[NotNull()]
@@ -33,11 +35,13 @@ class BaseEntity
   public string $ActivedAt;
 
   #[NotNull()]
-  #[Number()]    
+  #[Number()]
+  #[BeforeInsert(1)] 
   public int $CreatedBy;
 
   #[NotNull()]
-  #[Datetime()]    
+  #[Datetime()]
+  #[BeforeInsert(Now::class)]
   public string $CreatedAt;
 
   #[Number()]

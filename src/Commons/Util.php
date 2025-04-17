@@ -133,6 +133,13 @@ class Util
        === array_values($second);
   }
 
+  public static function isNotClass(
+    mixed $mixed
+  ): bool {
+    return is_numeric( $mixed )
+        || is_string( $mixed );
+  }
+
   public static function ValueOfArray(
     array $arrList = []
   ): mixed {

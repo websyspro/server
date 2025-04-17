@@ -1,7 +1,6 @@
 <?php
 
-use Websyspro\Controller\Apps\Shops\Entitys\BoxEntity as EntitysBoxEntity;
-use Websyspro\Server\Databases\Structure\StructureDatabase;
+use Websyspro\Server\Databases\Entity\BaseEntity;
 use Websyspro\Server\Databases\Structure\StructureDesignTable;
 use Websyspro\Server\Decorations\Conntrollers\Controller;
 use Websyspro\Server\Decorations\Conntrollers\ControllerList;
@@ -11,65 +10,15 @@ use Websyspro\Server\Decorations\Conntrollers\Post;
 use Websyspro\Server\Decorations\Databases\EntityList;
 use Websyspro\Server\Decorations\Entitys\Columns\Datetime;
 use Websyspro\Server\Decorations\Entitys\Columns\Decimal;
-use Websyspro\Server\Decorations\Entitys\Columns\Flag;
 use Websyspro\Server\Decorations\Entitys\Columns\Number;
 use Websyspro\Server\Decorations\Entitys\Columns\Text;
 use Websyspro\Server\Decorations\Entitys\Constraints\ForeignKey;
-use Websyspro\Server\Decorations\Entitys\Constraints\PrimaryKey;
 use Websyspro\Server\Decorations\Entitys\Constraints\Unique;
-use Websyspro\Server\Decorations\Entitys\Events\BeforeInsert;
-use Websyspro\Server\Decorations\Entitys\Generations\AutoIncrement;
-use Websyspro\Server\Decorations\Entitys\Requireds\NotNull;
 use Websyspro\Server\Decorations\Entitys\Statistics\Index;
 use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
 use Websyspro\Server\Decorations\Middlewares\Authenticate;
 use Websyspro\Server\Server\Application;
 use Websyspro\Server\Server\Response;
-
-class BaseEntity
-{
-  #[NotNull()]
-  #[Number()]
-  #[PrimaryKey()]
-  #[AutoIncrement()]    
-  public int $Id;
-
-  #[Flag()]
-  #[NotNull()]
-  public bool $Actived;
-
-  #[NotNull()]
-  #[Number()]
-  public int $ActivedBy;
-
-  #[NotNull()]
-  #[Datetime()]
-  public string $ActivedAt;
-
-  #[NotNull()]
-  #[Number()]    
-  public int $CreatedBy;
-
-  #[NotNull()]
-  #[Datetime()]
-  #[BeforeInsert()]    
-  public string $CreatedAt;
-
-  #[Number()]
-  public int $UpdatedBy;
-
-  #[Datetime()]
-  public string $UpdatedAt;
-
-  #[Flag()]
-  public bool $Deleted;
-
-  #[Number()]
-  public int $DeletedBy;
-
-  #[Datetime()]
-  public string $DeletedAt;
-}
 
 class OperatorEntity
 extends BaseEntity
