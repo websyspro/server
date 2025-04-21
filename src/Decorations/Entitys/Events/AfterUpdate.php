@@ -17,9 +17,9 @@ class AfterUpdate
 
   public function get(
   ): mixed {
-    if( Util::isNotClass( $this->value )){
+    if( class_exists( $this->value ) === false){
       return $this->value;
-    } else if( class_exists( $this->value )){
+    } else {
       return call_user_func_array(
         [ $this->value, "get" ], []
       );

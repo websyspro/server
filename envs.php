@@ -2,8 +2,8 @@
 
 if( defined( "connect" ) === false ){
   define( "connect", (object)[
-    "prefix" => "BC9876_",
-    "database" => "LittleShop",
+    "prefix" => "",
+    "database" => "Shop",
     "type" => "mysql",
     "hostname" => "localhost",
     "username" => "root",

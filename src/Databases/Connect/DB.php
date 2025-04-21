@@ -3,6 +3,7 @@
 namespace Websyspro\Server\Databases\Connect;
 
 use PDOException;
+use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Exceptions\Error;
 
 class DB extends DBUtils
@@ -34,6 +35,11 @@ class DB extends DBUtils
     } else return [];
   }
 
+  public function count(
+  ): int {
+    return $this->pdoStatement->rowCount();
+  }
+
   public function execute(
     string $sql
   ): bool {
@@ -50,7 +56,32 @@ class DB extends DBUtils
 
       return false;
     }
-  }    
+  } 
+  
+  public function bulkList(
+    array $bulks = []
+  ): bool {
+    try {
+      if( $this->connect() ){
+        $this->pdo->beginTransaction();
+
+        Util::Mapper( $bulks, fn( string $bulk ) => (
+          $this->pdo->exec( $bulk )
+        ));
+
+        $this->pdo->commit();
+      }
+
+      return true;
+    } catch ( PDOException $error ){
+      Error::InternalServerError(
+        $error->getMessage()
+      );
+
+      $this->pdo->rollBack();
+      return false;
+    }
+  }
 
   public static function set(
     string | null $name = null

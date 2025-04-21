@@ -2,7 +2,9 @@
 
 namespace Websyspro\Server\Commons;
 
+use DateTime;
 use ReflectionFunction;
+use Websyspro\Server\Enums\Entitys\ColumnParse;
 use Websyspro\Server\Server\Application;
 
 class Util
@@ -48,9 +50,21 @@ class Util
       range( 0, count($arr) - 1 )
     );
   }
+
+  public static function MapperByKey(
+    array | object $MapperArr,
+    callable $MapperEvt,
+    array $MapperArrResult = []      
+  ): array {
+    foreach( $MapperArr as $key => $val ){
+      $MapperArrResult[ $key ] = $MapperEvt( $key );
+    }
+
+    return $MapperArrResult;     
+  }
   
   public static function Filter(
-    array $MapperArr,
+    array | object $MapperArr,
     callable $MapperEvt,
     array $MapperArrResult = []    
   ): array {
@@ -92,6 +106,15 @@ class Util
     return $MapperArrResult;
   }
 
+  public static function CreateArray(
+    array $arr,
+    string $key,
+    mixed $val
+  ): array {
+    $arr[ $key ] = $val;
+    return $arr;
+  }
+
   public static function Join(
     string $joinStr,
     array $joinArr
@@ -109,6 +132,14 @@ class Util
       ", ", $joinArr
     );
   }
+
+  public static function JoinScripts(
+    array $joinArr
+  ): string {
+    return implode(
+      "; ", $joinArr
+    );
+  }  
 
   public static function arrayCountEquais(
     array $first,
@@ -227,5 +258,56 @@ class Util
         )
       )
     );
+  }
+
+  public static function quote(
+    string $value
+  ): string {
+    return "'{$value}'";
+  }
+
+  public static function decimalParse(
+    string $parseDecimal
+  ): string {
+    return preg_replace(
+      [ "/\./", "/,/" ], [ "", "." ], $parseDecimal
+    );
+  }
+
+  public static function datetimeParse(
+    string $parseDate
+  ): string {
+    if( preg_match( ColumnParse::DatetimeBr->value, $parseDate )){
+      return preg_replace( ColumnParse::DatetimeBr->value,
+        "$3-$2-$1 $4", $parseDate
+      );
+    }
+
+    return $parseDate;
+  }
+
+  public static function dateParse(
+    string $parseDate
+  ): string {
+    if( preg_match( ColumnParse::DateBr->value, $parseDate )){
+      return preg_replace( ColumnParse::DateBr->value,
+        "$3-$2-$1", $parseDate
+      );
+    }
+
+    return $parseDate;
+  } 
+  
+  public static function flagParse(
+    bool | int | string $parseFlag
+  ): int {
+    if( is_bool( $parseFlag )){
+      return $parseFlag ? 1 : 0;
+    } else
+    if( is_string( $parseFlag )){
+      return filter_var( $parseFlag, FILTER_VALIDATE_BOOLEAN );
+    }
+
+    return $parseFlag;
   }
 }

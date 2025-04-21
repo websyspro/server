@@ -1,6 +1,6 @@
 <?php
 
-namespace Websyspro\Server\Databases\Entity;
+namespace Websyspro\Server\Databases\Entity\Utils;
 
 use Websyspro\Server\Databases\Entity\Utils\Now;
 use Websyspro\Server\Decorations\Entitys\Columns\Datetime;

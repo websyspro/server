@@ -45,16 +45,26 @@ class StructureDesignTable
 
   public function getEntity(
   ): string {
-    return preg_replace(
-      "/Entity$/", "", (
-        $this->entity
-      )
+    return Util::parseEntity(
+      $this->entity
     );
-  }  
+  }
 
-  public function getForeingKey(
-  ): object | null {
-    [ $foreignKey ]  = array_keys(
+  public function getDatabase(
+  ): string {
+    return Util::parseDatabase(
+      $this->database
+    );
+  }
+  
+  public function getPrimaryKeys(
+  ): array {
+    return $this->primaryKeys->items;
+  }
+  
+  public function getForeingKeyColumn(
+  ): string {
+    [ $foreignKey ] = array_keys(
       Util::FilterByKey(
         $this->columns->items, fn( string $key ) => (
           in_array( $key, $this->primaryKeys->items ) &&
@@ -62,6 +72,13 @@ class StructureDesignTable
         )
       )
     );
+
+    return $foreignKey;
+  }
+
+  public function getForeingKey(
+  ): object | null {
+    $foreignKey = $this->getForeingKeyColumn();
 
     return (object)[
       "entity" => Util::parseEntity( $this->entity ), 

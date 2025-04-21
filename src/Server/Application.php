@@ -26,7 +26,8 @@ class Application
 
   public function __construct(
     private array $controllers,
-    private array $databases
+    private array $databases,
+    private array $boots
   ){
     Util::hasCli()
       ? $this->setClient()
@@ -38,6 +39,7 @@ class Application
     Log::setStartTimer();
     $this->setClientEntityMapper();
     $this->setClientDatabaseMapper();
+    $this->setClientBootsMapper();
     $this->setClientModuleMapper();
   }
 
@@ -121,6 +123,23 @@ class Application
           ))
         ) 
       ));
+    }
+  }
+
+  private function setClientBootsMapper(
+  ): void {
+    Util::Mapper(
+      $this->boots, fn(string $bootClass) => (
+        $this->setClientBootsMapperRun($bootClass)
+      )
+    );
+  }
+
+  private function setClientBootsMapperRun(
+    string $bootClass
+  ): void {
+    if(method_exists($bootClass, "run")){
+      call_user_func_array([$bootClass, "run"], []);
     }
   }
 
@@ -232,11 +251,13 @@ class Application
 
   public static function server(
     array $controllers,
-    array $databases
+    array $databases,
+    array $boots
   ): Application {
     return new static(
       controllers: $controllers,
-      databases: $databases
+      databases: $databases,
+      boots: $boots
     );
   }
 

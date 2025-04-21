@@ -18,6 +18,18 @@ class Events
     $this->columnsClear();
   }
 
+  private function isEventList(
+  ): array {
+    return [
+      AttributeType::EventBeforeInsert,
+      AttributeType::EventBeforeUpdate,
+      AttributeType::EventBeforeDelete,
+      AttributeType::EventAfterInsert,
+      AttributeType::EventAfterUpdate,
+      AttributeType::EventAfterDelete
+    ];
+  }
+
   private function columnsMapper(
   ): void {
     Util::Mapper( 
@@ -26,14 +38,10 @@ class Events
           $this->items[ $iProperty->name ] = (
             Util::Filter( $iProperty->atributes, (
               fn( object $attribute ) => (
-                in_array( $attribute->attributeType, [
-                  AttributeType::EventBeforeInsert,
-                  AttributeType::EventBeforeUpdate,
-                  AttributeType::EventBeforeDelete,
-                  AttributeType::EventAfterInsert,
-                  AttributeType::EventAfterUpdate,
-                  AttributeType::EventAfterDelete
-                ])
+                in_array(
+                  $attribute->attributeType, 
+                  $this->isEventList()
+                )
               )
             ))
           )
