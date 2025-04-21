@@ -4,6 +4,7 @@ namespace Websyspro\Server\Databases\Structure;
 
 use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\Util;
+use Websyspro\Server\Databases\Connect\DB;
 use Websyspro\Server\Databases\Structure\Table\Columns;
 use Websyspro\Server\Databases\Structure\Table\Events;
 use Websyspro\Server\Databases\Structure\Table\ForeignKeys;
@@ -26,11 +27,13 @@ class StructureDesignTable
   public Events $events;
 
   public string $database;
+  public string $table;
 
   public function __construct(
     public string | null $entity = null
   ){
     $this->setDatabase();
+    $this->setTable();
     $this->setReflect();
     $this->setColumns();
     $this->setRequireds();
@@ -45,16 +48,17 @@ class StructureDesignTable
 
   public function getEntity(
   ): string {
-    return Util::parseEntity(
-      $this->entity
-    );
+    return $this->entity;
   }
+
+  public function getTable(
+  ): string {
+    return $this->table;
+  }  
 
   public function getDatabase(
   ): string {
-    return Util::parseDatabase(
-      $this->database
-    );
+    return $this->database;
   }
   
   public function getPrimaryKeys(
@@ -88,10 +92,17 @@ class StructureDesignTable
 
   private function setDatabase(
   ): void {
-    $this->database = (
-      Util::getData(
-        $this->entity
+    $this->database = sprintf( "%s%s", ...[ 
+      DB::set()->getPrefix(), Util::parseDatabase(
+        Util::getData( $this->entity )
       )
+    ]);
+  }
+
+  private function setTable(
+  ): void {
+    $this->table = Util::parseEntity(
+      $this->entity
     );
   }
 

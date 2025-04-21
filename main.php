@@ -1,5 +1,6 @@
 <?php
 
+use Websyspro\Server\Apps\Accounts\AccountDatabase;
 use Websyspro\Server\Apps\Shops\ShopBoots;
 use Websyspro\Server\Apps\Shops\ShopControllers;
 use Websyspro\Server\Apps\Shops\ShopDatabase;
@@ -10,7 +11,8 @@ Application::server(
     ShopControllers::class
   ],
   databases: [
-    ShopDatabase::class
+    ShopDatabase::class,
+    AccountDatabase::class
   ],
   boots: [
     ShopBoots::class

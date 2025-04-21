@@ -9,6 +9,7 @@ use Websyspro\Server\Commons\Log;
 use Websyspro\Server\Commons\Reflect;
 use Websyspro\Server\Commons\Util;
 use Websyspro\Server\Consts\Controllers;
+use Websyspro\Server\Databases\Connect\DB;
 use Websyspro\Server\Databases\Structure\StructureDatabase;
 use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
 use Websyspro\Server\Decorations\Middlewares\Authenticate;
@@ -138,8 +139,8 @@ class Application
   private function setClientBootsMapperRun(
     string $bootClass
   ): void {
-    if(method_exists($bootClass, "run")){
-      call_user_func_array([$bootClass, "run"], []);
+    if( method_exists( $bootClass, "run" )){
+      call_user_func_array([ $bootClass, "run" ], []);
     }
   }
 

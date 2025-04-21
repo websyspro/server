@@ -9,7 +9,7 @@ use Websyspro\Server\Decorations\Databases\EntityList;
 
 class StructureDatabase
 {
-  private array $entitys;
+  private array $entitys = [];
   public MySqlDriver $mysql;
 
   public function __construct(
@@ -37,10 +37,12 @@ class StructureDatabase
 
   private function entitysMapperDriver(
   ): void {
-    $this->mysql = (
-      new MySqlDriver(
-        $this->entitys
-      )
-    );
+    if( sizeof( $this->entitys ) !== 0 ){
+      $this->mysql = (
+        new MySqlDriver(
+          $this->entitys
+        )
+      );
+    }
   }
 }

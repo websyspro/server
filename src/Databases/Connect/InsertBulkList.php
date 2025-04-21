@@ -12,7 +12,7 @@ class InsertBulkList
 
   public function __construct(
     private array $dataList,
-    public readonly string $entity,
+    public readonly string $table,
     public readonly string $database
   ){
     $this->setNames();
@@ -47,7 +47,7 @@ class InsertBulkList
     )->bulkList(
       Util::Mapper(
         $this->inserts, fn( array $values ) => sprintf(
-          "insert into {$this->entity} (%s) values %s", ...[
+          "insert into {$this->table} (%s) values %s", ...[
             Util::JoinColumns( $this->names ),
             Util::JoinColumns( $values )
           ]

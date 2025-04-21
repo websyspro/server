@@ -24,28 +24,30 @@ class MySqlDriver
   public array $uniques = [];
   public array $statistics = [];
   public array $foreignKeys = [];
-
+  public string $database;
 
   public function __construct(
     public array $entitys
   ){
+    $this->setMapperDatabase();
     $this->setMapperColumns();
     $this->setMapperStart();
   }
 
-  public function getData(
-  ): string | null {
+  public function setMapperDatabase(
+  ): void {
     [ $structureEntity ] = (
       $this->entitys
     );
 
     if( $structureEntity instanceof StructureEntity ){
-      return util::parseDatabase(
-        $structureEntity->design->database
-      );
-    }
+      $this->database = $structureEntity->design->database;
+    }    
+  }
 
-    return null;
+  public function getData(
+  ): string {
+    return $this->database;
   }  
 
   public function setColumnParseType(
@@ -66,7 +68,7 @@ class MySqlDriver
     );
   }
 
-  public function setMapperColumns(
+  private function setMapperColumns(
   ): void {
     Util::Mapper(
       $this->entitys, fn( StructureEntity $entity ) => (
@@ -77,7 +79,7 @@ class MySqlDriver
     );
   }  
 
-  public function setMapperStart(
+  private function setMapperStart(
   ): void {
     $this->setMapperEntityPersisteds();
     $this->setMapperEntityUpdateds();
@@ -86,6 +88,8 @@ class MySqlDriver
 
   private function setMapperEntityPersisteds(
   ): void {
+    $this->setMapperEntityPersistedsScripts();
+    $this->setMapperEntityPersistedsAddDB();
     $this->setMapperEntityPersistedsData();
     $this->setMapperEntityPersistedsColumns();
     $this->setMapperEntityPersistedsRequireds();
@@ -100,18 +104,32 @@ class MySqlDriver
     string $sql
   ): array {
     return DB::set(
-      $this->getData()
-    )->query( $sql )->all();
+      $this->database
+    )->get($sql)->all();
+  }
+
+  private function setMapperEntityPersistedsScripts(
+  ): void {
+    $this->mysqlScript = (
+      new MySQLScript(
+        $this->database
+      )
+    );    
+  }
+
+  private function setMapperEntityPersistedsAddDB(
+  ): void {
+    if( DB::set()->get( $this->mysqlScript->getExistsDB())->count() === 0 ){
+      DB::set()->call( $this->mysqlScript->getCreateDB());
+
+      Log::Message( LogType::Database, (
+        "Create database {$this->getData()} with successfully"
+      ));
+    }
   }
 
   private function setMapperEntityPersistedsData(
   ): void {
-    $this->mysqlScript = (
-      new MySQLScript(
-        $this->getData()
-      )
-    );
-
     [ $this->properties, 
       $this->uniques, 
       $this->statistics, 
@@ -129,7 +147,7 @@ class MySqlDriver
       $this->entitys, fn(StructureEntity $structureEntity) => (
         Util::Mapper(
           Util::Filter($this->properties, fn(object $property) => (
-            $property->entity === $structureEntity->design->getEntity()
+            $property->entity === $structureEntity->design->getTable()
           )), fn( object $property ) => (
             $structureEntity->persisted->columns->add(
               $property->name, $property->type
@@ -149,7 +167,7 @@ class MySqlDriver
         Util::Mapper(
           Util::Filter( $this->properties, fn( object $property ) => (
             $property->{$propertyName} === 1 && (
-              $property->entity === $structureEntity->design->getEntity()
+              $property->entity === $structureEntity->design->getTable()
             )
           )), fn( object $property ) => (
             $structureEntity->persisted->{
@@ -188,7 +206,7 @@ class MySqlDriver
       $this->entitys, fn( StructureEntity $structureEntity ) => (
         Util::Mapper(
           Util::Filter( $this->uniques, fn( object $unique ) => (
-            $unique->entity === $structureEntity->design->getEntity()
+            $unique->entity === $structureEntity->design->getTable()
           )), fn( object $unique ) => (
             $structureEntity->persisted->uniques->add( $unique->name )
           )
@@ -203,7 +221,7 @@ class MySqlDriver
       $this->entitys, fn( StructureEntity $structureEntity ) => (
         Util::Mapper(
           Util::Filter( $this->statistics, fn( object $statistic ) => (
-            $statistic->entity === $structureEntity->design->getEntity()
+            $statistic->entity === $structureEntity->design->getTable()
           )), fn( object $statistic ) => (
             $structureEntity->persisted->statistics->add( $statistic->name )
           )
@@ -218,7 +236,7 @@ class MySqlDriver
       $this->entitys, fn( StructureEntity $structureEntity ) => (
         Util::Mapper(
           Util::Filter( $this->foreignKeys, fn( object $foreignKey ) => (
-            $foreignKey->entity === $structureEntity->design->getEntity()
+            $foreignKey->entity === $structureEntity->design->getTable()
           )), fn( object $foreignKey ) => (
             $structureEntity->persisted->foreignKeys->add( $foreignKey->name )
           )
@@ -256,7 +274,7 @@ class MySqlDriver
     StructurePersistedTable $persisted
   ): void {
     $this->mysqlScript->setEntity(
-      $persisted->getEntity()
+      $persisted->getTable()
     );
   }
 
@@ -643,7 +661,7 @@ class MySqlDriver
   ): void {
     if( sizeof( $this->commands ) !== 0 ){
       Log::Message( LogType::Database, (
-        sprintf( "Mapper Database [%s]", (
+        sprintf( "Mapper entitys from database [%s]", (
           $this->getData()
         ))
       ));
@@ -671,13 +689,17 @@ class MySqlDriver
     [ $hasSuccess ] = (
       Util::Mapper( $command->scripts, (
         fn( string $script ) => (
-          DB::set( $this->getData())->execute( $script )
+          DB::set(
+            $this->database
+          )->call( $script )
         )
       ))
     );
 
     if( $hasSuccess === true ){
-      Log::Message( LogType::Database, $command->message );
+      Log::Message( LogType::Database, (
+        $command->message
+      ));
     }
   }
 }

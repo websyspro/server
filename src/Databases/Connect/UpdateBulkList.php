@@ -12,7 +12,7 @@ class UpdateBulkList
   public function __construct(
     private array $dataList,
     private array $primaryKeys,
-    public readonly string $entity,
+    public readonly string $table,
     public readonly string $database    
   ){
     $this->setUpdates();
@@ -86,7 +86,7 @@ class UpdateBulkList
         Util::MapperByKey(
           $this->updates, fn( int $updateKey ) => (
             Util::Mapper( $this->updates[$updateKey], fn( string $updateItems, int $key ) => (
-              "update {$this->entity} set {$updateItems} where {$this->wheres[$updateKey][$key]}"
+              "update {$this->table} set {$updateItems} where {$this->wheres[$updateKey][$key]}"
             ))
           )
         ), fn( array $updateItems ) => (

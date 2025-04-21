@@ -25,16 +25,6 @@ class Repository
     );
   }
 
-  public function getDatabase(
-  ): string {
-    return $this->structureDesignTable->getDatabase();
-  }
-
-  public function getEntity(
-  ): string {
-    return $this->structureDesignTable->getEntity();
-  }  
-
   public function columnsParseType(
     string $type,
     mixed $value
@@ -169,7 +159,7 @@ class Repository
             )
           ))
         ),
-        $this->structureDesignTable->getEntity(),
+        $this->structureDesignTable->getTable(),
         $this->structureDesignTable->getDatabase()
       )
     )->execute();
@@ -194,7 +184,7 @@ class Repository
           ))
         ),
         $this->structureDesignTable->getPrimaryKeys(),
-        $this->structureDesignTable->getEntity(),
+        $this->structureDesignTable->getTable(),
         $this->structureDesignTable->getDatabase()
       )
     )->execute();
@@ -219,7 +209,7 @@ class Repository
           ))
         ),
         $this->structureDesignTable->getPrimaryKeys(),
-        $this->structureDesignTable->getEntity(),
+        $this->structureDesignTable->getTable(),
         $this->structureDesignTable->getDatabase()
       )
     )->execute();
@@ -227,15 +217,15 @@ class Repository
 
   public function count(
   ): int {
-    return DB::set($this->getDatabase())->query(
-      "select * from {$this->getEntity()}"
+    return DB::set($this->structureDesignTable->getDatabase())->get(
+      "select * from {$this->structureDesignTable->getTable()}"
     )->count();
   }
 
   public function all(
   ): array {
-    return DB::set($this->getDatabase())->query(
-      "select * from {$this->getEntity()}"
+    return DB::set($this->structureDesignTable->getDatabase())->get(
+      "select * from {$this->structureDesignTable->getTable()}  limit 1, 10"
     )->all();    
   }
 }
