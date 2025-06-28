@@ -210,7 +210,7 @@ class Application
   ): bool {
     return isset(
       $this->request->base
-    ) && empty($this->request->base) === false;
+    ) && empty($this->request->base) === false && $this->request->base === "api";
   }
 
   private function InitialServer(
