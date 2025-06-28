@@ -1,0 +1,315 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "687b92ca7f755c49c9e17a73f8601bd1",
+    "packages": [],
+    "packages-dev": [
+        {
+            "name": "websyspro/common",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/common.git",
+                "reference": "45c7fa487f9f2305f26959d8294ec20ff82aa7c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/common/zipball/45c7fa487f9f2305f26959d8294ec20ff82aa7c7",
+                "reference": "45c7fa487f9f2305f26959d8294ec20ff82aa7c7",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Websyspro\\Commons\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "websyspro.services@gmail.com"
+                }
+            ],
+            "description": "Set of PHP features for use in Libraries",
+            "support": {
+                "issues": "https://github.com/websyspro/common/issues",
+                "source": "https://github.com/websyspro/common/tree/main"
+            },
+            "time": "2025-06-23T23:45:33+00:00"
+        },
+        {
+            "name": "websyspro/database",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/database.git",
+                "reference": "6d3f036f6529d1dd18cfe3e9f9b8385b225257e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/database/zipball/6d3f036f6529d1dd18cfe3e9f9b8385b225257e9",
+                "reference": "6d3f036f6529d1dd18cfe3e9f9b8385b225257e9",
+                "shasum": ""
+            },
+            "require-dev": {
+                "websyspro/common": "dev-main",
+                "websyspro/logger": "dev-main"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Websyspro\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "websyspro.services@gmail.com"
+                }
+            ],
+            "description": "Set of features in PHP for creating entitys for database",
+            "support": {
+                "issues": "https://github.com/websyspro/database/issues",
+                "source": "https://github.com/websyspro/database/tree/main"
+            },
+            "time": "2025-06-19T22:14:41+00:00"
+        },
+        {
+            "name": "websyspro/dynamicsql",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/dynamicsql.git",
+                "reference": "0bd3ec92c490e5d970af00e7829ec89b4f0cd3f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/dynamicsql/zipball/0bd3ec92c490e5d970af00e7829ec89b4f0cd3f1",
+                "reference": "0bd3ec92c490e5d970af00e7829ec89b4f0cd3f1",
+                "shasum": ""
+            },
+            "require-dev": {
+                "websyspro/common": "dev-main",
+                "websyspro/entity": "dev-main",
+                "websyspro/watch": "dev-main"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Methods.php"
+                ],
+                "psr-4": {
+                    "Websyspro\\DynamicSql\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "websyspro.services@gmail.com"
+                }
+            ],
+            "description": "Set of features in PHP for creating dynamic SQL",
+            "support": {
+                "issues": "https://github.com/websyspro/dynamicsql/issues",
+                "source": "https://github.com/websyspro/dynamicsql/tree/main"
+            },
+            "time": "2025-06-27T17:26:43+00:00"
+        },
+        {
+            "name": "websyspro/entity",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/entity.git",
+                "reference": "77c45172cade414f07bc57cb25606cdeb3f85207"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/entity/zipball/77c45172cade414f07bc57cb25606cdeb3f85207",
+                "reference": "77c45172cade414f07bc57cb25606cdeb3f85207",
+                "shasum": ""
+            },
+            "require-dev": {
+                "websyspro/common": "dev-main",
+                "websyspro/database": "dev-main",
+                "websyspro/dynamicsql": "dev-main",
+                "websyspro/logger": "dev-main",
+                "websyspro/watch": "dev-main"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Websyspro\\Entity\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "websyspro.services@gmail.com"
+                }
+            ],
+            "description": "Set of features in PHP for creating entitys for database",
+            "support": {
+                "issues": "https://github.com/websyspro/entity/issues",
+                "source": "https://github.com/websyspro/entity/tree/main"
+            },
+            "time": "2025-06-27T15:02:35+00:00"
+        },
+        {
+            "name": "websyspro/jwt",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/jwt.git",
+                "reference": "bdf5bbc6af3aa250c8d0efedce3d374e3ca067ad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/jwt/zipball/bdf5bbc6af3aa250c8d0efedce3d374e3ca067ad",
+                "reference": "bdf5bbc6af3aa250c8d0efedce3d374e3ca067ad",
+                "shasum": ""
+            },
+            "require-dev": {
+                "websyspro/common": "dev-main"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Websyspro\\Jwt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "websyspro.services@gmail.com"
+                }
+            ],
+            "description": "JWT generator and validator for php",
+            "support": {
+                "issues": "https://github.com/websyspro/jwt/issues",
+                "source": "https://github.com/websyspro/jwt/tree/main"
+            },
+            "time": "2025-06-21T20:35:14+00:00"
+        },
+        {
+            "name": "websyspro/logger",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/logger.git",
+                "reference": "1bfcfe7199421980e72a5dbb282785752d73fe69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/logger/zipball/1bfcfe7199421980e72a5dbb282785752d73fe69",
+                "reference": "1bfcfe7199421980e72a5dbb282785752d73fe69",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Websyspro\\Logger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "websyspro.services@gmail.com"
+                }
+            ],
+            "description": "Library for logs in server api",
+            "support": {
+                "issues": "https://github.com/websyspro/logger/issues",
+                "source": "https://github.com/websyspro/logger/tree/main"
+            },
+            "time": "2025-06-24T00:19:48+00:00"
+        },
+        {
+            "name": "websyspro/watch",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/watch.git",
+                "reference": "b8b3eb1d92c283e42a78f5422f206d027ca7be2a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/watch/zipball/b8b3eb1d92c283e42a78f5422f206d027ca7be2a",
+                "reference": "b8b3eb1d92c283e42a78f5422f206d027ca7be2a",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Websyspro\\Watch\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "websyspro.services@gmail.com"
+                }
+            ],
+            "description": "File watcher for PHP projects using PowerShell",
+            "support": {
+                "issues": "https://github.com/websyspro/watch/issues",
+                "source": "https://github.com/websyspro/watch/tree/main"
+            },
+            "time": "2025-05-18T13:55:42+00:00"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "websyspro/common": 20,
+        "websyspro/database": 20,
+        "websyspro/dynamicsql": 20,
+        "websyspro/entity": 20,
+        "websyspro/jwt": 20,
+        "websyspro/logger": 20,
+        "websyspro/watch": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

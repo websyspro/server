@@ -1,0 +1,32 @@
+{
+  "name": "websyspro/server",
+  "description": "Library for managing controllers and services",
+  "license": "MIT",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Websyspro\\Server\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "websyspro",
+      "email": "cpd.emersontsa@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "websyspro/dynamicsql": "dev-main",
+    "websyspro/database": "dev-main",
+    "websyspro/entity": "dev-main",
+    "websyspro/logger": "dev-main",
+    "websyspro/common": "dev-main",
+    "websyspro/watch": "dev-main",
+    "websyspro/jwt": "dev-main"
+  },
+  "scripts": {
+    "watch": "powershell -ExecutionPolicy Bypass -File ./vendor/websyspro/watch/src/watch.ps1",
+    "post-update-cmd": [
+      "php index.php"
+    ]
+  }
+}
