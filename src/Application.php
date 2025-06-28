@@ -116,6 +116,8 @@ class Application
       if($this->hasServerApi()){
         $this->InitialControllers();
         $this->InitialServer();
+      } else {
+        $this->InitialPublic();
       }
     }
   }
@@ -219,6 +221,13 @@ class Application
       $this->hasEndpointInController();
     } catch (Exception $error){
       $this->setError($error);
+    }
+  }
+
+  public function InitialPublic(
+  ): void {
+    if(file_exists(rootdir . "/src/Public/index.php")){
+      require_once rootdir . "/src/Public/index.php";
     }
   }
 
