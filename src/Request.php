@@ -11,10 +11,10 @@ class Request
   public string $uri;
   public string $method;
 
-  public string $base;
-  public string $ver;
-  public string $module;
-  public string $controller;
+  public string|null $base;
+  public string|null $ver;
+  public string|null $module;
+  public string|null $controller;
 
   public array $endpoint;
 
