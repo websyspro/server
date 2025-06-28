@@ -208,7 +208,7 @@ class Application
   ): bool {
     return isset(
       $this->request->base
-    );
+    ) && empty($this->request->base) === false;
   }
 
   private function InitialServer(
