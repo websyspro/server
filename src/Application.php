@@ -139,9 +139,14 @@ class Application
   private function hasModules(
   ): void {
     $this->structureModuleControllers->Where(
-      fn(StructureModuleControllers $stuctureModule) => (
-        strtolower($this->className($stuctureModule->module)) === strtolower($this->request->module)
-      )
+      function(StructureModuleControllers $stuctureModule){
+        if($this->request->module === null){
+          return false;
+        }
+
+        return strtolower($this->className($stuctureModule->module)) 
+           === strtolower($this->request->module);
+      }
     );
 
     if($this->structureModuleControllers->Exist() === false){
