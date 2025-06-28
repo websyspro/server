@@ -1,4 +1,5 @@
 /dockers/
 /vendor/
 /certs/
+/src/Applications/
 .env
