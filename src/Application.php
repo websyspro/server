@@ -112,9 +112,11 @@ class Application
   public function RunServer(
   ): void {
     if($this->hasClient() === false){
-      $this->Initial();
-      $this->InitialControllers();
-      $this->InitialServer();
+      $this->Initial();      
+      if($this->hasServerApi()){
+        $this->InitialControllers();
+        $this->InitialServer();
+      }
     }
   }
 
@@ -199,6 +201,13 @@ class Application
     return (
       php_sapi_name() 
         === "cli"
+    );
+  }
+
+  private function hasServerApi(
+  ): bool {
+    return isset(
+      $this->request->base
     );
   }
 
