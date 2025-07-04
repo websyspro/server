@@ -10,7 +10,7 @@ class Module
     public DataList $controllers
   ){}
 
-  public static function Set(
+  public static function set(
     DataList $controllers
   ): Module {
     return new static(

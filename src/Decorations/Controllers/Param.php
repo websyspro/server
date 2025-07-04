@@ -10,7 +10,7 @@ use Websyspro\Server\Request;
 #[Attribute( Attribute::TARGET_PARAMETER )]
 class Param
 {
-  public AttributeType $attributeType = AttributeType::Parameter;
+  public AttributeType $attributeType = AttributeType::parameter;
 
   public function __construct(
     public readonly string | null $key = null
@@ -21,7 +21,7 @@ class Param
     array $requestEndpoint = []
   ): array | object | string | null {
     return Request::data(
-      $this->key, RequestType::PARAMS, $controllerEndpoint , $requestEndpoint
+      $this->key, RequestType::params, $controllerEndpoint , $requestEndpoint
     );
   }
 }

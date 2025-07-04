@@ -7,7 +7,7 @@ use Websyspro\Server\Response;
 
 class Error
 {
-  public static function BadRequest(
+  public static function badRequest(
     string $message
   ): Exception {
     return throw new Exception(
@@ -15,7 +15,7 @@ class Error
     );
   }
 
-  public static function NotFound(
+  public static function notFound(
     string $message
   ): Exception {
     return throw new Exception(
@@ -23,7 +23,7 @@ class Error
     );
   }
 
-  public static function InternalServerError(
+  public static function internalServerError(
     string $message
   ): Exception {
     return throw new Exception(
@@ -31,7 +31,7 @@ class Error
     );
   }
 
-  public static function Unauthorized(
+  public static function unauthorized(
     string $message
   ): Exception {
     return throw new Exception(

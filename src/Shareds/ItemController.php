@@ -24,14 +24,14 @@ class ItemController
   private function InitialName(
   ): void {
     $this->name = Reflect::InstancesFromAttributes($this->controller)->Where(
-      fn(mixed $item) => $item->attributeType === AttributeType::Controller
+      fn(mixed $item) => $item->attributeType === AttributeType::controller
     );
   }
 
   private function InitialMiddlewares(
   ): void {
     $this->middlewares = Reflect::InstancesFromAttributes($this->controller)->Where(
-      fn(mixed $item) => $item->attributeType === AttributeType::Middleware
+      fn(mixed $item) => $item->attributeType === AttributeType::middleware
     );   
   }
 

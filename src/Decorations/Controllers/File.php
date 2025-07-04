@@ -10,7 +10,7 @@ use Websyspro\Server\Request;
 #[Attribute( Attribute::TARGET_PARAMETER )]
 class File
 {
-  public AttributeType $attributeType = AttributeType::Parameter;
+  public AttributeType $attributeType = AttributeType::parameter;
 
   public function __construct(
     public readonly string | null $key = null
@@ -19,7 +19,7 @@ class File
   public function execute(
   ): array | object | string | null {
     return Request::data(
-      $this->key, RequestType::FILE
+      $this->key, RequestType::file
     );
   }
 }

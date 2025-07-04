@@ -84,10 +84,10 @@ class Response
 	private function sendContext(
 		array $context = []
 	): string {
-		header( Headers::accessControlAllowOrigin->value );
-		header( Headers::accessControlAllowHeaders->value );
-		header( Headers::accessControlAllowMethods->value );
-		header( Headers::applicationJSON->value);
+		header(Headers::accessControlAllowOrigin->value);
+		header(Headers::accessControlAllowHeaders->value);
+		header(Headers::accessControlAllowMethods->value);
+		header(Headers::applicationJSON->value);
 
 		http_response_code($this->httpStatus);
 		return json_encode($context);
@@ -120,7 +120,7 @@ class Response
 		int $httpStatus = Response::HTTP_OK
 	): Response {
 		return new static(
-			message: Util::ConvertKeysToCamelCase($message),
+			message: Util::convertKeysToCamelCase($message),
 			httpStatus: $httpStatus
 		);
 	}

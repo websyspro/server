@@ -4,21 +4,21 @@ namespace Websyspro\Server\Enums;
 
 enum AttributeType: int
 {
-  case Controller = 1;
-  case Middleware = 2;
-  case Endpoint = 3;
-  case Parameter = 4;
-  case Column = 5;
-  case Requireds = 6;
-  case Uniques = 7;
-  case Indexes = 8;
-  case Foreigns = 9;
-  case PrimaryKey = 10;
-  case Generations = 11;
-  case EventBeforeInsert = 12;
-  case EventBeforeUpdate = 13;
-  case EventBeforeDelete = 14;
-  case EventAfterInsert = 16;
-  case EventAfterUpdate = 17;
-  case EventAfterDelete = 18;
+  case controller = 1;
+  case middleware = 2;
+  case endpoint = 3;
+  case parameter = 4;
+  case column = 5;
+  case requireds = 6;
+  case uniques = 7;
+  case indexes = 8;
+  case foreigns = 9;
+  case primaryKey = 10;
+  case generations = 11;
+  case eventBeforeInsert = 12;
+  case eventBeforeUpdate = 13;
+  case eventBeforeDelete = 14;
+  case eventAfterInsert = 16;
+  case eventAfterUpdate = 17;
+  case eventAfterDelete = 18;
 }

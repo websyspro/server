@@ -11,13 +11,13 @@ use Websyspro\Server\Request;
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 class Authenticate
 {
-  public AttributeType $attributeType = AttributeType::Middleware;
+  public AttributeType $attributeType = AttributeType::middleware;
 
   public function Execute(
     Request $request
   ): void {
     $accessToken = (
-      $request->AccessToken()
+      $request->accessToken()
     );
 
     $notPermissionMessage = (
@@ -25,13 +25,13 @@ class Authenticate
     );
 
     if($accessToken === null){
-      Error::Unauthorized(
+      Error::unauthorized(
         $notPermissionMessage
       );
     }
 
     if($accessToken instanceof Decode === false){
-      Error::Unauthorized(
+      Error::unauthorized(
         $notPermissionMessage
       );
     }

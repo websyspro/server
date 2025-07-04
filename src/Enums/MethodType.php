@@ -3,8 +3,8 @@
 namespace Websyspro\Server\Enums;
 
 enum MethodType: int {
-  case Post = 1;
-  case Get = 2;
-  case Put = 3;
-  case Delete = 4;
+  case post = 1;
+  case get = 2;
+  case put = 3;
+  case delete = 4;
 }

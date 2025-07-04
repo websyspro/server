@@ -12,11 +12,11 @@ class RequestData
   ): array {
     if(RequestData::equestMethod() === "POST"){
       if(in_array(RequestData::contentType(), [
-        ContentType::ApplicationJSON->value,
-        ContentType::MultipartFormData->value,
-        ContentType::MultipartFormDataUrlencoded->value,					
+        ContentType::applicationJSON->value,
+        ContentType::multipartFormData->value,
+        ContentType::multipartFormDataUrlencoded->value,					
       ])){
-        if(RequestData::contentType() !== ContentType::ApplicationJSON->value){
+        if(RequestData::contentType() !== ContentType::applicationJSON->value){
           return $_POST;
         }
 
@@ -27,7 +27,7 @@ class RequestData
     }
 
     return RequestData::contentFromFile(
-      RequestType::BODY
+      RequestType::body
     );
   }
 
@@ -64,20 +64,20 @@ class RequestData
 
   private static function equestMethod(
   ): string {
-    [ "REQUEST_METHOD" => $requestMethod ] = $_SERVER;
+    ["REQUEST_METHOD" => $requestMethod] = $_SERVER;
     return $requestMethod;
   }
 
   private static function extractContentType(
     string $contentType
   ): string {
-    [ $contentType ] = explode( ";", $contentType );
+    [ $contentType ] = explode(";", $contentType);
     return $contentType;
   }		
 
   public static function contentType(
   ): string | null {
-    if ( isset($_SERVER[ "CONTENT_TYPE" ]) === false ) {
+    if(isset($_SERVER["CONTENT_TYPE"]) === false ) {
       return null;
     }
 
@@ -132,7 +132,7 @@ class RequestData
   private static function extractFile(
     string $value
   ): string {
-    [ , , $value ] = explode( ";", $value);
+    [, , $value] = explode( ";", $value);
 
     if(is_null($value)){
       return "";
@@ -166,7 +166,7 @@ class RequestData
     array $content = [],
     int $cursor = -1,
   ): array {
-    if( static::contentType() === ContentType::MultipartFormData->value ){
+    if( static::contentType() === ContentType::multipartFormData->value ){
       foreach( static::contentLoadFileList() as $buffer ) {
         if( preg_match("/^-{28}\d+$/", trim($buffer)) === 1 ){
           ++$cursor;
@@ -184,11 +184,11 @@ class RequestData
         $contentBody = RequestData::extractBody($contextBuffers);
         $contentType = RequestData::extractType($contextType);
         
-        if( $requestType === RequestType::BODY && empty(trim($contextType)) === true ){
+        if( $requestType === RequestType::body && empty(trim($contextType)) === true ){
           $content[ $contextDetailsName ] = trim( $contextValue );
         }
 
-        if( $requestType === RequestType::FILE && empty(trim($contextType)) === false ){
+        if( $requestType === RequestType::file && empty(trim($contextType)) === false ){
           $contentBody = RequestData::extractBody( $contextBuffers);
 
           $content[ $contextDetailsName ] = [
@@ -201,10 +201,10 @@ class RequestData
       }
 
       return $content;
-    } elseif ( RequestData::contentType() === ContentType::MultipartFormDataUrlencoded->value ) {
+    } elseif ( RequestData::contentType() === ContentType::multipartFormDataUrlencoded->value ) {
       parse_str( RequestData::getPhpInput(), $content );
       return $content;
-    } elseif ( RequestData::contentType() === ContentType::ApplicationJSON->value ) {
+    } elseif ( RequestData::contentType() === ContentType::applicationJSON->value ) {
       return json_decode( RequestData::getPhpInput(), true );
     }
     

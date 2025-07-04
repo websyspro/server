@@ -3,8 +3,8 @@
 namespace Websyspro\Server\Enums;
 
 enum RequestType: int {
-  case BODY = 1;
-  case FILE = 2;
-  case PARAMS = 3;
-  case QUERY = 4;
+  case body = 1;
+  case file = 2;
+  case params = 3;
+  case query = 4;
 }

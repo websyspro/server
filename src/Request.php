@@ -41,7 +41,7 @@ class Request
     [ $this->base, $this->ver, $this->module, $this->controller 
     ] = explode( "/", $this->uri );
 
-    $this->endpoint = Util::Where(
+    $this->endpoint = Util::where(
       array_slice( explode( 
         "/", preg_replace( "/\?.+/", "", $this->uri )
       ), 4 ), fn( string $path ) => $path !== ""
@@ -56,10 +56,10 @@ class Request
 	): array | object | string | null {
 		$requestData = match($requestType)
 		{
-			RequestType::FILE => RequestData::getFile( RequestType::FILE ),
-			RequestType::BODY => RequestData::getBody( RequestType::BODY ),
-			RequestType::QUERY => RequestData::getQuery( RequestType::QUERY ),
-			RequestType::PARAMS => RequestData::getParams(
+			RequestType::file => RequestData::getFile( RequestType::file ),
+			RequestType::body => RequestData::getBody( RequestType::body ),
+			RequestType::query => RequestData::getQuery( RequestType::query ),
+			RequestType::params => RequestData::getParams(
 				$controllerEndpoint, $requestEndpoint
 			)
 		};
@@ -77,7 +77,7 @@ class Request
 		return null;
 	}
 
-  public static function AccessToken(
+  public static function accessToken(
   ): Decode|null {
     ["HTTP_AUTHORIZATION" => $httpAuthorization] = $_SERVER;
 

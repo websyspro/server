@@ -8,7 +8,7 @@ use Websyspro\Server\Enums\AttributeType;
 #[Attribute( Attribute::TARGET_CLASS )]
 class Controller
 {
-  public AttributeType $attributeType = AttributeType::Controller;
+  public AttributeType $attributeType = AttributeType::controller;
 
   public function __construct(
     public readonly string $name

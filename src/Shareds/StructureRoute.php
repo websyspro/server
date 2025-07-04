@@ -33,14 +33,14 @@ class StructureRoute
   private function InitialEndpoint(
   ): void {
     $this->endpoint = $this->Attributes()->Where(
-      fn(mixed $attribute) => $attribute->attributeType === AttributeType::Endpoint
+      fn(mixed $attribute) => $attribute->attributeType === AttributeType::endpoint
     );    
   }
 
   private function InitialMiddlewares(
   ): void {
     $this->middlewares = $this->Attributes()->Where(
-      fn(mixed $attribute) => $attribute->attributeType === AttributeType::Middleware
+      fn(mixed $attribute) => $attribute->attributeType === AttributeType::middleware
     );
   }
 

@@ -3,7 +3,7 @@
 namespace Websyspro\Server\Enums;
 
 enum ContentType:string {
-  case MultipartFormData = "multipart/form-data";
-  case MultipartFormDataUrlencoded = "application/x-www-form-urlencoded";
-  case ApplicationJSON = "application/json";
+  case multipartFormData = "multipart/form-data";
+  case multipartFormDataUrlencoded = "application/x-www-form-urlencoded";
+  case applicationJSON = "application/json";
 }

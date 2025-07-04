@@ -26,12 +26,12 @@ class Application
   public function __construct(
     public DataList $modules
   ){
-    $this->RunStatics();
-    $this->RunClient();
-    $this->RunServer();
+    $this->runStatics();
+    $this->runClient();
+    $this->runServer();
   }
 
-  public function RunStatics(
+  public function runStatics(
   ): void {
     if(defined("modules") === false){
       $structureModule = (
@@ -46,57 +46,57 @@ class Application
     }
   }
 
-  public function RunClient(
+  public function runClient(
   ): void {
     if($this->hasClient() === true){
-      $this->InitialControllers();
-      $this->InitialControllersLogs();
-      $this->InitialUpdatedsEntitys();
-      $this->InitialUpdatedsServices();
+      $this->initialControllers();
+      $this->initialControllersLogs();
+      $this->initialUpdatedsEntitys();
+      $this->initialUpdatedsServices();
     }
   }
 
-  private function InitialUpdatedsEntitys(
+  private function initialUpdatedsEntitys(
   ): void {
-    $this->structureModuleEntitys = $this->modules->Copy()->Mapper(
+    $this->structureModuleEntitys = $this->modules->copy()->mapper(
       fn(string $module) => new StructureModuleEntitys($module)
     );
   } 
 
-  private function InitialUpdatedsServices(
+  private function initialUpdatedsServices(
   ): void {
-    $this->structureModuleServices = $this->modules->Copy()->Mapper(
+    $this->structureModuleServices = $this->modules->copy()->mapper(
       fn(string $module) => new StructureModuleServices($module)
     );
     
-    $this->structureModuleServices->ForEach(
+    $this->structureModuleServices->forEach(
       fn(StructureModuleServices $structureModuleServices) => (
-        $structureModuleServices->structureServices->ForEach(
+        $structureModuleServices->structureServices->forEach(
           fn(string $service) => $structureModuleServices->getInstance($service)
         )
       )
     );
   }
 
-  public function InitialControllersLogs(
+  public function initialControllersLogs(
   ): void {
-    $this->structureModuleControllers->ForEach(
+    $this->structureModuleControllers->forEach(
       function(StructureModuleControllers $stuctureModule){
-        Log::Message(LogType::Module, "Map module [{$this->className($stuctureModule->module)}]");
+        Log::message(LogType::module, "Map module [{$this->className($stuctureModule->module)}]");
 
-        if($stuctureModule->structureControllers->controllers->Exist()){
-          Log::Message(LogType::Controller, "Map controllers from module [{$this->className($stuctureModule->module)}]");
+        if($stuctureModule->structureControllers->controllers->exist()){
+          Log::message(LogType::controller, "Map controllers from module [{$this->className($stuctureModule->module)}]");
 
-          $stuctureModule->structureControllers->controllers->ForEach(
+          $stuctureModule->structureControllers->controllers->forEach(
             function(ItemController $itemController){
-              Log::Message(LogType::Controller, "Map controller [{$this->className($itemController->controller)}]");
+              Log::message(LogType::controller, "Map controller [{$this->className($itemController->controller)}]");
 
-              $itemController->routes->ForEach(
+              $itemController->routes->forEach(
                 function(StructureRoute $structureRoute){
-                  Log::Message(LogType::Controller, sprintf("Map route {%s, %s}", ...[
-                    strtoupper($structureRoute->endpoint->First()->methodType->name), (
-                      empty($structureRoute->endpoint->First()->endpoint) === false 
-                        ? $structureRoute->endpoint->First()->endpoint 
+                  Log::message(LogType::controller, sprintf("Map route {%s, %s}", ...[
+                    strtoupper($structureRoute->endpoint->first()->methodType->name), (
+                      empty($structureRoute->endpoint->first()->endpoint) === false 
+                        ? $structureRoute->endpoint->first()->endpoint 
                         : "/"
                     )
                   ]));
@@ -109,27 +109,27 @@ class Application
     );
   }
 
-  public function RunServer(
+  public function runServer(
   ): void {
     if($this->hasClient() === false){
-      $this->Initial();      
+      $this->initial();      
       if($this->hasServerApi()){
-        $this->InitialControllers();
-        $this->InitialServer();
+        $this->initialControllers();
+        $this->initialServer();
       } else {
-        $this->InitialPublic();
+        $this->initialPublic();
       }
     }
   }
 
-  public function Initial(
+  public function initial(
   ): void {
     $this->request = new Request();
   }
 
-  private function InitialControllers(
+  private function initialControllers(
   ): void {
-    $this->structureModuleControllers = $this->modules->Copy()->Mapper(
+    $this->structureModuleControllers = $this->modules->copy()->mapper(
       fn(string $module) => new StructureModuleControllers($module)
     );
   }   
@@ -142,7 +142,7 @@ class Application
 
   private function hasModules(
   ): void {
-    $this->structureModuleControllers->Where(
+    $this->structureModuleControllers->where(
       function(StructureModuleControllers $stuctureModule){
         if($this->request->module === null){
           return false;
@@ -153,48 +153,48 @@ class Application
       }
     );
 
-    if($this->structureModuleControllers->Exist() === false){
-      Error::NotFound("Module {$this->request->module} not found");
+    if($this->structureModuleControllers->exist() === false){
+      Error::notFound("Module {$this->request->module} not found");
     }
   }
 
   private function hasController(
   ): void {
-    $this->structureModuleControllers->Where(
-      fn(StructureModuleControllers $structureModule) => $structureModule->structureControllers->controllers->Where(
-        fn(ItemController $itemController) => $itemController->name->First()->name === $this->request->controller
-      )->Exist()
+    $this->structureModuleControllers->where(
+      fn(StructureModuleControllers $structureModule) => $structureModule->structureControllers->controllers->where(
+        fn(ItemController $itemController) => $itemController->name->first()->name === $this->request->controller
+      )->exist()
     );
 
-    if($this->structureModuleControllers->Exist() === false){
-      Error::NotFound("Controller {$this->request->module}/{$this->request->controller} not found");
+    if($this->structureModuleControllers->exist() === false){
+      Error::notFound("Controller {$this->request->module}/{$this->request->controller} not found");
     }
   }
 
   private function hasEndpointInController(
   ): void {
-    $this->structureModuleControllers->Where(
-      fn(StructureModuleControllers $structureModule) => $structureModule->structureControllers->controllers->Where(
-        fn(ItemController $itemController) => $itemController->routes->Where(
+    $this->structureModuleControllers->where(
+      fn(StructureModuleControllers $structureModule) => $structureModule->structureControllers->controllers->where(
+        fn(ItemController $itemController) => $itemController->routes->where(
           fn(StructureRoute $structureRoute) => $structureRoute->isEndpoint(
-            DataList::Create($this->request->endpoint), $this->request->method
+            DataList::create($this->request->endpoint), $this->request->method
           )
         )
       )
     );
 
-    if($this->structureModuleControllers->First()->structureControllers->controllers->First()->routes->Exist() === false){
-      Error::NotFound(sprintf("Route {$this->request->controller}/%s not found", implode("/", $this->request->endpoint)));
+    if($this->structureModuleControllers->first()->structureControllers->controllers->first()->routes->exist() === false){
+      Error::notFound(sprintf("Route {$this->request->controller}/%s not found", implode("/", $this->request->endpoint)));
     }
 
     $this->structureModuleControllers
-      ->First()->structureControllers->controllers
-      ->First()->routes
-      ->First()->Execute(
+      ->first()->structureControllers->controllers
+      ->first()->routes
+      ->first()->execute(
         $this->request,
         $this->structureModuleControllers
-          ->First()->structureControllers->controllers
-          ->First()->middlewares
+          ->first()->structureControllers->controllers
+          ->first()->middlewares
       );
   }
 
@@ -213,7 +213,7 @@ class Application
     ) && empty($this->request->base) === false && $this->request->base === "api";
   }
 
-  private function InitialServer(
+  private function initialServer(
   ): void {
     try {
       $this->hasModules();
@@ -224,7 +224,7 @@ class Application
     }
   }
 
-  public function InitialPublic(
+  public function initialPublic(
   ): void {
     if(file_exists(rootdir . "/src/Public/index.php")){
       require_once rootdir . "/src/Public/index.php";
@@ -240,11 +240,11 @@ class Application
     )->send();    
   }
 
-  public static function Modules(
+  public static function modules(
     array $modules
   ): Application {
     return new static(
-      DataList::Create(
+      DataList::create(
         $modules
       )
     );
