@@ -51,12 +51,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/database.git",
-                "reference": "da5d55945ef9eceaf9411df41f624a8282f61159"
+                "reference": "243c2f9b2d8a48e43b07ceaa7837b3ec28312e9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/database/zipball/da5d55945ef9eceaf9411df41f624a8282f61159",
-                "reference": "da5d55945ef9eceaf9411df41f624a8282f61159",
+                "url": "https://api.github.com/repos/websyspro/database/zipball/243c2f9b2d8a48e43b07ceaa7837b3ec28312e9f",
+                "reference": "243c2f9b2d8a48e43b07ceaa7837b3ec28312e9f",
                 "shasum": ""
             },
             "require-dev": {
@@ -85,7 +85,7 @@
                 "issues": "https://github.com/websyspro/database/issues",
                 "source": "https://github.com/websyspro/database/tree/main"
             },
-            "time": "2025-07-04T15:10:33+00:00"
+            "time": "2025-07-07T23:13:46+00:00"
         },
         {
             "name": "websyspro/dynamicsql",
@@ -225,12 +225,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/logger.git",
-                "reference": "9f80cd50236993ac7a61135647f0219656179b7b"
+                "reference": "f713ae636984b2933038d1b8e87e8ddd10070cfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/logger/zipball/9f80cd50236993ac7a61135647f0219656179b7b",
-                "reference": "9f80cd50236993ac7a61135647f0219656179b7b",
+                "url": "https://api.github.com/repos/websyspro/logger/zipball/f713ae636984b2933038d1b8e87e8ddd10070cfe",
+                "reference": "f713ae636984b2933038d1b8e87e8ddd10070cfe",
                 "shasum": ""
             },
             "default-branch": true,
@@ -255,7 +255,7 @@
                 "issues": "https://github.com/websyspro/logger/issues",
                 "source": "https://github.com/websyspro/logger/tree/main"
             },
-            "time": "2025-07-04T15:15:47+00:00"
+            "time": "2025-07-04T16:51:22+00:00"
         },
         {
             "name": "websyspro/watch",
