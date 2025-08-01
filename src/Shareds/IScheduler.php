@@ -2,7 +2,7 @@
 
 namespace Websyspro\Server\Shareds;
 
-interface ISchedule
+interface IScheduler
 {
   public function run(): void;
 }
