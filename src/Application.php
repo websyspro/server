@@ -51,11 +51,11 @@ class Application
   public function runClient(
   ): void {
     if($this->hasClient() === true){
-      $this->initialSchedulers();
       $this->initialControllers();
       $this->initialControllersLogs();
       $this->initialUpdatedsEntitys();
       $this->initialUpdatedsServices();
+      $this->initialSchedulers();
     }
   }
 
