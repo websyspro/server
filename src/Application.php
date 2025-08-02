@@ -81,6 +81,21 @@ class Application
     );
   }
 
+  private function initialSchedulers(
+  ): void {
+    $this->schedulerRunner = (
+      new SchedulerRunner(
+        $this->modules->copy()
+      )
+    );
+
+    if($this->schedulerRunner->isRunning() === true){
+      $this->schedulerRunner->stop();
+    }
+
+    $this->schedulerRunner->start();
+  }  
+
   public function initialControllersLogs(
   ): void {
     $this->structureModuleControllers->forEach(
@@ -128,21 +143,6 @@ class Application
   public function initial(
   ): void {
     $this->request = new Request();
-  }
-
-  private function initialSchedulers(
-  ): void {
-    $this->schedulerRunner = (
-      new SchedulerRunner(
-        $this->modules->copy()
-      )
-    );
-
-    if($this->schedulerRunner->isRunning() === true){
-      $this->schedulerRunner->stop();
-    }
-
-    $this->schedulerRunner->start();
   }
 
   private function initialControllers(
