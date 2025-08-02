@@ -69,12 +69,12 @@ class SchedulerRunner
 
   public function start(
   ): void {
-    while($this->isLoop()){
-      Log::message(
-        LogType::context,
-          "Start Runner"
-      );
+    Log::message(
+      LogType::context,
+        "Start Runner"
+    );
 
+    while($this->isLoop()){
       if($this->isReady === true){
         $this->startTask();
       }
