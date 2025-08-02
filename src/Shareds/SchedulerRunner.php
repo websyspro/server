@@ -13,7 +13,17 @@ class SchedulerRunner
 
   public function __construct(
     private readonly DataList $modules
-  ){}
+  ){
+    $this->setPathDefault();
+  }
+
+  private function setPathDefault(
+  ): void {
+    $dir = dirname($this->pathRunner());
+    if(is_dir($dir) === false){
+      mkdir($dir, 0777, true);
+    }
+  }
 
   private function pathStop(
   ): string {
