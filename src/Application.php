@@ -10,6 +10,7 @@ use Websyspro\Commons\Util;
 use Websyspro\Logger\Enums\LogType;
 use Websyspro\Server\Exceptions\Error;
 use Websyspro\Server\Shareds\ItemController;
+use Websyspro\Server\Shareds\SchedulerRunner;
 use Websyspro\Server\Shareds\StructureModule;
 use Websyspro\Server\Shareds\StructureModuleControllers;
 use Websyspro\Server\Shareds\StructureModuleEntitys;
@@ -19,6 +20,7 @@ use Websyspro\Server\Shareds\StructureRoute;
 class Application
 {
   public readonly Request $request;
+  public readonly SchedulerRunner $schedulerRunner;
   public DataList $structureModuleControllers;
   public DataList $structureModuleEntitys;
   public DataList $structureModuleServices;
@@ -49,6 +51,7 @@ class Application
   public function runClient(
   ): void {
     if($this->hasClient() === true){
+      $this->initialSchedulers();
       $this->initialControllers();
       $this->initialControllersLogs();
       $this->initialUpdatedsEntitys();
@@ -125,6 +128,21 @@ class Application
   public function initial(
   ): void {
     $this->request = new Request();
+  }
+
+  private function initialSchedulers(
+  ): void {
+    $this->schedulerRunner = (
+      new SchedulerRunner(
+        $this->modules->copy()
+      )
+    );
+
+    if($this->schedulerRunner->isRunning() === true){
+      $this->schedulerRunner->stop();
+    }
+
+    $this->schedulerRunner->start();
   }
 
   private function initialControllers(
