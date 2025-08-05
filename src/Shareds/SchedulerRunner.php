@@ -154,8 +154,78 @@ class SchedulerRunner
     }
   }
 
+  private function matchCronPart(
+    string $expr,
+    int $value
+  ): bool {
+    if ($expr === "*"){
+      return true;
+    }
+
+    $exprs = explode(
+      ",", $expr
+    );
+
+    foreach($exprs as $part){
+      if(str_contains($part, "/") === true){
+        [$range, $step] = explode(
+          "/", $part
+        );
+
+        if($range === "*") {
+          if ($value % (int)$step === 0){
+            return true;
+          }
+        }
+      } else
+      if(str_contains($part, "-") === true){
+        [$start, $end] = explode(
+          "-", $part
+        );
+
+        if($value >= (int)$start && $value <= (int)$end){
+          return true;
+        } else
+        if((int)$part === $value){
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  private function hasCronDueNow(
+    string $expression,
+    array $getdate
+  ): bool {
+    $expressionParts = preg_split(
+      "#\s+#", trim($expression)
+    );
+
+    if(sizeof($expressionParts) !== 5){
+      return false;
+    }
+
+    [$min, $hour, $day, $month, $weekday] = $expressionParts;
+
+    return (
+      $this->matchCronPart($min, $getdate["minutes"]) && 
+      $this->matchCronPart($hour, $getdate["hours"]) && 
+      $this->matchCronPart($day, $getdate["mday"]) &&
+      $this->matchCronPart($month, $getdate["mon"]) &&
+      $this->matchCronPart($weekday, $getdate["wday"])
+    );
+  }
+
   private function startTask(
   ): void {
+    var_dump(
+      $this->hasCronDueNow(
+        "*/5 * * * *", getdate()
+      )
+    );
+
     $this->modules->forEach(
       fn(object $task) => $task->run()
     );
