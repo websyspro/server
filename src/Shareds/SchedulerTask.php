@@ -6,6 +6,6 @@ class SchedulerTask
 {
   public function __construct(
     public readonly string $expression,
-    public readonly string $classRef
+    public readonly object $object
   ){}
 }
