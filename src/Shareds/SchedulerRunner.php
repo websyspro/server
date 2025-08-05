@@ -3,6 +3,7 @@
 namespace Websyspro\Server\Shareds;
 
 use Websyspro\Commons\DataList;
+use Websyspro\Commons\Reflect;
 use Websyspro\Logger\Enums\LogType;
 use Websyspro\Logger\Log;
 
@@ -14,7 +15,45 @@ class SchedulerRunner
   public function __construct(
     private readonly DataList $modules
   ){
+    $this->setModules();
     $this->setPathDefault();
+  }
+  
+  private function getInstanceFromTask(
+    string $moduleClass
+  ): object {
+    $moduleClassConstructor = method_exists(
+      $moduleClass, "__construct"
+    );
+
+    if($moduleClassConstructor === true){
+      return InstanceDependences::gets($moduleClass);
+    } else return new $moduleClass;    
+  }
+
+  private function setModules(
+  ): void {
+    $this->modules->mapper(
+      fn(string $moduleClass) => (
+        Reflect::instancesFromAttributes(
+          $moduleClass
+        )
+      )
+    );
+    
+    $this->modules->reduce(
+      [], fn(mixed $curr, DataList $item ) => (
+        array_merge($curr, $item->first()->Schedulers)
+      )
+    );
+
+    $this->modules->mapper(
+      fn(string $moduleClass) => (
+        $this->getInstanceFromTask(
+          $moduleClass
+        )
+      )
+    );
   }
 
   private function setPathDefault(
@@ -117,7 +156,10 @@ class SchedulerRunner
 
   private function startTask(
   ): void {
-    print_r($this->modules);
+    $this->modules->forEach(
+      fn(object $task) => $task->run()
+    );
+
     // Loop nos modules
     Log::message(LogType::context, "Is ready para executar {$this->modules->count()}tasks");
   }
