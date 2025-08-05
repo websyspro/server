@@ -117,6 +117,7 @@ class SchedulerRunner
 
   private function startTask(
   ): void {
+    print_r($this->modules);
     // Loop nos modules
     Log::message(LogType::context, "Is ready para executar {$this->modules->count()}tasks");
   }
