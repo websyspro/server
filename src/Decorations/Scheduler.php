@@ -8,6 +8,6 @@ use Attribute;
 class Scheduler
 {
   public function __construct(
-    public readonly int $minute
+    public readonly string $expression
   ){}
 }
