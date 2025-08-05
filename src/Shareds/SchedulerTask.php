@@ -5,7 +5,7 @@ namespace Websyspro\Server\Shareds;
 class SchedulerTask
 {
   public function __construct(
-    public readonly string $expression,
+    public readonly mixed $expression,
     public readonly object $object
   ){}
 }
