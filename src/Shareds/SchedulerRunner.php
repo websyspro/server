@@ -57,12 +57,10 @@ class SchedulerRunner
       fn(string $refClass) => (
         new SchedulerTask(
           expression: $this->getExpression($refClass), 
-          task: $this->getInstanceFromTask($refClass)
+          instance: $this->getInstanceFromTask($refClass)
         )
       )
     );
-
-    print_r($this->modules);
   }
 
   private function setPathDefault(
@@ -229,14 +227,12 @@ class SchedulerRunner
 
   private function startTask(
   ): void {
-    var_dump(
-      $this->hasCronDueNow(
-        "*/5 * * * *", getdate()
-      )
-    );
-
     $this->modules->forEach(
-      fn(object $task) => $task->run()
+      function(SchedulerTask $schedulerTask){
+        if($this->hasCronDueNow($schedulerTask->expression, getdate()) === true){
+          $schedulerTask->instance->run();
+        }
+      }
     );
 
     // Loop nos modules
