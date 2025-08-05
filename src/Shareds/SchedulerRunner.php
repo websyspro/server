@@ -57,7 +57,7 @@ class SchedulerRunner
       fn(string $refClass) => (
         new SchedulerTask(
           expression: $this->getExpression($refClass), 
-          object: $this->getInstanceFromTask($refClass)
+          task: $this->getInstanceFromTask($refClass)
         )
       )
     );
