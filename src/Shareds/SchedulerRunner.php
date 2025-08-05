@@ -31,6 +31,12 @@ class SchedulerRunner
     } else return new $moduleClass;    
   }
 
+  private function getExpression(
+    string $refClass
+  ): string {
+    return Reflect::instancesFromAttributes($refClass)->first()->expression;
+  }
+
   private function setModules(
   ): void {
     $this->modules->mapper(
@@ -48,12 +54,15 @@ class SchedulerRunner
     );
 
     $this->modules->mapper(
-      fn(string $moduleClass) => (
-        $this->getInstanceFromTask(
-          $moduleClass
+      fn(string $refClass) => (
+        new SchedulerTask(
+          expression: $this->getExpression($refClass), 
+          object: $this->getInstanceFromTask($refClass)
         )
       )
     );
+
+    print_r($this->modules);
   }
 
   private function setPathDefault(
