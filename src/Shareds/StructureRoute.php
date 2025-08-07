@@ -11,6 +11,14 @@ use Websyspro\Server\Decorations\Middlewares\Authenticate;
 use Websyspro\Server\Enums\AttributeType;
 use Websyspro\Server\Request;
 
+class StructureRouteParam
+{
+  public function __construct(
+    public object $instance,
+    public string $instanceType
+  ){}
+}
+
 class StructureRoute
 {
   public DataList $endpoint;
@@ -104,17 +112,20 @@ class StructureRoute
 
     $properties->mapper(
       fn(ReflectionParameter $reflectionParameter) => (
-        DataList::create($reflectionParameter->getAttributes())
-          ->first()->newInstance()
+        new StructureRouteParam(
+          array_shift($reflectionParameter->getAttributes())->newInstance(),
+          $reflectionParameter->getType()->getName()
+        )
       )
     );
 
-    $properties->mapper(fn(object $parameter) => (
-      $parameter instanceof Param 
-        ? $parameter->execute(
-            explode("/", $this->endpoint->first()->endpoint), $request->endpoint) 
-        : $parameter->execute()
-      )
+    $properties->mapper(
+      fn(StructureRouteParam $parameter) => (
+        $parameter->instance instanceof Param 
+          ? $parameter->instance ->execute(
+              explode("/", $this->endpoint->first()->endpoint), $request->endpoint) 
+          : $parameter->instance ->execute()
+        )
     );
 
     return $properties;    
