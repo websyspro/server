@@ -25,9 +25,6 @@
   },
   "scripts": {
     "watch": "powershell -ExecutionPolicy Bypass -File ./vendor/websyspro/watch/src/watch.ps1",
-    "update-git": "git add . && git commit -m \"Update components\" && git push origin HEAD",
-    "post-update-cmd": [
-      "php index.php"
-    ]
+    "update-git": "git add . && git commit -m \"Update components\" && git push origin HEAD"
   }
 }

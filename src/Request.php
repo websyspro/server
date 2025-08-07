@@ -2,12 +2,9 @@
 
 namespace Websyspro\Server;
 
-use ReflectionNamedType;
-use Websyspro\Commons\Reflect;
 use Websyspro\Commons\Util;
 use Websyspro\Jwt\Decode;
 use Websyspro\Server\Enums\RequestType;
-use Websyspro\Server\Exceptions\Error;
 
 class Request
 {
@@ -51,56 +48,6 @@ class Request
     );
   }
 
-  private static function isPrimitiveType(
-    string $type
-  ): bool {
-    return in_array($type, [
-      "int", "integer", "float", "double", "string", "bool", "boolean", "array", "null"
-    ], true);
-  }
-
-  private static function hydrateObject( 
-    mixed $data,
-    string $className
-  ): object {
-    if (!class_exists($className)) {
-        Error::badRequest("Classe {$className} não encontrada.");
-    }
-
-    $refClass = Reflect::class($className);
-    $instance = $refClass->newInstanceWithoutConstructor();
-
-    foreach($refClass->getProperties() as $prop){
-      $prop->setAccessible(true);
-
-      $type = $prop->getType();
-      if (!$type instanceof ReflectionNamedType) {
-        continue;
-      }
-
-      $typeName = $type->getName();
-      $propName = $prop->getName();
-
-      if(!array_key_exists($propName, $data)){
-        continue;
-      }
-
-      $value = $data[$propName];
-
-      if (Request::isPrimitiveType($typeName)) {
-        settype($value, $typeName);
-        $prop->setValue($instance, $value);
-      } else if (class_exists($typeName) && is_array($value)) {
-        $nestedObj = Request::hydrateObject($value, $typeName);
-        $prop->setValue($instance, $nestedObj);
-      } else {
-        $prop->setValue($instance, $value);
-      }
-    }
-
-    return $instance;
-  }
-
   public static function data(
 		string|null $key,
     string $instanceType,
@@ -121,15 +68,23 @@ class Request
 		if( is_array( $requestData )){
 			if( is_null( $key ) === false ){
 				if( isset( $requestData[ $key ] )){
-					return Request::hydrateObject(
-            $requestData[$key], $instanceType
-          );
+          if(Util::isPrimitiveType($instanceType)){
+            return $requestData[$key];
+          } else {
+					  return Util::hydrateObject(
+              $requestData[$key], $instanceType
+            );
+          }
 				} else return null;
 			}
 
-			return Request::hydrateObject(
-        $requestData, $instanceType
-      );;
+      if(Util::isPrimitiveType($instanceType)){
+        return $requestData;
+      } else {
+        return Util::hydrateObject(
+          $requestData, $instanceType
+        );
+      }
 		}
 
 		return null;
