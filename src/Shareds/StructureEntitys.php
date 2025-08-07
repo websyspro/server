@@ -11,10 +11,10 @@ class StructureEntitys
     public DataList $entitys,
     public string $module
   ){
-    $this->Initial();
+    $this->start();
   }
 
-  private function Initial(
+  private function start(
   ): void {
     (new StructureDatabase(
       $this->entitys, 

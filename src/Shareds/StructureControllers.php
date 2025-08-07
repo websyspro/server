@@ -9,12 +9,12 @@ class StructureControllers
   public function __construct(
     public DataList $controllers
   ){
-    $this->Initial();
+    $this->start();
   }
 
-  private function Initial(
+  private function start(
   ): void {
-    $this->controllers->Mapper(
+    $this->controllers->mapper(
       fn(string $controller) => (
         new ItemController($controller)
       )

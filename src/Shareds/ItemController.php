@@ -16,28 +16,28 @@ class ItemController
   public function __construct(
     public string $controller
   ){
-    $this->InitialName();
-    $this->InitialMiddlewares();
-    $this->InitialRoutes();
+    $this->startName();
+    $this->startMiddlewares();
+    $this->startRoutes();
   }
 
-  private function InitialName(
+  private function startName(
   ): void {
-    $this->name = Reflect::InstancesFromAttributes($this->controller)->Where(
+    $this->name = Reflect::InstancesFromAttributes($this->controller)->where(
       fn(mixed $item) => $item->attributeType === AttributeType::controller
     );
   }
 
-  private function InitialMiddlewares(
+  private function startMiddlewares(
   ): void {
-    $this->middlewares = Reflect::InstancesFromAttributes($this->controller)->Where(
+    $this->middlewares = Reflect::InstancesFromAttributes($this->controller)->where(
       fn(mixed $item) => $item->attributeType === AttributeType::middleware
     );   
   }
 
-  private function InitialRoutes(
+  private function startRoutes(
   ): void {
-    $this->routes = Reflect::MethodsFromClass($this->controller)->Mapper(
+    $this->routes = Reflect::MethodsFromClass($this->controller)->mapper(
       fn(ReflectionMethod $reflectionMethod) => new StructureRoute($reflectionMethod)
     );
   }

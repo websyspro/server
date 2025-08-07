@@ -11,7 +11,7 @@ class AllowAnonymous
 {
   public AttributeType $attributeType = AttributeType::middleware;
 
-  public function Execute(
+  public function execute(
     Request $request
   ): void {}
 }

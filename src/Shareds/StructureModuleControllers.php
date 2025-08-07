@@ -13,17 +13,17 @@ class StructureModuleControllers
   public function __construct(
     public string $module
   ){
-    $this->InitialProps();
+    $this->startProps();
   }
 
-  private function InitialProps(
+  private function startProps(
   ): void {
     Reflect::InstancesFromAttributes(
       $this->module
-    )->Mapper(
+    )->mapper(
       function(Module $module){
         $this->structureControllers = new StructureControllers(
-          DataList::Create( $module->Controllers )
+          DataList::create( $module->Controllers )
         );
       }
     );

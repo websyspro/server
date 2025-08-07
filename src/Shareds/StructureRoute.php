@@ -19,8 +19,8 @@ class StructureRoute
   public function __construct(
     public ReflectionMethod $reflectionMethod
   ){
-    $this->InitialEndpoint();
-    $this->InitialMiddlewares();
+    $this->startEndpoint();
+    $this->startMiddlewares();
   }
 
   private function Attributes(
@@ -30,14 +30,14 @@ class StructureRoute
     );
   }
 
-  private function InitialEndpoint(
+  private function startEndpoint(
   ): void {
     $this->endpoint = $this->Attributes()->Where(
       fn(mixed $attribute) => $attribute->attributeType === AttributeType::endpoint
     );    
   }
 
-  private function InitialMiddlewares(
+  private function startMiddlewares(
   ): void {
     $this->middlewares = $this->Attributes()->Where(
       fn(mixed $attribute) => $attribute->attributeType === AttributeType::middleware
@@ -48,35 +48,35 @@ class StructureRoute
     DataList $requestEndpoint,
     string $requestMethod
   ): bool {
-    $routeEndpoint = DataList::Create(
+    $routeEndpoint = DataList::create(
       explode("/", preg_replace( "/(^\/)|(\/$)/", "", (
-        $this->endpoint->First()->endpoint
+        $this->endpoint->first()->endpoint
       )))
     );
 
-    $routeEndpoint->Where(
+    $routeEndpoint->where(
       fn(string $endpoint) => (
         empty($endpoint) === false
       )
     );
 
-    if(strtolower($requestMethod) !== strtolower($this->endpoint->First()->methodType->name)){
+    if(strtolower($requestMethod) !== strtolower($this->endpoint->first()->methodType->name)){
       return false;
     }
 
-    if($requestEndpoint->Count() !== $routeEndpoint->Count()){
+    if($requestEndpoint->count() !== $routeEndpoint->count()){
       return false;
     }
 
     return (
-      $routeEndpoint->Where(
+      $routeEndpoint->where(
         fn(string $path, int $index) => (
           preg_match( "/^:/", $path ) || (
-            $path === $requestEndpoint->Eq($index)
+            $path === $requestEndpoint->eq($index)
           )
         )
       )
-    )->Count() === $requestEndpoint->Count();
+    )->count() === $requestEndpoint->count();
   }
 
   private function getInstance(
@@ -98,39 +98,43 @@ class StructureRoute
   private function getParameters(
     Request $request
   ): DataList {
-    $properties = DataList::Create(
+    $properties = DataList::create(
       $this->reflectionMethod->getParameters()
     );
 
-    $properties->Mapper(
+    $properties->mapper(
       fn(ReflectionParameter $reflectionParameter) => (
-        DataList::Create($reflectionParameter->getAttributes())
-          ->First()->newInstance()
+        DataList::create($reflectionParameter->getAttributes())
+          ->first()->newInstance()
       )
     );
 
-    $properties->Mapper(fn(object $parameter) => $parameter instanceof Param 
-      ? $parameter->Execute(explode("/", $this->endpoint->First()->endpoint), $request->endpoint) : $parameter->Execute()
+    $properties->mapper(fn(object $parameter) => (
+      $parameter instanceof Param 
+        ? $parameter->execute(
+            explode("/", $this->endpoint->first()->endpoint), $request->endpoint) 
+        : $parameter->execute()
+      )
     );
 
     return $properties;    
   }
 
-  private function Middlewares(
+  private function middlewares(
     Request $request,
     DataList $middlewaresFromController
   ): void {
-    $middlewaresFromController->Where(
+    $middlewaresFromController->where(
       fn(object $middlewareFromController) => (
         $middlewareFromController instanceof Authenticate && (
-          $this->middlewares->Where(
+          $this->middlewares->where(
             fn(object $middleware) => $middleware instanceof AllowAnonymous
-          )->Exist() === false
+          )->exist() === false
         )
       )
     );
 
-    $this->middlewares->ForEach(
+    $this->middlewares->forEach(
       fn(object $middleware) => (
         $middlewaresFromController->Add(
           $middleware
@@ -138,16 +142,16 @@ class StructureRoute
       )
     );
 
-    $middlewaresFromController->ForEach(
-      fn(object $middleware) => $middleware->Execute($request)
+    $middlewaresFromController->forEach(
+      fn(object $middleware) => $middleware->execute($request)
     );
   }
 
-  public function Execute(
+  public function execute(
     Request $request,
     DataList $middlewaresFromController,
   ): void {
-    $this->Middlewares(
+    $this->middlewares(
       $request, $middlewaresFromController
     );
 

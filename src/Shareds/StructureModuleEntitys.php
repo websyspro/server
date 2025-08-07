@@ -13,17 +13,17 @@ class StructureModuleEntitys
   public function __construct(
     public string $module
   ){
-    $this->InitialProps();
+    $this->startProps();
   }
 
-  private function InitialProps(
+  private function startProps(
   ): void {
     Reflect::InstancesFromAttributes(
       $this->module
-    )->Mapper(
+    )->mapper(
       function(Module $module){
         $this->structureEntitys = new StructureEntitys(
-          DataList::Create($module->Entitys), $this->module
+          DataList::create($module->Entitys), $this->module
         );
       }
     );

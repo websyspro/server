@@ -13,9 +13,9 @@ class StructureModuleServices
   public function __construct(
     string $module
   ){
-    Reflect::InstancesFromAttributes($module)->Mapper(
+    Reflect::InstancesFromAttributes($module)->mapper(
       function(Module $module){
-        $this->structureServices = DataList::Create(
+        $this->structureServices = DataList::create(
           $module->Services
         );
       }

@@ -13,7 +13,7 @@ class Authenticate
 {
   public AttributeType $attributeType = AttributeType::middleware;
 
-  public function Execute(
+  public function execute(
     Request $request
   ): void {
     $accessToken = (

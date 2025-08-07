@@ -4,8 +4,6 @@ namespace Websyspro\Server\Shareds;
 
 use Websyspro\Commons\DataList;
 use Websyspro\Commons\Reflect;
-use Websyspro\Commons\Util;
-use Websyspro\Server\Applications\Shops\Entitys\BoxEntity;
 use Websyspro\Server\Decorations\Module;
 
 class StructureModule
@@ -16,10 +14,10 @@ class StructureModule
     private DataList $modules
   ){
     $this->entitysFromModule = (
-      $this->modules->Copy()->Mapper(
+      $this->modules->copy()->mapper(
         fn(string $module) => (
-          Reflect::InstancesFromAttributes($module)->Mapper(
-            fn(Module $item) => DataList::Create($item->Entitys)->Mapper(
+          Reflect::InstancesFromAttributes($module)->mapper(
+            fn(Module $item) => DataList::create($item->Entitys)->mapper(
               fn(string $entity) => new IModuleEntity(
                 entity: $entity, module: $module
               )

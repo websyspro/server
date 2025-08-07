@@ -27,7 +27,7 @@ class InstanceDependences
       }
 
       if( $getParameters ){
-        $getParametersList = Util::Mapper(
+        $getParametersList = Util::mapper(
           $getParameters, (
             function( ReflectionParameter $reflectionParameter ){
               if( $reflectionParameter->isDefaultValueAvailable() === false ){

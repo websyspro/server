@@ -16,7 +16,7 @@ class Param
     public readonly string | null $key = null
   ){}
 
-  public function Execute(
+  public function execute(
     array $controllerEndpoint = [],
     array $requestEndpoint = []
   ): array | object | string | null {

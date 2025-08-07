@@ -16,7 +16,7 @@ class Query
     public readonly string | null $key = null
   ){}
 
-  public function Execute(
+  public function execute(
   ): array | object | string | null {
     return Request::data(
       $this->key, RequestType::query
