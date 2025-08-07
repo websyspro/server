@@ -51,9 +51,17 @@ class Request
     );
   }
 
-  private function hydrateObject(
-    string $className, 
-    array $data
+  private static function isPrimitiveType(
+    string $type
+  ): bool {
+    return in_array($type, [
+      "int", "integer", "float", "double", "string", "bool", "boolean", "array", "null"
+    ], true);
+  }
+
+  private static function hydrateObject( 
+    mixed $data,
+    string $className
   ): object {
     if (!class_exists($className)) {
         Error::badRequest("Classe {$className} não encontrada.");
@@ -79,11 +87,11 @@ class Request
 
       $value = $data[$propName];
 
-      if (in_array($typeName, ['int', 'integer', 'float', 'double', 'string', 'bool', 'boolean', 'array', 'null'], true)) {
+      if (Request::isPrimitiveType($typeName)) {
         settype($value, $typeName);
         $prop->setValue($instance, $value);
       } else if (class_exists($typeName) && is_array($value)) {
-        $nestedObj = $this->hydrateObject($typeName, $value);
+        $nestedObj = Request::hydrateObject($value, $typeName);
         $prop->setValue($instance, $nestedObj);
       } else {
         $prop->setValue($instance, $value);
@@ -93,9 +101,9 @@ class Request
     return $instance;
   }
 
-
   public static function data(
 		string|null $key,
+    string $instanceType,
 		RequestType $requestType,
 		array $controllerEndpoint = [],
     array $requestEndpoint = []
@@ -110,16 +118,18 @@ class Request
 			)
 		};
 
-    print_r($requestData);
-		
 		if( is_array( $requestData )){
 			if( is_null( $key ) === false ){
 				if( isset( $requestData[ $key ] )){
-					return $requestData[ $key ];
+					return Request::hydrateObject(
+            $requestData[$key], $instanceType
+          );
 				} else return null;
 			}
 
-			return $requestData;
+			return Request::hydrateObject(
+        $requestData, $instanceType
+      );;
 		}
 
 		return null;

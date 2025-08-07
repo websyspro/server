@@ -17,9 +17,10 @@ class Body
   ){}
 
   public function execute(
+    string $instanceType
   ): array | object | string | null {
     return Request::data(
-      $this->key, RequestType::body
+      $this->key, $instanceType, RequestType::body
     );
   }
 }
