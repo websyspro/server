@@ -2,6 +2,7 @@
 
 namespace Websyspro\Server\Shareds;
 
+use Exception;
 use Websyspro\Commons\DataList;
 use Websyspro\Commons\Reflect;
 use Websyspro\Logger\Enums\LogType;
@@ -230,12 +231,13 @@ class SchedulerRunner
     $this->modules->forEach(
       function(SchedulerTask $schedulerTask){
         if($this->hasCronDueNow($schedulerTask->expression, getdate()) === true){
-          $schedulerTask->instance->run();
+          try {
+            $schedulerTask->instance->run();
+          } catch(Exception $error){
+            Log::error(LogType::service, "Error {$error->getMessage()}");
+          }
         }
       }
     );
-
-    // Loop nos modules
-    Log::message(LogType::context, "Is ready para executar {$this->modules->count()}tasks");
   }
 }
