@@ -5,6 +5,7 @@ namespace Websyspro\Server\Shareds;
 use ReflectionMethod;
 use ReflectionParameter;
 use Websyspro\Commons\DataList;
+use Websyspro\Server\Decorations\Controllers\Body;
 use Websyspro\Server\Decorations\Controllers\Param;
 use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
 use Websyspro\Server\Decorations\Middlewares\Authenticate;
@@ -120,12 +121,21 @@ class StructureRoute
     );
 
     $properties->mapper(
-      fn(StructureRouteParam $parameter) => (
-        $parameter->instance instanceof Param 
-          ? $parameter->instance ->execute(
-              explode("/", $this->endpoint->first()->endpoint), $request->endpoint) 
-          : $parameter->instance ->execute()
-        )
+      function(StructureRouteParam $structureRouteParam) use($request){
+        if($structureRouteParam->instance instanceof Param){
+          return $structureRouteParam->instance ->execute(
+            explode("/", $this->endpoint->first()->endpoint), 
+              $request->endpoint
+          );
+        } else
+        if($structureRouteParam->instance instanceof Body){
+          return $structureRouteParam->instance->execute(
+            $structureRouteParam->instanceType
+          );
+        } else {
+          return $structureRouteParam->instance->execute();
+        }
+      }
     );
 
     return $properties;    

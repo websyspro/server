@@ -2,9 +2,12 @@
 
 namespace Websyspro\Server;
 
+use ReflectionNamedType;
+use Websyspro\Commons\Reflect;
 use Websyspro\Commons\Util;
 use Websyspro\Jwt\Decode;
 use Websyspro\Server\Enums\RequestType;
+use Websyspro\Server\Exceptions\Error;
 
 class Request
 {
@@ -48,12 +51,55 @@ class Request
     );
   }
 
+  private function hydrateObject(
+    string $className, 
+    array $data
+  ): object {
+    if (!class_exists($className)) {
+        Error::badRequest("Classe {$className} não encontrada.");
+    }
+
+    $refClass = Reflect::class($className);
+    $instance = $refClass->newInstanceWithoutConstructor();
+
+    foreach($refClass->getProperties() as $prop){
+      $prop->setAccessible(true);
+
+      $type = $prop->getType();
+      if (!$type instanceof ReflectionNamedType) {
+        continue;
+      }
+
+      $typeName = $type->getName();
+      $propName = $prop->getName();
+
+      if(!array_key_exists($propName, $data)){
+        continue;
+      }
+
+      $value = $data[$propName];
+
+      if (in_array($typeName, ['int', 'integer', 'float', 'double', 'string', 'bool', 'boolean', 'array', 'null'], true)) {
+        settype($value, $typeName);
+        $prop->setValue($instance, $value);
+      } else if (class_exists($typeName) && is_array($value)) {
+        $nestedObj = $this->hydrateObject($typeName, $value);
+        $prop->setValue($instance, $nestedObj);
+      } else {
+        $prop->setValue($instance, $value);
+      }
+    }
+
+    return $instance;
+  }
+
+
   public static function data(
-		string | null $key,
+		string|null $key,
 		RequestType $requestType,
 		array $controllerEndpoint = [],
     array $requestEndpoint = []
-	): array | object | string | null {
+	): mixed {
 		$requestData = match($requestType)
 		{
 			RequestType::file => RequestData::getFile( RequestType::file ),
@@ -63,6 +109,8 @@ class Request
 				$controllerEndpoint, $requestEndpoint
 			)
 		};
+
+    print_r($requestData);
 		
 		if( is_array( $requestData )){
 			if( is_null( $key ) === false ){
