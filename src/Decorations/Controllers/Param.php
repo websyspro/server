@@ -21,7 +21,7 @@ class Param
     array $requestEndpoint = []
   ): array | object | string | null {
     return Request::data(
-      $this->key, RequestType::params, $controllerEndpoint , $requestEndpoint
+      $this->key, "string", RequestType::params, $controllerEndpoint , $requestEndpoint
     );
   }
 }

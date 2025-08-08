@@ -19,7 +19,7 @@ class Query
   public function execute(
   ): array | object | string | null {
     return Request::data(
-      $this->key, RequestType::query
+      $this->key, "string", RequestType::query
     );
   }
 }
