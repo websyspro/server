@@ -240,4 +240,17 @@ class SchedulerRunner
       }
     );
   }
+
+  public function startAllTask(
+  ): void {
+    $this->modules->forEach(
+      function(SchedulerTask $schedulerTask){
+        try {
+          $schedulerTask->instance->run();
+        } catch(Exception $error){
+          Log::error(LogType::service, "Error {$error->getMessage()}");
+        }
+      }
+    );
+  }  
 }

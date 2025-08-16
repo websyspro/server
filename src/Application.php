@@ -5,12 +5,14 @@ namespace Websyspro\Server;
 use Exception;
 use Websyspro\Logger\Log;
 use Websyspro\Commons\DataList;
+use Websyspro\Commons\Reflect;
 use Websyspro\Commons\Statics;
 use Websyspro\Commons\Util;
 use Websyspro\Logger\Enums\LogType;
 use Websyspro\Server\Exceptions\Error;
 use Websyspro\Server\Shareds\ItemController;
 use Websyspro\Server\Shareds\SchedulerRunner;
+use Websyspro\Server\Shareds\SchedulerTask;
 use Websyspro\Server\Shareds\StructureModule;
 use Websyspro\Server\Shareds\StructureModuleControllers;
 use Websyspro\Server\Shareds\StructureModuleEntitys;
@@ -83,17 +85,27 @@ class Application
 
   private function initialSchedulers(
   ): void {
-    $this->schedulerRunner = (
-      new SchedulerRunner(
-        $this->modules->copy()
-      )
-    );
+    if($this->hasSchedule() === true){
+      $this->schedulerRunner = (
+        new SchedulerRunner(
+          $this->modules->copy()
+        )
+      );
 
-    if($this->schedulerRunner->isRunning() === true){
-      $this->schedulerRunner->stop();
+      $this->schedulerRunner->startAllTask();
+    } else {
+      $this->schedulerRunner = (
+        new SchedulerRunner(
+          $this->modules->copy()
+        )
+      );
+
+      if($this->schedulerRunner->isRunning() === true){
+        $this->schedulerRunner->stop();
+      }
+
+      $this->schedulerRunner->start();      
     }
-
-    $this->schedulerRunner->start();
   }  
 
   public function initialControllersLogs(
@@ -223,6 +235,21 @@ class Application
         === "cli"
     );
   }
+
+  private function hasSchedule(
+  ): bool {
+    ["argv" => $argv] = $_SERVER;
+
+    if(sizeof($argv) === 2){
+      $argName = DataList::create($argv)->last();
+
+      if($argName === "--schedule"){
+        return true;
+      }
+    } 
+
+    return false;
+  }  
 
   private function hasServerApi(
   ): bool {
