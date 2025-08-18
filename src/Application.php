@@ -5,14 +5,12 @@ namespace Websyspro\Server;
 use Exception;
 use Websyspro\Logger\Log;
 use Websyspro\Commons\DataList;
-use Websyspro\Commons\Reflect;
 use Websyspro\Commons\Statics;
 use Websyspro\Commons\Util;
 use Websyspro\Logger\Enums\LogType;
 use Websyspro\Server\Exceptions\Error;
 use Websyspro\Server\Shareds\ItemController;
 use Websyspro\Server\Shareds\SchedulerRunner;
-use Websyspro\Server\Shareds\SchedulerTask;
 use Websyspro\Server\Shareds\StructureModule;
 use Websyspro\Server\Shareds\StructureModuleControllers;
 use Websyspro\Server\Shareds\StructureModuleEntitys;
@@ -22,7 +20,7 @@ use Websyspro\Server\Shareds\StructureRoute;
 class Application
 {
   public readonly Request $request;
-  public readonly SchedulerRunner $schedulerRunner;
+  public SchedulerRunner $schedulerRunner;
   public DataList $structureModuleControllers;
   public DataList $structureModuleEntitys;
   public DataList $structureModuleServices;
@@ -33,6 +31,7 @@ class Application
     $this->runStatics();
     $this->runClient();
     $this->runServer();
+    $this->runSchedule();
   }
 
   public function runStatics(
@@ -52,13 +51,16 @@ class Application
 
   public function runClient(
   ): void {
-    if($this->hasClient() === true){
-      $this->initialControllers();
-      $this->initialControllersLogs();
-      $this->initialUpdatedsEntitys();
-      $this->initialUpdatedsServices();
-      $this->initialSchedulers();
+    if($this->hasSchedule() === false){
+      if($this->hasClient() === true){
+        $this->initialControllers();
+        $this->initialControllersLogs();
+        $this->initialUpdatedsEntitys();
+        $this->initialUpdatedsServices();
+        $this->initialSchedulers();
+      }
     }
+
   }
 
   private function initialUpdatedsEntitys(
@@ -83,7 +85,7 @@ class Application
     );
   }
 
-  private function initialSchedulers(
+  public function runSchedule(
   ): void {
     if($this->hasSchedule() === true){
       $this->schedulerRunner = (
@@ -92,21 +94,28 @@ class Application
         )
       );
 
-      $this->schedulerRunner->startAllTask();
-    } else {
-      $this->schedulerRunner = (
-        new SchedulerRunner(
-          $this->modules->copy()
-        )
-      );
+      if($this->schedulerRunner instanceof SchedulerRunner){
+        $this->schedulerRunner->startAllTask();
+      }
+    }
+  }
 
+  private function initialSchedulers(
+  ): void {
+    $this->schedulerRunner = (
+      new SchedulerRunner(
+        $this->modules->copy()
+      )
+    );
+
+    if($this->schedulerRunner instanceof SchedulerRunner){
       if($this->schedulerRunner->isRunning() === true){
         $this->schedulerRunner->stop();
       }
 
-      $this->schedulerRunner->start();      
+      $this->schedulerRunner->start();
     }
-  }  
+  }
 
   public function initialControllersLogs(
   ): void {
