@@ -249,6 +249,10 @@ class Application
   ): bool {
     ["argv" => $argv] = $_SERVER;
 
+    if($argv === null){
+      return false;
+    }
+
     if(sizeof($argv) === 2){
       $argName = DataList::create($argv)->last();
 
