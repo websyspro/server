@@ -8,7 +8,7 @@ namespace Websyspro\Server
       string $url
     ): array {
       $requestFile = file_get_contents($url);
-      return json_decode($requestFile);
+      return json_decode($requestFile, true);
     }
   }
 }
