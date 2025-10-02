@@ -18,8 +18,7 @@ class StructureModule
         fn(string $module) => (
           Reflect::InstancesFromAttributes($module)->mapper(
             function(Module $item) use ($module) {
-              $entitys = DataList::create($item->Entitys);
-              return $entitys->count() === 0 ? $entitys : $entitys->mapper(
+              return DataList::create($item->Entitys)->mapper(
                 fn(string $entity) => new IModuleEntity(
                   entity: $entity, module: $module
                 )
