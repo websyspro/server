@@ -17,11 +17,14 @@ class StructureModule
       $this->modules->copy()->mapper(
         fn(string $module) => (
           Reflect::InstancesFromAttributes($module)->mapper(
-            fn(Module $item) => DataList::create($item->Entitys)->mapper(
-              fn(string $entity) => new IModuleEntity(
-                entity: $entity, module: $module
-              )
-            )
+            function(Module $item) use ($module) {
+              $entitys = DataList::create($item->Entitys);
+              return $entitys->count() === 0 ? $entitys : $entitys->mapper(
+                fn(string $entity) => new IModuleEntity(
+                  entity: $entity, module: $module
+                )
+              );
+            }
           )
         )
       )
