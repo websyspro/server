@@ -28,11 +28,34 @@ class Application
   public function __construct(
     public DataList $modules
   ){
+    $this->runPutEnvs();
     $this->runStatics();
     $this->runClient();
     $this->runServer();
     $this->runSchedule();
   }
+
+public function runPutEnvs(
+  ): void {
+    if(defined("rootdir")){
+      $envfile = DataList::create(
+        file(rootdir . DIRECTORY_SEPARATOR . ".env")
+      );
+
+      $envfile
+        ->where(fn(string $line) => preg_match("#^(\#|;)#", $line) === 0)
+        ->where(fn(string $line) => empty(trim($line)) === false)
+        ->mapper(fn(string $line) => explode("=", $line))
+        ->mapper(
+          function(array $line){
+            [ $key, $val ] = $line;
+
+            putenv(sprintf(
+              "%s=%s", trim($key), trim($val, " \t\n\r\0\x0B\"'")
+            ));
+          });
+    }
+  }  
 
   public function runStatics(
   ): void {
