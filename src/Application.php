@@ -55,7 +55,7 @@ class Application
             ));
           });
     }
-  }
+  }  
 
   public function runStatics(
   ): void {
@@ -202,6 +202,13 @@ class Application
     return Util::className($class);
   }
 
+  private function baseAPIDefault(
+  ): string {
+    return sprintf("%s/%s", ...[
+      getenv("API"), getenv("VERSION")
+    ]);
+  }
+
   private function hasModules(
   ): void {
     $this->structureModuleControllers->where(
@@ -214,9 +221,13 @@ class Application
            === strtolower($this->request->module);
       }
     );
-
+    
     if($this->structureModuleControllers->exist() === false){
-      Error::notFound("Module {$this->request->module} not found");
+      if($this->request->uri !== $this->baseAPIDefault()){
+        Error::notFound("Module {$this->request->module} not found....");
+      } else {
+        Response::json( "Service is running smoothly", Response::HTTP_OK)->send(); 
+      }
     }
   }
 
@@ -295,7 +306,7 @@ class Application
   ): bool {
     return isset(
       $this->request->base
-    ) && empty($this->request->base) === false && $this->request->base === "api";
+    ) && $this->request->base === getenv("API");
   }
 
   private function initialServer(

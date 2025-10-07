@@ -57,12 +57,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/database.git",
+<<<<<<< HEAD
                 "reference": "c7adb10376fbdde4f248fef2e302df06fbbf70f3"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/websyspro/database/zipball/c7adb10376fbdde4f248fef2e302df06fbbf70f3",
                 "reference": "c7adb10376fbdde4f248fef2e302df06fbbf70f3",
+=======
+                "reference": "6ed29dea9bd1a52100b568b3fc87f475448e9e05"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/database/zipball/6ed29dea9bd1a52100b568b3fc87f475448e9e05",
+                "reference": "6ed29dea9bd1a52100b568b3fc87f475448e9e05",
+>>>>>>> d4f0d83b30044fe4f51c1e84b055b70c69eb42d0
                 "shasum": ""
             },
             "require-dev": {
@@ -92,7 +101,11 @@
                 "issues": "https://github.com/websyspro/database/issues",
                 "source": "https://github.com/websyspro/database/tree/main"
             },
+<<<<<<< HEAD
             "time": "2025-10-03T19:43:24+00:00"
+=======
+            "time": "2025-10-07T12:25:17+00:00"
+>>>>>>> d4f0d83b30044fe4f51c1e84b055b70c69eb42d0
         },
         {
             "name": "websyspro/dynamicsql",
@@ -146,12 +159,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/entity.git",
+<<<<<<< HEAD
                 "reference": "2238aa9bc878e94dc08268cfe84b188559741392"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/websyspro/entity/zipball/2238aa9bc878e94dc08268cfe84b188559741392",
                 "reference": "2238aa9bc878e94dc08268cfe84b188559741392",
+=======
+                "reference": "ec925609ac500e4d714bf3fcfaac802db8f5f210"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/entity/zipball/ec925609ac500e4d714bf3fcfaac802db8f5f210",
+                "reference": "ec925609ac500e4d714bf3fcfaac802db8f5f210",
+>>>>>>> d4f0d83b30044fe4f51c1e84b055b70c69eb42d0
                 "shasum": ""
             },
             "require-dev": {
@@ -183,7 +205,11 @@
                 "issues": "https://github.com/websyspro/entity/issues",
                 "source": "https://github.com/websyspro/entity/tree/main"
             },
+<<<<<<< HEAD
             "time": "2025-10-04T13:57:14+00:00"
+=======
+            "time": "2025-10-07T02:02:58+00:00"
+>>>>>>> d4f0d83b30044fe4f51c1e84b055b70c69eb42d0
         },
         {
             "name": "websyspro/jwt",

@@ -92,7 +92,7 @@ class Request
 
   public static function accessToken(
   ): Decode|null {
-    ["HTTP_AUTHORIZATION" => $httpAuthorization] = $_SERVER;
+    [ "HTTP_AUTHORIZATION" => $httpAuthorization ] = $_SERVER;
 
     if($httpAuthorization === null){
       return null;
