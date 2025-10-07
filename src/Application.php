@@ -270,6 +270,10 @@ class Application
 
   private function hasSchedule(
   ): bool {
+    if(isset($_SERVER["argv"]) === false){
+      return false;
+    }
+
     ["argv" => $argv] = $_SERVER;
 
     if($argv === null){
