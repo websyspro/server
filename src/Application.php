@@ -202,6 +202,13 @@ public function runPutEnvs(
     return Util::className($class);
   }
 
+  private function baseAPIDefault(
+  ): string {
+    return sprintf("%s/%s", ...[
+      getenv("API"), getenv("VERSION")
+    ]);
+  }
+
   private function hasModules(
   ): void {
     $this->structureModuleControllers->where(
@@ -214,9 +221,13 @@ public function runPutEnvs(
            === strtolower($this->request->module);
       }
     );
-
+    
     if($this->structureModuleControllers->exist() === false){
-      Error::notFound("Module {$this->request->module} not found");
+      if($this->request->uri !== $this->baseAPIDefault()){
+        Error::notFound("Module {$this->request->module} not found....");
+      } else {
+        Response::json( "Service is running smoothly", Response::HTTP_OK)->send(); 
+      }
     }
   }
 
