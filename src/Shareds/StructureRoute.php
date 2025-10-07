@@ -112,12 +112,14 @@ class StructureRoute
     );
 
     $properties->mapper(
-      fn(ReflectionParameter $reflectionParameter) => (
-        new StructureRouteParam(
-          array_shift($reflectionParameter->getAttributes())->newInstance(),
+      function(ReflectionParameter $reflectionParameter){
+        [ $reflectionAttribute ] = $reflectionParameter->getAttributes();
+
+        return new StructureRouteParam(
+          $reflectionAttribute->newInstance(),
           $reflectionParameter->getType()->getName()
-        )
-      )
+        );
+      }
     );
 
     $properties->mapper(
