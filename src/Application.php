@@ -38,9 +38,22 @@ class Application
   public function runPutEnvs(
   ): void {
     if(defined("rootdir")){
-      $envfile = file(rootdir . ".env");
+      $envfile = DataList::create(
+        file(rootdir . DIRECTORY_SEPARATOR . ".env")
+      );
 
-      print_r($envfile);
+      $envfile
+        ->where(fn(string $line) => preg_match("#^(\#|;)#", $line) === 0)
+        ->where(fn(string $line) => empty(trim($line)) === false)
+        ->mapper(fn(string $line) => explode("=", $line))
+        ->mapper(
+          function(array $line){
+            [ $key, $val ] = $line;
+
+            putenv(sprintf(
+              "%s=%s", trim($key), trim($val, " \t\n\r\0\x0B\"'")
+            ));
+          });
     }
   }
 
