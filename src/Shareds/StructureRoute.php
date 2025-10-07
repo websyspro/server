@@ -126,8 +126,9 @@ class StructureRoute
       function(StructureRouteParam $structureRouteParam) use($request){
         if($structureRouteParam->instance instanceof Param){
           return $structureRouteParam->instance ->execute(
+            $structureRouteParam->instanceType,
             explode("/", $this->endpoint->first()->endpoint), 
-              $request->endpoint
+            $request->endpoint
           );
         } else
         if($structureRouteParam->instance instanceof Body){

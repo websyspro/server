@@ -17,11 +17,12 @@ class Param
   ){}
 
   public function execute(
+    string $instanceType,
     array $controllerEndpoint = [],
     array $requestEndpoint = []
   ): array | object | string | null {
     return Request::data(
-      $this->key, "string", RequestType::params, $controllerEndpoint , $requestEndpoint
+      $this->key, $instanceType, RequestType::params, $controllerEndpoint , $requestEndpoint
     );
   }
 }

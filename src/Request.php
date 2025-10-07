@@ -64,7 +64,7 @@ class Request
 				$controllerEndpoint, $requestEndpoint
 			)
 		};
-
+    
 		if( is_array( $requestData )){
 			if( is_null( $key ) === false ){
 				if( isset( $requestData[ $key ] )){
