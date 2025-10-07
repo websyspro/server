@@ -268,7 +268,7 @@ class Application
   ): bool {
     return isset(
       $this->request->base
-    ) && empty($this->request->base) === false && $this->request->base === "api";
+    ) && empty($this->request->base) === false && $this->request->base === getenv("API");
   }
 
   private function initialServer(
