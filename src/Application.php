@@ -28,10 +28,20 @@ class Application
   public function __construct(
     public DataList $modules
   ){
+    $this->runPutEnvs();
     $this->runStatics();
     $this->runClient();
     $this->runServer();
     $this->runSchedule();
+  }
+
+  public function runPutEnvs(
+  ): void {
+    if(defined("rootdir")){
+      $envfile = file(rootdir . ".env");
+
+      print_r($envfile);
+    }
   }
 
   public function runStatics(
