@@ -122,6 +122,8 @@ class StructureRoute
       }
     );
 
+    print_r($properties);
+
     $properties->mapper(
       function(StructureRouteParam $structureRouteParam) use($request){
         if($structureRouteParam->instance instanceof Param){
@@ -178,8 +180,6 @@ class StructureRoute
     $this->middlewares(
       $request, $middlewaresFromController
     );
-
-    print_r($this->getParameters($request)->All());
 
     call_user_func_array([
       $this->getInstance(), $this->getMethod()
