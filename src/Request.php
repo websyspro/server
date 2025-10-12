@@ -67,7 +67,7 @@ class Request
 
     print_r($requestData);
     print_r($instanceType);
-    print_r($key);
+    var_dump($key);
     
 		if( is_array( $requestData )){
 			if( is_null( $key ) === false ){
