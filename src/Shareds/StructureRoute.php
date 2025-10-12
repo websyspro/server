@@ -132,6 +132,7 @@ class StructureRoute
           );
         } else
         if($structureRouteParam->instance instanceof Body){
+          print_r($structureRouteParam->instanceType);
           return $structureRouteParam->instance->execute(
             $structureRouteParam->instanceType
           );
