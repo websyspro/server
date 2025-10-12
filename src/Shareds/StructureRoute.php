@@ -132,7 +132,6 @@ class StructureRoute
           );
         } else
         if($structureRouteParam->instance instanceof Body){
-          print_r($structureRouteParam->instanceType);
           return $structureRouteParam->instance->execute(
             $structureRouteParam->instanceType
           );
@@ -179,6 +178,8 @@ class StructureRoute
     $this->middlewares(
       $request, $middlewaresFromController
     );
+
+    print_r($this->getParameters($request)->All());
 
     call_user_func_array([
       $this->getInstance(), $this->getMethod()
