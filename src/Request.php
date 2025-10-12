@@ -81,9 +81,6 @@ class Request
       if(Util::isPrimitiveType($instanceType)){
         return $requestData;
       } else {
-        print_r(Util::hydrateObject(
-          $requestData, $instanceType
-        ));
         return Util::hydrateObject(
           $requestData, $instanceType
         );
