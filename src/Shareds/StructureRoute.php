@@ -122,8 +122,6 @@ class StructureRoute
       }
     );
 
-    print_r($properties);
-
     $properties->mapper(
       function(StructureRouteParam $structureRouteParam) use($request){
         if($structureRouteParam->instance instanceof Param){
