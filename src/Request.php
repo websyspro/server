@@ -65,10 +65,6 @@ class Request
 			)
 		};
 
-    print_r($requestData);
-    print_r($instanceType);
-    var_dump($key);
-    
 		if( is_array( $requestData )){
 			if( is_null( $key ) === false ){
 				if( isset( $requestData[ $key ] )){
@@ -85,6 +81,7 @@ class Request
       if(Util::isPrimitiveType($instanceType)){
         return $requestData;
       } else {
+        print_r("......");
         return Util::hydrateObject(
           $requestData, $instanceType
         );
