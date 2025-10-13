@@ -16,6 +16,7 @@ use Websyspro\Server\Shareds\StructureModuleControllers;
 use Websyspro\Server\Shareds\StructureModuleEntitys;
 use Websyspro\Server\Shareds\StructureModuleServices;
 use Websyspro\Server\Shareds\StructureRoute;
+use Websyspro\Server\Shareds\Swaggers\SwaggerModules;
 
 class Application
 {
@@ -76,6 +77,7 @@ class Application
   ): void {
     if($this->hasSchedule() === false){
       if($this->hasClient() === true){
+        $this->initialSwaggers();
         $this->initialControllers();
         $this->initialControllersLogs();
         $this->initialUpdatedsEntitys();
@@ -189,10 +191,28 @@ class Application
     $this->request = new Request();
   }
 
+  private function initialSwaggers(
+  ): void {
+    file_put_contents((
+        rootdir . DIRECTORY_SEPARATOR . "swaggers.json"
+      ), json_encode(
+        Util::convertKeysToCamelCase(
+          $this->modules->copy()
+            ->mapper(fn(string $module) => new StructureModuleControllers($module))
+            ->mapper(fn(StructureModuleControllers $struture) => new SwaggerModules($struture))
+        )
+      )
+    );
+  }
+
   private function initialControllers(
   ): void {
-    $this->structureModuleControllers = $this->modules->copy()->mapper(
-      fn(string $module) => new StructureModuleControllers($module)
+    $this->structureModuleControllers = (
+      $this->modules->copy()->mapper(
+        function(string $module){
+          return new StructureModuleControllers($module);
+        }
+      )
     );
   }   
 
