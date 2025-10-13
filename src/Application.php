@@ -194,7 +194,7 @@ class Application
   private function initialSwaggers(
   ): void {
     file_put_contents((
-        rootdir . DIRECTORY_SEPARATOR . "swaggers.json"
+        rootdir . DIRECTORY_SEPARATOR . "routers.json"
       ), json_encode(
         Util::convertKeysToCamelCase(
           $this->modules->copy()
