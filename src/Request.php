@@ -36,16 +36,33 @@ class Request
     );  
   }
 
+  private function isAmbientAPI(
+  ): bool {
+    return preg_match("#^api/v[0-9]/#", $this->uri) === 1;
+  }
+
   private function setEnvironmentPaths(
   ): void {
-    [ $this->base, $this->ver, $this->module, $this->controller 
-    ] = explode( "/", $this->uri );
+    if($this->isAmbientAPI() === true){
+      [ $this->base, $this->ver, $this->module, $this->controller 
+      ] = explode( "/", $this->uri );
+  
+      $this->endpoint = Util::where(
+        array_slice( explode( 
+          "/", preg_replace( "/\?.+/", "", $this->uri )
+        ), 4 ), fn( string $path ) => $path !== ""
+      );
+    } else {
+      [ $this->module, $this->controller 
+      ] = explode( "/", $this->uri );
+  
+      $this->endpoint = Util::where(
+        array_slice( explode( 
+          "/", preg_replace( "/\?.+/", "", $this->uri )
+        ), 4 ), fn( string $path ) => $path !== ""
+      );      
+    }
 
-    $this->endpoint = Util::where(
-      array_slice( explode( 
-        "/", preg_replace( "/\?.+/", "", $this->uri )
-      ), 4 ), fn( string $path ) => $path !== ""
-    );
   }
 
   public static function data(

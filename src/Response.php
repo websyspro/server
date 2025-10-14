@@ -78,7 +78,8 @@ class Response
 
 	public function __construct(
 		public mixed $message,
-		public int $httpStatus
+		public int $httpStatus,
+		public bool $isJson = true
 	){}
 
 	private function sendContext(
@@ -93,6 +94,18 @@ class Response
 		return json_encode($context);
 	}
 
+	private function sendContextHtml(
+		array $context = []
+	): string {
+		header(Headers::accessControlAllowOrigin->value);
+		header(Headers::accessControlAllowHeaders->value);
+		header(Headers::accessControlAllowMethods->value);
+		header(Headers::textHtml->value);
+
+		http_response_code($this->httpStatus);
+		return json_encode($context);
+	}	
+
 	public function contextStatus(
 	): bool {
 		return ( 
@@ -104,7 +117,14 @@ class Response
 
 	public function context(
 	): string {
-		return $this->sendContext([
+		if($this->isJson === true){
+			return $this->sendContext([
+				"success" => $this->contextStatus(),
+				"content" => $this->message
+			]);
+		}
+
+		return $this->sendContextHtml([
 			"success" => $this->contextStatus(),
 			"content" => $this->message
 		]);
@@ -122,6 +142,16 @@ class Response
 		return new static(
 			message: Util::convertKeysToCamelCase($message),
 			httpStatus: $httpStatus
+		);
+	}
+
+	public static function html(
+		mixed $message,
+		int $httpStatus = Response::HTTP_OK
+	): Response {
+		return new static(
+			message: $message,
+			httpStatus: $httpStatus, isJson: false
 		);
 	}
 }
