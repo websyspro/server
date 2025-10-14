@@ -124,10 +124,7 @@ class Response
 			]);
 		}
 
-		return $this->sendContextHtml([
-			"success" => $this->contextStatus(),
-			"content" => $this->message
-		]);
+		return $this->sendContextHtml($this->message);
 	}
 
 	public function send(
