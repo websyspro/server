@@ -95,7 +95,7 @@ class Response
 	}
 
 	private function sendContextHtml(
-		string $context
+		array $context = []
 	): string {
 		header(Headers::accessControlAllowOrigin->value);
 		header(Headers::accessControlAllowHeaders->value);
@@ -103,7 +103,7 @@ class Response
 		header(Headers::textHtml->value);
 
 		http_response_code($this->httpStatus);
-		return $context;
+		return json_encode($context);
 	}	
 
 	public function contextStatus(
@@ -124,7 +124,10 @@ class Response
 			]);
 		}
 
-		return $this->sendContextHtml($this->message);
+		return $this->sendContextHtml([
+			"success" => $this->contextStatus(),
+			"content" => $this->message
+		]);
 	}
 
 	public function send(
