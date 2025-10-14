@@ -100,7 +100,7 @@ class Response
 		header(Headers::accessControlAllowOrigin->value);
 		header(Headers::accessControlAllowHeaders->value);
 		header(Headers::accessControlAllowMethods->value);
-		header(Headers::textHtml->value);
+		header(Headers::applicationJSON->value);
 
 		http_response_code($this->httpStatus);
 		return json_encode($context);
