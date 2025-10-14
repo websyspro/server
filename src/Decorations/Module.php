@@ -8,9 +8,9 @@ use Attribute;
 class Module
 {
   public function __construct(
-    public readonly array $Controllers,
-    public readonly array $Entitys,
-    public readonly array $Services,
-    public readonly array $Schedulers
+    public readonly array $Controllers = [],
+    public readonly array $Entitys = [],
+    public readonly array $Services = [],
+    public readonly array $Schedulers = []
   ){}  
 }

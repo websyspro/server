@@ -343,8 +343,7 @@ class Application
   public function initialPublic(
   ): void {
     if(file_exists(rootdir . "/src/Public/index.php")){
-      echo "afdafdsfsd";
-      //require_once rootdir . "/src/Public/index.php";
+      require_once rootdir . "/src/Public/index.php";
     }
   }
 
