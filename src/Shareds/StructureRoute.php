@@ -11,6 +11,7 @@ use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
 use Websyspro\Server\Decorations\Middlewares\Authenticate;
 use Websyspro\Server\Enums\AttributeType;
 use Websyspro\Server\Request;
+use Websyspro\Server\Response;
 
 class StructureRouteParam
 {
@@ -179,8 +180,27 @@ class StructureRoute
       $request, $middlewaresFromController
     );
 
-    call_user_func_array([
+    $useController = call_user_func_array([
       $this->getInstance(), $this->getMethod()
-    ], $this->getParameters($request)->All())->send();
-  } 
+    ], $this->getParameters($request)->All());
+
+    if($useController instanceof Response){
+      $useController->send();
+    }
+  }
+  
+  public function executeHtml(
+    Request $request,
+    DataList $middlewaresFromController,
+  ): Response {
+    $this->middlewares(
+      $request, $middlewaresFromController
+    );
+
+    $useController = call_user_func_array([
+      $this->getInstance(), $this->getMethod()
+    ], $this->getParameters($request)->All());
+
+    return $useController;
+  }  
 }
