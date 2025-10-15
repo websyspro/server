@@ -12,6 +12,7 @@ use Websyspro\Server\Shareds\StructureRoute;
 
 class Document
 {
+  public Response $response;
   public readonly Request $request;
   public DataList $structureModuleControllers;
 
@@ -90,11 +91,11 @@ class Document
     if($this->structureModuleControllers->first()->structureControllers->controllers->first()->routes->exist() === false){
       Error::notFound(sprintf("Route {$this->request->controller}/%s not found", implode("/", $this->request->endpoint)));
     }
-
-    $this->structureModuleControllers
+    
+    $this->response = $this->structureModuleControllers
       ->first()->structureControllers->controllers
       ->first()->routes
-      ->first()->execute(
+      ->first()->executeHtml(
         $this->request,
         $this->structureModuleControllers
           ->first()->structureControllers->controllers
@@ -120,7 +121,15 @@ class Document
       $error->getMessage(), 
       $error->getCode()
     )->send();    
-  }  
+  }
+  
+  public function base(
+    string $base
+  ): void {
+    (new $base())->render(
+      $this->response
+    );
+  }
 
   public static function render(
     array $modules
