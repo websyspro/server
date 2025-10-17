@@ -11,6 +11,6 @@ class Controller
   public AttributeType $attributeType = AttributeType::controller;
 
   public function __construct(
-    public readonly string $name
+    public readonly string|null $name = null
   ){}
 }
