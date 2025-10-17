@@ -13,6 +13,6 @@ class Route
   public AttributeType $attributeType = AttributeType::endpoint;
 
   public function __construct(
-    public readonly string | null $endpoint = null
+    public readonly string|null $endpoint = null
   ){}
 }
