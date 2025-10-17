@@ -275,7 +275,7 @@ class Application
         )
       )
     );
-
+    
     if($this->structureModuleControllers->first()->structureControllers->controllers->first()->routes->exist() === false){
       Error::notFound(sprintf("Route {$this->request->controller}/%s not found", implode("/", $this->request->endpoint)));
     }

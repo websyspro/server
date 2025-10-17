@@ -10,17 +10,9 @@ use Websyspro\Server\Request;
 #[Attribute( Attribute::TARGET_METHOD )]
 class Route
 {
-  public AttributeType $attributeType = AttributeType::parameter;
+  public AttributeType $attributeType = AttributeType::endpoint;
 
   public function __construct(
-    public readonly string | null $key = null
+    public readonly string | null $endpoint = null
   ){}
-
-  public function execute(
-    string $instanceType
-  ): array | object | string | null {
-    return Request::data(
-      $this->key, $instanceType, RequestType::body
-    );
-  }
 }
