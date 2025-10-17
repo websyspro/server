@@ -7,7 +7,7 @@ use Websyspro\Server\Enums\AttributeType;
 use Websyspro\Server\Enums\RequestType;
 use Websyspro\Server\Request;
 
-#[Attribute( Attribute::TARGET_PARAMETER )]
+#[Attribute( Attribute::TARGET_METHOD )]
 class Route
 {
   public AttributeType $attributeType = AttributeType::parameter;
