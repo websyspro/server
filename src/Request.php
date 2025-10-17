@@ -53,14 +53,20 @@ class Request
         ), 4 ), fn( string $path ) => $path !== ""
       );
     } else {
-      [ $this->module, $this->controller 
-      ] = explode( "/", $this->uri );
-  
-      $this->endpoint = Util::where(
-        array_slice( explode( 
-          "/", preg_replace( "/\?.+/", "", $this->uri )
-        ), 4 ), fn( string $path ) => $path !== ""
-      );      
+      if(empty($this->uri) === false){
+        [ $this->module, $this->controller 
+        ] = explode( "/", $this->uri );
+    
+        $this->endpoint = Util::where(
+          array_slice( explode( 
+            "/", preg_replace( "/\?.+/", "", $this->uri )
+          ), 4 ), fn( string $path ) => $path !== ""
+        ); 
+      } else {
+        $this->module = "home";
+        $this->endpoint = [];
+        $this->controller = null;
+      }
     }
 
   }
