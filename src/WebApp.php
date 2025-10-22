@@ -10,14 +10,15 @@ use Websyspro\Server\Shareds\ItemController;
 use Websyspro\Server\Shareds\StructureModuleControllers;
 use Websyspro\Server\Shareds\StructureRoute;
 
-class Document
+class WebApp
 {
   public Response $response;
   public readonly Request $request;
   public DataList $structureModuleControllers;
 
   public function __construct(
-    public DataList $modules
+    public DataList $public,
+    public DataList $private
   ){
     $this->runServer();
   }
@@ -105,13 +106,14 @@ class Document
 
   private function initialControllers(
   ): void {
+    /*
     $this->structureModuleControllers = (
       $this->modules->copy()->mapper(
         function(string $module){
           return new StructureModuleControllers($module);
         }
       )
-    );
+    ); */
   }
   
   private function setError(
@@ -132,12 +134,12 @@ class Document
   }
 
   public static function render(
-    array $modules
-  ): Document {
+    array $public,
+    array $private
+  ): WebApp {
     return new static(
-      DataList::create(
-        $modules
-      )
+      DataList::create($public),
+      DataList::create($private)
     );
   }  
 }
