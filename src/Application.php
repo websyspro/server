@@ -178,6 +178,7 @@ class Application
     if($this->hasClient() === false){
       $this->initial();      
       if($this->hasServerApi()){
+        $this->initialCheckIsOpen();
         $this->initialControllers();
         $this->initialServer();
       } else {
@@ -203,6 +204,13 @@ class Application
         )
       )
     );
+  }
+
+  private function initialCheckIsOpen(
+  ): void {
+    if($this->request->method === "OPTIONS"){
+      Response::json("0k", 200)->send(); 
+    }
   }
 
   private function initialControllers(
