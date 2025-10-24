@@ -79,7 +79,7 @@ class Response
 	public function __construct(
 		public mixed $message,
 		public int $httpStatus,
-		public bool $isJson = true
+		public bool $isJSON = true
 	){}
 
 	private function sendContext(
@@ -100,7 +100,7 @@ class Response
 		header(Headers::accessControlAllowOrigin->value);
 		header(Headers::accessControlAllowHeaders->value);
 		header(Headers::accessControlAllowMethods->value);
-		header(Headers::applicationJSON->value);
+		header(Headers::textHtml->value);
 
 		http_response_code($this->httpStatus);
 		return json_encode($context);
@@ -117,7 +117,7 @@ class Response
 
 	public function context(
 	): string {
-		if($this->isJson === true){
+		if($this->isJSON === true){
 			return $this->sendContext([
 				"success" => $this->contextStatus(),
 				"content" => $this->message
@@ -151,7 +151,7 @@ class Response
 	): Response {
 		return new static(
 			message: $message,
-			httpStatus: $httpStatus, isJson: false
+			httpStatus: $httpStatus, isJSON: false
 		);
 	}
 }
