@@ -192,15 +192,24 @@ class StructureRoute
   public function executeHtml(
     Request $request,
     DataList $middlewaresFromController,
-  ): Response {
+  ): mixed {
     $this->middlewares(
       $request, $middlewaresFromController
     );
 
-    $useController = call_user_func_array([
+    $getEndpoint = call_user_func_array([
       $this->getInstance(), $this->getMethod()
     ], $this->getParameters($request)->All());
 
-    return $useController;
+    if(is_object($getEndpoint->message) === true){
+      if(method_exists($getEndpoint->message, "get") === true){
+        return $getEndpoint->message->get();
+      }
+    } else
+    if(is_string($getEndpoint->message) === true){
+      return $getEndpoint->message;
+    }
+
+    return $getEndpoint->message;
   }  
 }

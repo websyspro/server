@@ -4,10 +4,13 @@ namespace Websyspro\Server;
 
 use Websyspro\Commons\DataList;
 use Websyspro\DynamicSql\Core\DataByFn;
+use Websyspro\Elements\Document;
+use Websyspro\Elements\Dom;
 use Websyspro\Server\Shareds\ItemController;
 use Websyspro\Server\Shareds\StructureControllers;
 use Websyspro\Server\Shareds\StructureModuleControllers;
 use Websyspro\Server\Shareds\StructureRoute;
+use Websyspro\Server\Shareds\StructureView;
 
 class WebApp
 {
@@ -22,9 +25,9 @@ class WebApp
   public StructureControllers $structureControllersPrivates;
 
   public function __construct(
+    public StructureView $structureView,
     public DataList $publics,
-    public DataList $privates,
-    public DataList $bootstraps
+    public DataList $privates
   ){
     $this->runServer();
   }
@@ -57,15 +60,6 @@ class WebApp
             ));
           });
     }
-  }
-  
-  private function getRequestURIProps(
-  ): DataList {
-    return DataList::create(explode( 
-      "/", preg_replace( "/\?.+/", "", preg_replace(
-        [ "/(?<=[^\/])\?/", "/^\/*/", "/\/*$/" ], [ "/?", "" ], $_SERVER["REQUEST_URI"]
-      ))
-    ));
   }
   
   private function initialStructureProps(
@@ -148,31 +142,86 @@ class WebApp
       if($structureControllers->controllers->first()->routes instanceof DataList){
         if($structureControllers->controllers->first()->routes->exist() === false){
           /** TODO Show route not found **/
-
-
+          if(isset($this->structureView->page404)){
+            $this->viewBase(
+              viewBase: $this->structureView->page404,
+              viewHtml: ""
+            );
+          }
         } else {
-          $response = $structureControllers->controllers->first()->routes->first()->executeHtml(
+          $viewHtml = $structureControllers->controllers->first()->routes->first()->executeHtml(
             $this->request, $structureControllers->controllers->first()->middlewares
           );
 
-          if($response instanceof Response){
-            print_r($response);
+          /** Render page home **/
+          if(isset($this->structureView->home)){
+            $this->viewBase(
+              viewBase: $this->structureView->home,
+              viewHtml: $viewHtml
+            );
           }
         }
       }
     }
-
   }
+
+  public function viewBase(
+    string $viewBase,
+    string $viewHtml
+  ): void {
+    Document::render([
+      Dom::docType([
+        "html"
+      ]),
+      Dom::html([ 
+        "lang" => "pt"
+      ], [
+        Dom::head([], [
+          Dom::title([], [
+            "PixGO"
+          ])
+        ]),
+        Dom::body([], [
+          (new $viewBase())
+            ->render($viewHtml)
+        ])
+      ])
+    ]);
+  }
+
+  public static function view(
+    string $login,
+    string $home,
+    string $page404,    
+  ): StructureView {
+    return new StructureView(
+      login: $login,
+      home: $home,
+      page404: $page404
+    );
+  }
+
+  public static function publics(
+    array $publics    
+  ): DataList {
+    return DataList::create($publics);
+  }  
+
+  public static function privates(
+    array $privates    
+  ): DataList {
+    return DataList::create($privates);
+  }  
   
   public static function render(
-    array $public,
-    array $private,
-    array $bootstrap
+    StructureView $structureView,
+    DataList $publics,
+    DataList $privates,
   ): WebApp {
     return new static(
-      DataList::create($public),
-      DataList::create($private),
-      DataList::create($bootstrap)
+      structureView: $structureView,
+      publics: $publics,
+      privates: $privates
     );
   }  
 }
