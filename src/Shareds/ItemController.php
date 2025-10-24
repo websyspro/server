@@ -21,6 +21,10 @@ class ItemController
     $this->startRoutes();
   }
 
+  public function getName(): string {
+    return $this->name->first()->name;
+  }
+
   private function startName(
   ): void {
     $this->name = Reflect::InstancesFromAttributes($this->controller)->where(

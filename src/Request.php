@@ -33,19 +33,37 @@ class Request
     $this->uri = preg_replace(
       [ "/(?<=[^\/])\?/", "/^\/*/", "/\/*$/"  ], 
       [ "/?", "" ], $this->uri
-    );  
+    );
   }
+
+  private function baseAPI(
+  ): string {
+    return sprintf("%s/%s", ...[
+      getenv("API"), getenv("VERSION")
+    ]);
+  }  
 
   private function setEnvironmentPaths(
   ): void {
-    [ $this->base, $this->ver, $this->module, $this->controller 
-    ] = explode( "/", $this->uri );
+    if(str_starts_with($this->uri, $this->baseAPI()) === true){
+      [ $this->base, $this->ver, $this->module, $this->controller 
+      ] = explode( "/", $this->uri );
 
-    $this->endpoint = Util::where(
-      array_slice( explode( 
-        "/", preg_replace( "/\?.+/", "", $this->uri )
-      ), 4 ), fn( string $path ) => $path !== ""
-    );
+      $this->endpoint = Util::where(
+        array_slice( explode( 
+          "/", preg_replace( "/\?.+/", "", $this->uri )
+        ), 4 ), fn( string $path ) => $path !== ""
+      );
+    } else {
+      [ $this->controller ] = explode("/", $this->uri);
+
+      /** Define array endpoints **/
+      $this->endpoint = Util::where(
+        array_slice( explode( 
+          "/", preg_replace( "/\?.+/", "", $this->uri )
+        ), 1 ), fn( string $path ) => $path !== ""
+      );
+    }
   }
 
   public static function data(

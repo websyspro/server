@@ -2,11 +2,10 @@
 
 namespace Websyspro\Server;
 
-use Exception;
 use Websyspro\Commons\DataList;
-use Websyspro\Commons\Util;
-use Websyspro\Server\Exceptions\Error;
+use Websyspro\DynamicSql\Core\DataByFn;
 use Websyspro\Server\Shareds\ItemController;
+use Websyspro\Server\Shareds\StructureControllers;
 use Websyspro\Server\Shareds\StructureModuleControllers;
 use Websyspro\Server\Shareds\StructureRoute;
 
@@ -14,132 +13,166 @@ class WebApp
 {
   public Response $response;
   public readonly Request $request;
-  public DataList $structureModuleControllers;
+
+  public string|null $requestUri;
+  public string|null $controller;
+  public array|null $endpoint;
+
+  public StructureControllers $structureControllersPublics;
+  public StructureControllers $structureControllersPrivates;
 
   public function __construct(
-    public DataList $public,
-    public DataList $private
+    public DataList $publics,
+    public DataList $privates,
+    public DataList $bootstraps
   ){
     $this->runServer();
   }
 
   public function runServer(
   ): void {
-    $this->initial();
-    $this->initialControllers();
+    $this->initialPutEnvs();
+    $this->initialStructureProps();
+    $this->initialStructureControllers();
     $this->initialServer();
   }
+
+  public function initialPutEnvs(
+  ): void {
+    if(defined("rootdir")){
+      $envfile = DataList::create(
+        file(rootdir . DIRECTORY_SEPARATOR . ".env")
+      );
+
+      $envfile
+        ->where(fn(string $line) => preg_match("#^(\#|;)#", $line) === 0)
+        ->where(fn(string $line) => empty(trim($line)) === false)
+        ->mapper(fn(string $line) => explode("=", $line))
+        ->mapper(
+          function(array $line){
+            [$key, $val] = $line;
+
+            putenv(sprintf(
+              "%s=%s", trim($key), trim($val, " \t\n\r\0\x0B\"'")
+            ));
+          });
+    }
+  }
   
-  public function initial(
+  private function getRequestURIProps(
+  ): DataList {
+    return DataList::create(explode( 
+      "/", preg_replace( "/\?.+/", "", preg_replace(
+        [ "/(?<=[^\/])\?/", "/^\/*/", "/\/*$/" ], [ "/?", "" ], $_SERVER["REQUEST_URI"]
+      ))
+    ));
+  }
+  
+  private function initialStructureProps(
   ): void {
     $this->request = new Request();
-  }  
-  
+  }
+
+  private function initialStructureControllers(
+  ): void {
+    if($this->publics->exist()){
+      $this->structureControllersPublics = new StructureControllers($this->publics);
+    }
+
+    if($this->privates->exist()){
+      $this->structureControllersPrivates = new StructureControllers($this->privates);
+    }
+  }
+
+  private function hasControllerInRequestURI(
+  ): bool {
+    return (
+      is_null($this->request->controller) === false && 
+      empty($this->request->controller) === false
+    );  
+  }
+
+  private function hasEndpointInRequestURI(
+  ): bool {
+    return (
+      is_null($this->request->endpoint) === false && 
+      sizeof($this->request->endpoint) !== 0
+    );
+  }
+
   private function initialServer(
   ): void {
-    try {
-      $this->hasModules();
-      $this->hasController();
-      $this->hasEndpointInController();
-    } catch (Exception $error){
-      $this->setError($error);
+    if($this->hasControllerInRequestURI() === false){
+      /** TODO while not controllers **/
     }
-  }
-  
-  private function hasModules(
-  ): void {
-    $this->structureModuleControllers->where(
-      function(StructureModuleControllers $stuctureModule){
-        if($this->request->module === null){
-          return false;
-        }
 
-        return strtolower(Util::className($stuctureModule->module)) 
-           === strtolower($this->request->module);
-      }
-    );
-    
-    if($this->structureModuleControllers->exist() === false){
-      Error::notFound("Module {$this->request->module} not found....");
+    /** Check is exists controllers publics **/
+    if(isset($this->structureControllersPublics)){
+      $this->structureControllersPublics->controllers->where(
+        fn(ItemController $controller) => $controller->getName() === $this->request->controller
+      );
+
+      /** Load is exists endpoints **/
+      $this->initialEndpointInServer($this->structureControllersPublics);
     }
-  }
 
-  private function hasController(
-  ): void {
-    $this->structureModuleControllers->where(
-      fn(StructureModuleControllers $structureModule) => $structureModule->structureControllers->controllers->where(
-        fn(ItemController $itemController) => $itemController->name->first()->name === $this->request->controller
-      )->exist()
-    );
-
-    if($this->structureModuleControllers->exist() === false){
-      Error::notFound("Controller {$this->request->module}/{$this->request->controller} not found");
+    /** Check is exists controllers privates **/
+    if(isset($this->structureControllersPrivates)){
+      $this->structureControllersPrivates->controllers->where(
+        fn(ItemController $controller) => $controller->getName() === $this->request->controller
+      );
+      
+      /** Load is exists endpoints **/
+      $this->initialEndpointInServer($this->structureControllersPrivates);
     }
+
   }
-  
-  private function hasEndpointInController(
+
+  public function initialEndpointInServer(
+    StructureControllers $structureControllers
   ): void {
-    $this->structureModuleControllers->where(
-      fn(StructureModuleControllers $structureModule) => $structureModule->structureControllers->controllers->where(
-        fn(ItemController $itemController) => $itemController->routes->where(
-          fn(StructureRoute $structureRoute) => $structureRoute->isEndpoint(
-            DataList::create($this->request->endpoint), $this->request->method
-          )
+    if($this->hasEndpointInRequestURI() === false){
+      /** TODO while not endpoint in controllers **/
+    }
+
+    /** Check is endpint exists in controller **/
+    $structureControllers->controllers->where(
+      fn(ItemController $controller) => $controller->routes->where(
+        fn(StructureRoute $structureRoute) => $structureRoute->isEndpoint(
+          DataList::create($this->request->endpoint), $this->request->method
         )
       )
     );
 
-    if($this->structureModuleControllers->first()->structureControllers->controllers->first()->routes->exist() === false){
-      Error::notFound(sprintf("Route {$this->request->controller}/%s not found", implode("/", $this->request->endpoint)));
-    }
-    
-    $this->response = $this->structureModuleControllers
-      ->first()->structureControllers->controllers
-      ->first()->routes
-      ->first()->executeHtml(
-        $this->request,
-        $this->structureModuleControllers
-          ->first()->structureControllers->controllers
-          ->first()->middlewares
-      );
-  }  
+    if($structureControllers->controllers->exist()){
+      if($structureControllers->controllers->first()->routes instanceof DataList){
+        if($structureControllers->controllers->first()->routes->exist() === false){
+          /** TODO Show route not found **/
 
-  private function initialControllers(
-  ): void {
-    /*
-    $this->structureModuleControllers = (
-      $this->modules->copy()->mapper(
-        function(string $module){
-          return new StructureModuleControllers($module);
+
+        } else {
+          $response = $structureControllers->controllers->first()->routes->first()->executeHtml(
+            $this->request, $structureControllers->controllers->first()->middlewares
+          );
+
+          if($response instanceof Response){
+            print_r($response);
+          }
         }
-      )
-    ); */
-  }
-  
-  private function setError(
-    Exception $error
-  ): void {
-    Response::json(
-      $error->getMessage(), 
-      $error->getCode()
-    )->send();    
-  }
-  
-  public function base(
-    string $base
-  ): void {
-    (new $base())->render(
-      $this->response
-    );
-  }
+      }
+    }
 
+  }
+  
   public static function render(
     array $public,
-    array $private
+    array $private,
+    array $bootstrap
   ): WebApp {
     return new static(
       DataList::create($public),
-      DataList::create($private)
+      DataList::create($private),
+      DataList::create($bootstrap)
     );
   }  
 }
