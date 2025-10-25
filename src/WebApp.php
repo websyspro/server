@@ -116,6 +116,10 @@ class WebApp
         $this->structureControllersPrivates->controllers->where(
           fn(ItemController $controller) => $controller->getName() === $this->request->controller
         );
+
+        /** Check if there is an active session
+         **/
+
         
         /** Run public controller **/
         $this->initialEndpointInServer($this->structureControllersPrivates);
@@ -174,13 +178,12 @@ class WebApp
   ): void {
     Document::render([
       Dom::docType([ "html" ]),
-      Dom::html([ "lang" => "pt" ], [
+      Dom::html([ "lang" => "pt" ])->add([
         Dom::head([], [
           Dom::title([], [ "PixGO" ])
         ]),
-        Dom::body([], [
-          (new $viewBase())
-            ->render($viewHtml)
+        Dom::body([])->add([
+          (new $viewBase())->render($viewHtml)
         ])
       ])
     ]);
