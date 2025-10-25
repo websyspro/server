@@ -178,14 +178,16 @@ class WebApp
   ): void {
     Document::render([
       Dom::docType([ "html" ]),
-      Dom::html([ "lang" => "pt" ])->add([
-        Dom::head([], [
-          Dom::title([], [ "PixGO" ])
-        ]),
-        Dom::body([])->add([
+      Dom::html([ "lang" => "pt" ])->add(
+        Dom::head([])->add(
+          Dom::title([])->add(
+            "PixGO"
+          )
+        ),
+        Dom::body()->add(
           (new $viewBase())->render($viewHtml)
-        ])
-      ])
+        )
+      )
     ]);
   }
 
