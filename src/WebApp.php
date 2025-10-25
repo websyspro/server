@@ -145,7 +145,7 @@ class WebApp
           if(isset($this->structureView->page404)){
             $this->viewBase(
               viewBase: $this->structureView->page404,
-              viewHtml: ""
+              viewHtml: Dom::div()
             );
           }
         } else {
@@ -167,19 +167,13 @@ class WebApp
 
   public function viewBase(
     string $viewBase,
-    string $viewHtml
+    object $viewHtml
   ): void {
     Document::render([
-      Dom::docType([
-        "html"
-      ]),
-      Dom::html([ 
-        "lang" => "pt"
-      ], [
+      Dom::docType([ "html" ]),
+      Dom::html([ "lang" => "pt" ], [
         Dom::head([], [
-          Dom::title([], [
-            "PixGO"
-          ])
+          Dom::title([], [ "PixGO" ])
         ]),
         Dom::body([], [
           (new $viewBase())

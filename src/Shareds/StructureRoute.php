@@ -5,6 +5,8 @@ namespace Websyspro\Server\Shareds;
 use ReflectionMethod;
 use ReflectionParameter;
 use Websyspro\Commons\DataList;
+use Websyspro\Elements\Collectons\Div;
+use Websyspro\Elements\Dom;
 use Websyspro\Server\Decorations\Controllers\Body;
 use Websyspro\Server\Decorations\Controllers\Param;
 use Websyspro\Server\Decorations\Middlewares\AllowAnonymous;
@@ -203,13 +205,13 @@ class StructureRoute
 
     if(is_object($getEndpoint->message) === true){
       if(method_exists($getEndpoint->message, "get") === true){
-        return $getEndpoint->message->get();
+        return $getEndpoint->message;
       }
     } else
     if(is_string($getEndpoint->message) === true){
-      return $getEndpoint->message;
+      return Dom::div([], [$getEndpoint->message]);
     }
 
-    return $getEndpoint->message;
+    return Dom::div([], []);
   }  
 }
