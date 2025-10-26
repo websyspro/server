@@ -3,12 +3,10 @@
 namespace Websyspro\Server;
 
 use Websyspro\Commons\DataList;
-use Websyspro\DynamicSql\Core\DataByFn;
 use Websyspro\Elements\Document;
 use Websyspro\Elements\Dom;
 use Websyspro\Server\Shareds\ItemController;
 use Websyspro\Server\Shareds\StructureControllers;
-use Websyspro\Server\Shareds\StructureModuleControllers;
 use Websyspro\Server\Shareds\StructureRoute;
 use Websyspro\Server\Shareds\StructureView;
 
@@ -86,50 +84,51 @@ class WebApp
     );  
   }
 
-  private function hasEndpointInRequestURI(
-  ): bool {
-    return (
-      is_null($this->request->endpoint) === false && 
-      sizeof($this->request->endpoint) !== 0
-    );
-  }
-
   private function initialServer(
   ): void {
+    /** When the request has no controller or endpoint **/
     if($this->hasControllerInRequestURI() === false){
-      /** TODO while not controllers **/
+      if(isset($this->structureView->main)){
+        $this->viewBase(
+          viewBase: $this->structureView->main,
+          viewHtml: (new $this->structureView->home)->render()
+        );
+      }
+    } else {
+      /** There is a controller in the request 
+       ** Check if there is a public controller
+       **/
+      if(isset($this->structureControllersPublics)){
+        $this->structureControllersPublics->controllers->where(
+          fn(ItemController $controller) => $controller->getName() === $this->request->controller
+        );
+
+        /** Run public controller **/
+        $this->initialEndpointInServer($this->structureControllersPublics);
+      }
+
+      /** There is a controller in the request 
+       ** Check if private controller exists
+       **/
+      if(isset($this->structureControllersPrivates)){
+        $this->structureControllersPrivates->controllers->where(
+          fn(ItemController $controller) => $controller->getName() === $this->request->controller
+        );
+
+        /** Check if there is an active session
+         **/
+
+        
+        /** Run public controller **/
+        $this->initialEndpointInServer($this->structureControllersPrivates);
+      }
     }
-
-    /** Check is exists controllers publics **/
-    if(isset($this->structureControllersPublics)){
-      $this->structureControllersPublics->controllers->where(
-        fn(ItemController $controller) => $controller->getName() === $this->request->controller
-      );
-
-      /** Load is exists endpoints **/
-      $this->initialEndpointInServer($this->structureControllersPublics);
-    }
-
-    /** Check is exists controllers privates **/
-    if(isset($this->structureControllersPrivates)){
-      $this->structureControllersPrivates->controllers->where(
-        fn(ItemController $controller) => $controller->getName() === $this->request->controller
-      );
-      
-      /** Load is exists endpoints **/
-      $this->initialEndpointInServer($this->structureControllersPrivates);
-    }
-
   }
 
   public function initialEndpointInServer(
     StructureControllers $structureControllers
   ): void {
-    if($this->hasEndpointInRequestURI() === false){
-      /** TODO while not endpoint in controllers **/
-    }
-
-    /** Check is endpint exists in controller **/
+    /** Find endpoint in controller route listing **/
     $structureControllers->controllers->where(
       fn(ItemController $controller) => $controller->routes->where(
         fn(StructureRoute $structureRoute) => $structureRoute->isEndpoint(
@@ -139,28 +138,34 @@ class WebApp
     );
 
     if($structureControllers->controllers->exist()){
-      if($structureControllers->controllers->first()->routes instanceof DataList){
-        if($structureControllers->controllers->first()->routes->exist() === false){
-          /** TODO Show route not found **/
-          if(isset($this->structureView->page404)){
-            $this->viewBase(
-              viewBase: $this->structureView->page404,
-              viewHtml: Dom::div()
-            );
-          }
-        } else {
-          $viewHtml = $structureControllers->controllers->first()->routes->first()->executeHtml(
-            $this->request, $structureControllers->controllers->first()->middlewares
+      if($structureControllers->controllers->first()->routes->exist() === false){
+        /** Endpoint not found **/
+        if(isset($this->structureView->main)){
+          $this->viewBase(
+            viewBase: $this->structureView->main,
+            viewHtml: (new $this->structureView->page404)->render()
           );
-
-          /** Render page home **/
-          if(isset($this->structureView->home)){
-            $this->viewBase(
-              viewBase: $this->structureView->home,
-              viewHtml: $viewHtml
-            );
-          }
         }
+      } else {
+        $viewHtml = $structureControllers->controllers->first()->routes->first()->executeHtml(
+          $this->request, $structureControllers->controllers->first()->middlewares
+        );
+
+        /** Run endpoint from controller **/
+        if(isset($this->structureView->main)){
+          $this->viewBase(
+            viewBase: $this->structureView->main,
+            viewHtml: $viewHtml
+          );
+        }
+      }
+    } else {
+      /** Endpoint not found **/
+      if(isset($this->structureView->main)){
+        $this->viewBase(
+          viewBase: $this->structureView->main,
+          viewHtml: (new $this->structureView->page404)->render()
+        );
       }
     }
   }
@@ -171,25 +176,28 @@ class WebApp
   ): void {
     Document::render([
       Dom::docType([ "html" ]),
-      Dom::html([ "lang" => "pt" ], [
-        Dom::head([], [
-          Dom::title([], [ "PixGO" ])
-        ]),
-        Dom::body([], [
-          (new $viewBase())
-            ->render($viewHtml)
-        ])
-      ])
+      Dom::html([ "lang" => "pt" ])->add(
+        Dom::head([])->add(
+          Dom::title([])->add(
+            "PixGO"
+          )
+        ),
+        Dom::body()->add(
+          (new $viewBase())->render($viewHtml)
+        )
+      )
     ]);
   }
 
   public static function view(
     string $login,
+    string $main,
     string $home,
     string $page404,    
   ): StructureView {
     return new StructureView(
       login: $login,
+      main: $main,
       home: $home,
       page404: $page404
     );
