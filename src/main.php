@@ -1,3 +1,3 @@
 <?php
 
-echo "My Applications!!!";
+echo Div([ "My Apps" ])->get();
