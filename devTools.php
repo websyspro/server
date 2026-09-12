@@ -9,7 +9,7 @@ return new DevTools(
   webSocketHost: "0.0.0.0",
   webSocketPort: 3002,
   httpServerPort: 3001,
-  documentRoot: "vendor/websyspro/wpengine/src/Core",
-  scriptName: "src/index.php",
+  documentRoot: "",
+  scriptName: "",
   errorReporting: [ E_ERROR ],
 );
