@@ -1,11 +1,7 @@
 <?php
 
 /**
- * WebSocket Server Runtime
- * 
- * Runtime interno para iniciar o servidor WebSocket.
- * Não deve ser exportado como binário do Composer.
- * Usado pelo BrowserReloadHandler para rodar em processo separado.
+ *  Define DevTools_Base_Dir
  */
 defined( "DevTools_Base_Dir" ) || define(
   "DevTools_Base_Dir", realpath(
