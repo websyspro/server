@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5db1bb94c8deb7673fd131918a494f2",
+    "content-hash": "c311790081d12b66bf73b748f75bb82b",
     "packages": [
         {
             "name": "websyspro/devtools",
-            "version": "1.0.147",
+            "version": "1.0.148",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/devtools.git",
-                "reference": "1fc90811cfb50977bccd77a8f038c9354df9e2a3"
+                "reference": "ee5fa1c1052a1b49537e34aaeb55096477b62ead"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/devtools/zipball/1fc90811cfb50977bccd77a8f038c9354df9e2a3",
-                "reference": "1fc90811cfb50977bccd77a8f038c9354df9e2a3",
+                "url": "https://api.github.com/repos/websyspro/devtools/zipball/ee5fa1c1052a1b49537e34aaeb55096477b62ead",
+                "reference": "ee5fa1c1052a1b49537e34aaeb55096477b62ead",
                 "shasum": ""
             },
             "require": {
@@ -48,22 +48,22 @@
             "description": "Set of features for hot reloads during development",
             "support": {
                 "issues": "https://github.com/websyspro/devtools/issues",
-                "source": "https://github.com/websyspro/devtools/tree/1.0.147"
+                "source": "https://github.com/websyspro/devtools/tree/1.0.148"
             },
-            "time": "2026-09-11T21:14:28+00:00"
+            "time": "2026-09-12T20:38:10+00:00"
         },
         {
             "name": "websyspro/elements",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/elements.git",
-                "reference": "730720573d2fcff06a927f09741bc9888e2d8e35"
+                "reference": "58d550766c4e93dddd8c3fd1af7374e135a6bdb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/elements/zipball/730720573d2fcff06a927f09741bc9888e2d8e35",
-                "reference": "730720573d2fcff06a927f09741bc9888e2d8e35",
+                "url": "https://api.github.com/repos/websyspro/elements/zipball/58d550766c4e93dddd8c3fd1af7374e135a6bdb1",
+                "reference": "58d550766c4e93dddd8c3fd1af7374e135a6bdb1",
                 "shasum": ""
             },
             "require": {
@@ -93,9 +93,9 @@
             "description": "PHP library for dynamic DOM element creation with support for attributes, nesting and HTML rendering",
             "support": {
                 "issues": "https://github.com/websyspro/elements/issues",
-                "source": "https://github.com/websyspro/elements/tree/1.0.6"
+                "source": "https://github.com/websyspro/elements/tree/1.0.7"
             },
-            "time": "2026-09-12T20:06:43+00:00"
+            "time": "2026-09-12T20:49:22+00:00"
         },
         {
             "name": "websyspro/logger",
