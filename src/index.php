@@ -9,5 +9,9 @@ defined( "DevTools_Base_Dir" ) || define(
   ) . DIRECTORY_SEPARATOR
 );
 
-echo DevTools_Base_Dir . PHP_EOL;
-echo "My Apps";
+/**
+ * Define Main 
+ */
+if( file_exists( DevTools_Base_Dir . "main.php" )){
+  require_once DevTools_Base_Dir . "main.php";
+}
