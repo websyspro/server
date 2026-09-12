@@ -4,7 +4,7 @@ use Websyspro\DevTools\Interfaces\DevTools;
 
 require "./vendor/autoload.php";
 return new DevTools(
-  includes: [ "src" ],
+  includes: [ "/" ],
   excludes: [],
   webSocketHost: "0.0.0.0",
   webSocketPort: 3002,

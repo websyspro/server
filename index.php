@@ -10,8 +10,8 @@ defined( "DevTools_Base_Dir" ) || define(
 );
 
 /**
- * Define Main 
+ * Define for require main 
  */
-if( file_exists( DevTools_Base_Dir . "main.php" )){
-  require_once DevTools_Base_Dir . "main.php";
+if( file_exists( DevTools_Base_Dir . "src/main.php" )){
+  require_once DevTools_Base_Dir . "src/main.php";
 }
