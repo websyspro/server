@@ -1,0 +1,32 @@
+{
+  "name": "websyspro/application",
+  "description": "Base template for system development",
+  "version": "1.0.0",
+  "type": "project",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Wordpress\\Application\\": "src/"
+    }
+  },
+  "scripts": {
+    "publish": "php vendor/bin/publish"
+  },
+  "authors": [
+    {
+      "name": "Emerson Thiago",
+      "email": "websyspro.services@gmail.com"
+    }
+  ],
+  "require": {
+    "websyspro/elements": "^1.0",
+    "websyspro/wpengine": "^1.0",
+    "websyspro/devtools": "^1.0"
+  },
+  "extra": {
+    "wordpress": {
+      "version": 7.1
+    }
+  }
+}
