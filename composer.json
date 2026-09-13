@@ -1,7 +1,7 @@
 {
   "name": "websyspro/application",
   "description": "Base template for system development",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "type": "project",
   "minimum-stability": "dev",
   "prefer-stable": true,
