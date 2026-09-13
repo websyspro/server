@@ -1,3 +1,13 @@
 <?php
 
-echo Div([ "My Apps" ])->get();
+App(
+  DocType(),
+  Html(
+    Head(
+      StyledLink( "src/assets/css.css" )
+    ),
+    Body(
+      Div( "Hello Word!!!" )
+    )
+  )
+);
