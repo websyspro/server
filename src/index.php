@@ -4,5 +4,5 @@
  * Autoload
  * Main
  * **/
-require_once __DIR__ . "/../vendor/autoload.php";
-require_once __DIR__ . "/app.php";
+require_once DevTools_Base_Dir . "vendor/autoload.php";
+require_once DevTools_Base_Dir . "src/app.php";
