@@ -4,7 +4,7 @@ App(
   DocType(),
   Html(
     Head(
-      StyledLink( "assets/css.css" )
+      StyleLink( "assets/css.css" )
     ),
     Body(
       Div( "Hello Word!!!" )
