@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5076e0809ca7e970cfec28d2559a40ac",
+    "content-hash": "5f57c0151794c87973f40e071c0d713f",
     "packages": [
         {
             "name": "websyspro/devtools",
@@ -54,16 +54,16 @@
         },
         {
             "name": "websyspro/elements",
-            "version": "1.0.36",
+            "version": "1.0.53",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/elements.git",
-                "reference": "6420dccdb796f2d86dcf8081b386fb1e83a0473f"
+                "reference": "305d11ed283c5ef9284de9ab0a699158558216bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/elements/zipball/6420dccdb796f2d86dcf8081b386fb1e83a0473f",
-                "reference": "6420dccdb796f2d86dcf8081b386fb1e83a0473f",
+                "url": "https://api.github.com/repos/websyspro/elements/zipball/305d11ed283c5ef9284de9ab0a699158558216bd",
+                "reference": "305d11ed283c5ef9284de9ab0a699158558216bd",
                 "shasum": ""
             },
             "require": {
@@ -74,7 +74,7 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "src/Helpers.php"
+                    "src/helpers.php"
                 ],
                 "psr-4": {
                     "Websyspro\\Elements\\": "src/"
@@ -93,9 +93,9 @@
             "description": "PHP library for dynamic DOM element creation with support for attributes, nesting and HTML rendering",
             "support": {
                 "issues": "https://github.com/websyspro/elements/issues",
-                "source": "https://github.com/websyspro/elements/tree/1.0.36"
+                "source": "https://github.com/websyspro/elements/tree/1.0.53"
             },
-            "time": "2026-09-13T00:40:59+00:00"
+            "time": "2026-09-13T15:55:57+00:00"
         },
         {
             "name": "websyspro/logger",
