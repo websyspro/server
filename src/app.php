@@ -8,8 +8,7 @@ App(
     ),
     Body(
       Div(
-        Div( "Websyspro Application" ),
-        Div( "version: 1.0.0" )
+        "Websyspro Application<br/>version: 1.0.0"
       ),
     )
   )
