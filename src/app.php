@@ -7,7 +7,10 @@ App(
       StyleLink( "assets/css.css" )
     ),
     Body(
-      Div( "Hello Word!!!" )
+      Div(
+        Div( "Websyspro Application" ),
+        Div( "version: 1.0.0" )
+      ),
     )
   )
 );

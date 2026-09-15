@@ -1,13 +1,13 @@
 {
   "name": "websyspro/application",
   "description": "Base template for system development",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "type": "project",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Wordpress\\Application\\": "src/"
+      "Websyspro\\Application\\": "src/"
     }
   },
   "scripts": {
