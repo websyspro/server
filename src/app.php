@@ -10,10 +10,9 @@ App(
     ),
     Body(
       Div(
-        "Websyspro Application<br/>version: 1.0.0"
+        "Websyspro Application",
+        new HeaderComponent()
       ),
-      new HeaderComponent(),
-      new HeaderComponent()
     )
   )
 );
