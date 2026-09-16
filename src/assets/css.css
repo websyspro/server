@@ -5,12 +5,4 @@ body {
 }
 body div {
   text-align: center;
-  height: 100%;
-  width: 100%;
-}
-body div {
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  display: flex;
 }

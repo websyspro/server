@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f57c0151794c87973f40e071c0d713f",
+    "content-hash": "5757c65ae3e51bd9fe756f615a71099b",
     "packages": [
         {
             "name": "websyspro/devtools",
@@ -54,20 +54,21 @@
         },
         {
             "name": "websyspro/elements",
-            "version": "1.0.53",
+            "version": "1.0.71",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/elements.git",
-                "reference": "305d11ed283c5ef9284de9ab0a699158558216bd"
+                "reference": "93daeff2b23c4b9a064f296ae635efb29c2d2038"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/elements/zipball/305d11ed283c5ef9284de9ab0a699158558216bd",
-                "reference": "305d11ed283c5ef9284de9ab0a699158558216bd",
+                "url": "https://api.github.com/repos/websyspro/elements/zipball/93daeff2b23c4b9a064f296ae635efb29c2d2038",
+                "reference": "93daeff2b23c4b9a064f296ae635efb29c2d2038",
                 "shasum": ""
             },
             "require": {
                 "websyspro/devtools": "^1.0",
+                "websyspro/logger": "^1.0",
                 "websyspro/package": "^1.0",
                 "websyspro/utils": "^1.0"
             },
@@ -93,9 +94,9 @@
             "description": "PHP library for dynamic DOM element creation with support for attributes, nesting and HTML rendering",
             "support": {
                 "issues": "https://github.com/websyspro/elements/issues",
-                "source": "https://github.com/websyspro/elements/tree/1.0.53"
+                "source": "https://github.com/websyspro/elements/tree/1.0.71"
             },
-            "time": "2026-09-13T15:55:57+00:00"
+            "time": "2026-09-16T01:12:55+00:00"
         },
         {
             "name": "websyspro/logger",

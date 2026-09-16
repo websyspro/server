@@ -1,5 +1,7 @@
 <?php
 
+use Websyspro\Application\Components\HeaderComponent;
+
 App(
   DocType(),
   Html(
@@ -10,6 +12,8 @@ App(
       Div(
         "Websyspro Application<br/>version: 1.0.0"
       ),
+      new HeaderComponent(),
+      new HeaderComponent()
     )
   )
 );
