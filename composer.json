@@ -1,0 +1,40 @@
+{
+  "name": "websyspro/arrowtosql",
+  "version": "1.0.4",
+  "description": "Set of features in PHP for creating entitys for database",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "MIT",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Websyspro\\Entity\\": "src/"
+    }
+  },
+  "bin": [
+    "bin/server-restart",
+    "bin/browser-reload"
+  ],
+  "scripts": {
+    "publish": "php vendor/bin/publish"
+  },
+  "authors": [
+    {
+      "name": "websyspro",
+      "email": "websyspro.services@gmail.com"
+    }
+  ],
+  "require": {
+    "websyspro/utils": "^1.0",
+    "websyspro/package": "^1.0",
+    "websyspro/connection": "^1.0",
+    "websyspro/devtools": "^1.0",
+    "websyspro/entity": "^1.0"
+  },
+  "server": {
+    "port": 8080,
+    "api-version": 1,
+    "keep-alive-timeout": 30,
+    "max-requests": 1000
+  }
+}
