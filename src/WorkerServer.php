@@ -8,6 +8,7 @@ use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionNamedType;
+use Websyspro\Server\Enums\RequestMethod;
 use Websyspro\Server\Request;
 use Websyspro\Server\Response;
 use Websyspro\Server\Container;
@@ -101,7 +102,7 @@ extends AbstractWorkerServer
     Closure $handler
   ): WorkerServer {
     return $this->registerRouter(
-      "GET", $path, $handler
+      RequestMethod::GET->name, $path, $handler
     );
   }
 
@@ -110,7 +111,7 @@ extends AbstractWorkerServer
     Closure $handler
   ): WorkerServer {
     return $this->registerRouter(
-      "POST", $path, $handler
+      RequestMethod::POST->name, $path, $handler
     );
   }
 
@@ -119,7 +120,7 @@ extends AbstractWorkerServer
     Closure $handler
   ): WorkerServer {
     return $this->registerRouter(
-      "PUT", $path, $handler
+      RequestMethod::PUT->name, $path, $handler
     );
   }
 
@@ -128,7 +129,7 @@ extends AbstractWorkerServer
     Closure $handler
   ): WorkerServer {
     return $this->registerRouter(
-      'PATCH', $path, $handler
+      RequestMethod::PATCH->name, $path, $handler
     );
   }
 
@@ -137,7 +138,7 @@ extends AbstractWorkerServer
     Closure $handler
   ): WorkerServer {
     return $this->registerRouter(
-      'DELETE', $path, $handler
+      RequestMethod::DELETE->name, $path, $handler
     );
   }
 
