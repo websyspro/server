@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d84ef8c007a8e46ddfc129b767c09be",
+    "content-hash": "af3129ad98c73ef93e5a520572fe0ee3",
     "packages": [
         {
             "name": "websyspro/connection",
@@ -259,16 +259,16 @@
         },
         {
             "name": "websyspro/worker-server",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/worker-server.git",
-                "reference": "b49ab997e3f91bab4901943b5acfeebdd2f875e3"
+                "reference": "5453cf778759554d92759ddf5400b756f8be8b75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/b49ab997e3f91bab4901943b5acfeebdd2f875e3",
-                "reference": "b49ab997e3f91bab4901943b5acfeebdd2f875e3",
+                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/5453cf778759554d92759ddf5400b756f8be8b75",
+                "reference": "5453cf778759554d92759ddf5400b756f8be8b75",
                 "shasum": ""
             },
             "require": {
@@ -281,7 +281,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Websyspro\\Server\\": "src/"
+                    "Websyspro\\WorkerServer\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -297,9 +297,9 @@
             "description": "Set of features in PHP for creating entitys for database",
             "support": {
                 "issues": "https://github.com/websyspro/worker-server/issues",
-                "source": "https://github.com/websyspro/worker-server/tree/1.0.13"
+                "source": "https://github.com/websyspro/worker-server/tree/1.0.14"
             },
-            "time": "2026-09-18T22:38:38+00:00"
+            "time": "2026-09-18T22:55:53+00:00"
         }
     ],
     "packages-dev": [],
