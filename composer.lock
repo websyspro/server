@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08e61048c02cf5b473161d244cb6abcd",
+    "content-hash": "8d84ef8c007a8e46ddfc129b767c09be",
     "packages": [
         {
             "name": "websyspro/connection",
@@ -95,16 +95,16 @@
         },
         {
             "name": "websyspro/entity",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/entity.git",
-                "reference": "b591269a0fd3a091bd9b0e9e58bc4982e3c3037c"
+                "reference": "dad7abd23ca68e6d1676bca3d0f55fa371978028"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/entity/zipball/b591269a0fd3a091bd9b0e9e58bc4982e3c3037c",
-                "reference": "b591269a0fd3a091bd9b0e9e58bc4982e3c3037c",
+                "url": "https://api.github.com/repos/websyspro/entity/zipball/dad7abd23ca68e6d1676bca3d0f55fa371978028",
+                "reference": "dad7abd23ca68e6d1676bca3d0f55fa371978028",
                 "shasum": ""
             },
             "require": {
@@ -130,9 +130,9 @@
             "description": "Library for managing controllers and services",
             "support": {
                 "issues": "https://github.com/websyspro/entity/issues",
-                "source": "https://github.com/websyspro/entity/tree/1.0.6"
+                "source": "https://github.com/websyspro/entity/tree/1.0.7"
             },
-            "time": "2026-09-18T22:15:28+00:00"
+            "time": "2026-09-18T22:37:44+00:00"
         },
         {
             "name": "websyspro/logger",
@@ -259,16 +259,16 @@
         },
         {
             "name": "websyspro/worker-server",
-            "version": "1.0.12",
+            "version": "1.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/worker-server.git",
-                "reference": "3a04523fe70dae5e344a3f7b9449f0e54fa8d70f"
+                "reference": "b49ab997e3f91bab4901943b5acfeebdd2f875e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/3a04523fe70dae5e344a3f7b9449f0e54fa8d70f",
-                "reference": "3a04523fe70dae5e344a3f7b9449f0e54fa8d70f",
+                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/b49ab997e3f91bab4901943b5acfeebdd2f875e3",
+                "reference": "b49ab997e3f91bab4901943b5acfeebdd2f875e3",
                 "shasum": ""
             },
             "require": {
@@ -297,9 +297,9 @@
             "description": "Set of features in PHP for creating entitys for database",
             "support": {
                 "issues": "https://github.com/websyspro/worker-server/issues",
-                "source": "https://github.com/websyspro/worker-server/tree/1.0.12"
+                "source": "https://github.com/websyspro/worker-server/tree/1.0.13"
             },
-            "time": "2026-09-18T22:29:48+00:00"
+            "time": "2026-09-18T22:38:38+00:00"
         }
     ],
     "packages-dev": [],
