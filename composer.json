@@ -1,7 +1,7 @@
 {
   "name": "websyspro/server",
   "description": "Base template for system server",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "type": "project",
   "minimum-stability": "dev",
   "prefer-stable": true,
