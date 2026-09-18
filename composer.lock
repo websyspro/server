@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "347702b04dee69553ca37956c054ef39",
+    "content-hash": "8e6106dc2fe8ef0dbfdb9a35119c124a",
     "packages": [
+        {
+            "name": "websyspro/arrowtosql",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websyspro/arrowtosql.git",
+                "reference": "45a8d0712ed27b8e8f377b3feca2bd488ab0e524"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websyspro/arrowtosql/zipball/45a8d0712ed27b8e8f377b3feca2bd488ab0e524",
+                "reference": "45a8d0712ed27b8e8f377b3feca2bd488ab0e524",
+                "shasum": ""
+            },
+            "require": {
+                "websyspro/connection": "^1.0",
+                "websyspro/entity": "^1.0",
+                "websyspro/logger": "^1.0",
+                "websyspro/package": "^1.0",
+                "websyspro/utils": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Websyspro\\ArrowToSql\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "websyspro",
+                    "email": "websyspro.services@gmail.com"
+                }
+            ],
+            "description": "Convert Arrow FN into SQL queries",
+            "support": {
+                "issues": "https://github.com/websyspro/arrowtosql/issues",
+                "source": "https://github.com/websyspro/arrowtosql/tree/1.0.7"
+            },
+            "time": "2026-09-18T21:36:22+00:00"
+        },
         {
             "name": "websyspro/connection",
             "version": "1.0.5",
@@ -259,19 +303,20 @@
         },
         {
             "name": "websyspro/worker-server",
-            "version": "1.0.15",
+            "version": "1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/worker-server.git",
-                "reference": "7c1e83b810c4c6e661a8f846bb7fca1b77ed3f3e"
+                "reference": "2224e90e026b5060bc999be81f3be2b1d8fcedf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/7c1e83b810c4c6e661a8f846bb7fca1b77ed3f3e",
-                "reference": "7c1e83b810c4c6e661a8f846bb7fca1b77ed3f3e",
+                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/2224e90e026b5060bc999be81f3be2b1d8fcedf7",
+                "reference": "2224e90e026b5060bc999be81f3be2b1d8fcedf7",
                 "shasum": ""
             },
             "require": {
+                "websyspro/arrowtosql": "^1.0",
                 "websyspro/connection": "^1.0",
                 "websyspro/devtools": "^1.0",
                 "websyspro/entity": "^1.0",
@@ -297,9 +342,9 @@
             "description": "Set of features in PHP for creating entitys for database",
             "support": {
                 "issues": "https://github.com/websyspro/worker-server/issues",
-                "source": "https://github.com/websyspro/worker-server/tree/1.0.15"
+                "source": "https://github.com/websyspro/worker-server/tree/1.0.16"
             },
-            "time": "2026-09-18T23:04:04+00:00"
+            "time": "2026-09-18T23:17:29+00:00"
         }
     ],
     "packages-dev": [],
