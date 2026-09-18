@@ -62,7 +62,7 @@ extends AbstractWorkerServer
     string $requestPath,
     array $paramNames = []
   ): array|null {
-    foreach( $this->routers as $key => $handler ){
+    foreach ($this->routers as $key => $handler) {
       [ $routeMethod, $routePath ] = explode(
         " ", $key, 2
       );
@@ -71,26 +71,20 @@ extends AbstractWorkerServer
         continue;
       }
 
-      preg_match_all( 
-        "#:([a-zA-Z_]+)#", 
-          $routePath,
-          $matches
-      );
-      $paramNames = $matches[ 1 ];
+      // Extrai nomes dos params da rota (:id, :postId, ...)
+      preg_match_all( "#:([a-zA-Z_]+)#", $routePath, $matches );
+      $paramNames = $matches[1];
 
       // Converte a rota em regex: /users/:id => /users/([^/]+)
-      $pattern = preg_replace( "#:([a-zA-Z_]+)#" , '([^/]+)', $routePath);
+      $pattern = preg_replace( "#:([a-zA-Z_]+)#", '([^/]+)', $routePath);
       $pattern = '#^' . $pattern . '$#';
 
-      if( preg_match( $pattern, $requestPath, $values ) === false ){
+      if( !preg_match( $pattern, $requestPath, $values )){
         continue;
       }
 
       // $values[0] e o match completo, params comecam em [1]
-      $params = array_combine(
-        $paramNames, array_slice($values, 1)
-      ) ?: [];
-
+      $params = array_combine( $paramNames, array_slice( $values, 1 )) ?: [];
       return [ $handler, $params ];
     }
 
@@ -253,6 +247,12 @@ extends AbstractWorkerServer
       // Request puro — injeta direto
       if( $type instanceof ReflectionNamedType && $type->getName() === Request::class ){
         $args[] = $request;
+        continue;
+      }
+
+      // Response — injeta uma instância nova (o handler pode populá-la e retorná-la)
+      if( $type instanceof ReflectionNamedType && $type->getName() === Response::class ){
+        $args[] = new Response();
         continue;
       }
 

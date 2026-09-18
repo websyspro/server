@@ -65,14 +65,14 @@ abstract class AbstractWorkerServer
   private function getServerTools(
     ServerTools|null $serverTools = null
   ): ServerTools|null {
-    if( defined( "DevTools_Base_Dir" ) === false ){
+    if( defined( "BASE_DIR" ) === false ){
       return null;
     }
 
-    if( file_exists( DevTools_Base_Dir . "server-config.php" )){
-      $serverTools = require_once DevTools_Base_Dir . "server-config.php";
+    if( file_exists( BASE_DIR . "server-config.php" )){
+      $serverTools = require_once BASE_DIR . "server-config.php";
       if( $serverTools instanceof ServerTools ){
-        return require_once $serverTools;
+        return $serverTools;
       }
     }
 
