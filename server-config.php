@@ -23,7 +23,7 @@ if( file_exists(  BASE_DIR . "vendor/autoload.php" )){
  */
 if( file_exists(  BASE_DIR . "server-config.php" )){
   return new ServerTools(
-    port: 8080, 
+    port: 3000, 
     apiVersion: 1, 
     maxRequests: 1000,
     keepAliveTimeout: 30, 
