@@ -1,11 +1,13 @@
 <?php
 
-use Websyspro\Server\WorkerServer;
+use Websyspro\WorkerServer\WorkerServer;
+use Websyspro\Server\Accounts\AccountsModule;
+use Websyspro\Server\Crm\CrmModule;
 
-$ws = new WorkerServer(); 
-$ws->get( "/health", fn() => [ 
-  "success" => true,
-  "content" => "Server running"
+$workerService = new WorkerServer(); 
+$workerService->registerModules([
+  AccountsModule::class,
+  CrmModule::class,
 ]);
 
-$ws->start();
+$workerService->start();
