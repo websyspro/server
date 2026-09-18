@@ -1,18 +1,8 @@
 <?php
 
-use Websyspro\Application\Components\HeaderComponent;
+use Websyspro\Server\Request;
+use Websyspro\Server\WorkerServer;
 
-App(
-  DocType(),
-  Html(
-    Head(
-      StyleLink( "assets/css.css" )
-    ),
-    Body(
-      Div(
-        "Websyspro Application",
-        new HeaderComponent()
-      ),
-    )
-  )
-);
+$ws = new WorkerServer(); 
+$ws->get( "/test/:id", fn( Request $request ) => $request->body );
+$ws->start();

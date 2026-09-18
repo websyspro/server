@@ -1,7 +1,7 @@
 {
-  "name": "websyspro/application",
-  "description": "Base template for system development",
-  "version": "1.0.25",
+  "name": "websyspro/server",
+  "description": "Base template for system server",
+  "version": "1.0.26",
   "type": "project",
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -20,9 +20,7 @@
     }
   ],
   "require": {
-    "websyspro/elements": "^1.0",
-    "websyspro/wpengine": "^1.0",
-    "websyspro/devtools": "^1.0"
+    "websyspro/worker-server": "^1.0"
   },
   "extra": {
     "wordpress": {
