@@ -62,7 +62,7 @@ if( defined( "CONNECT_DETAILS" ) === false ){
  * Config
  */
 if( defined( "SERVER_TOOLS" ) === false ){
-  define( "CONNECT_DETAILS", [
+  define( "SERVER_TOOLS", [
     "port" => 3000,
     "apiVersion" => 1,
     "maxRequests" => 1000,
