@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "822d9f16298682e01869adaac890705c",
+    "content-hash": "15d0cc0e95401274fb456f68517f0524",
     "packages": [
         {
             "name": "websyspro/arrowtosql",
@@ -304,16 +304,16 @@
         },
         {
             "name": "websyspro/worker-server",
-            "version": "1.0.18",
+            "version": "1.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/worker-server.git",
-                "reference": "e410fa12cc896dc067aee589d75011be54771d6f"
+                "reference": "229ea29e8dbeb31a8ae16ec72438d9436c4ca624"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/e410fa12cc896dc067aee589d75011be54771d6f",
-                "reference": "e410fa12cc896dc067aee589d75011be54771d6f",
+                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/229ea29e8dbeb31a8ae16ec72438d9436c4ca624",
+                "reference": "229ea29e8dbeb31a8ae16ec72438d9436c4ca624",
                 "shasum": ""
             },
             "require": {
@@ -343,9 +343,9 @@
             "description": "Set of features in PHP for creating entitys for database",
             "support": {
                 "issues": "https://github.com/websyspro/worker-server/issues",
-                "source": "https://github.com/websyspro/worker-server/tree/1.0.18"
+                "source": "https://github.com/websyspro/worker-server/tree/1.0.19"
             },
-            "time": "2026-09-19T03:14:34+00:00"
+            "time": "2026-09-19T03:36:04+00:00"
         }
     ],
     "packages-dev": [],
