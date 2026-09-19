@@ -50,8 +50,7 @@ class EntityController
       ) 
     );
 
-    // $schemaManager->asyncEntity();
-    // return $schemaManager;
-    return "";
+    $schemaManager->asyncEntity();
+    return $schemaManager;
   }  
 }
