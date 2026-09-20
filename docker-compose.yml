@@ -35,12 +35,8 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "Qazwsx@123"
-      MSSQL_DB: "crm"
     volumes:
       - sqlserver_data:/var/opt/mssql
-      - ./database:/docker-entrypoint-initdb
-      - ./docker/sqlserver/init.sh:/init.sh
-    entrypoint: ["/bin/bash", "/init.sh"]
 
 volumes:
   mysql_data:
