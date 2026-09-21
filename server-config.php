@@ -22,10 +22,10 @@ if( defined( "CONNECT_DETAILS_MYSQL" ) === false ){
   define( "CONNECT_DETAILS_MYSQL", (object)[
     "driver" => DriverType::MySql, 
     "host" => "localhost", 
-    "port" => "3306", 
+    "port" => "3308", 
     "name" => "app",
     "user" => "root", 
-    "pass" => "qazwsx"
+    "pass" => "Qazwsx@123"
   ]);
 }
 
@@ -55,7 +55,7 @@ if( defined( "CONNECT_DETAILS_POSTGRESSQL" ) === false ){
  * Connect
  */
 if( defined( "CONNECT_DETAILS" ) === false ){
-  define( "CONNECT_DETAILS", CONNECT_DETAILS_SQLSERVER );
+  define( "CONNECT_DETAILS", CONNECT_DETAILS_MYSQL );
 }
 
 /**
