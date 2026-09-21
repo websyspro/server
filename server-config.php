@@ -55,7 +55,7 @@ if( defined( "CONNECT_DETAILS_POSTGRESSQL" ) === false ){
  * Connect
  */
 if( defined( "CONNECT_DETAILS" ) === false ){
-  define( "CONNECT_DETAILS", CONNECT_DETAILS_MYSQL );
+  define( "CONNECT_DETAILS", CONNECT_DETAILS_SQLSERVER );
 }
 
 /**

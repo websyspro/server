@@ -3,9 +3,9 @@
 namespace Websyspro\Server\Accounts\Controllers;
 
 use ReflectionClass;
-use Websyspro\Entity\Schemas\MySqlEntityStructure;
-use Websyspro\Entity\Schemas\MySqlEntityStructurePersisteds;
-use Websyspro\Entity\Schemas\MySqlSchemaManager;
+use Websyspro\Entity\Schemas\SqlServerEntityStructure;
+use Websyspro\Entity\Schemas\SqlServerEntityStructurePersisteds;
+use Websyspro\Entity\Schemas\SqlServerSchemaManager;
 use Websyspro\Server\Accounts\Entities\TestEntity;
 use Websyspro\WorkerServer\Decorators\Body;
 use Websyspro\WorkerServer\Decorators\Controller;
@@ -20,35 +20,43 @@ class EntityController
   public function index(
     #[Body()] object $body
   ): mixed {
-    // $structureEntity = new StructureEntity(
-    //   new ReflectionClass(
-    //     TestEntity::class
-    //   )
-    // );
+    $structureEntity = new SqlServerEntityStructure(
+      new ReflectionClass(
+        TestEntity::class
+      )
+    );
 
-    // $structureEntity->asyncEntity();
-    // return $structureEntity;
-    return [
-      "success" => true,
-      "content" => $body
-    ];
+    return $structureEntity;
   }
   
   #[Get("/async")]
   public function async(
   ): mixed {
-    $schemaManager = new MySqlSchemaManager(
-      new MySqlEntityStructure(
+    // $schemaManager = new MySqlSchemaManager(
+    //   new MySqlEntityStructure(
+    //     new ReflectionClass(
+    //       TestEntity::class
+    //     )
+    //   ),
+    //   new MySqlEntityStructurePersisteds(
+    //     new ReflectionClass(
+    //       TestEntity::class
+    //     )
+    //   ) 
+    // );
+
+    $schemaManager = new SqlServerSchemaManager(
+      new SqlServerEntityStructure(
         new ReflectionClass(
           TestEntity::class
         )
       ),
-      new MySqlEntityStructurePersisteds(
+      new SqlServerEntityStructurePersisteds(
         new ReflectionClass(
           TestEntity::class
         )
       ) 
-    );
+    );    
 
     $schemaManager->asyncEntity();
     return $schemaManager;
