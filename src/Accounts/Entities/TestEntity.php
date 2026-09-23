@@ -9,6 +9,7 @@ use Websyspro\Entity\Decorators\Length;
 use Websyspro\Entity\Decorators\Precision;
 use Websyspro\Entity\Decorators\PrimaryKey;
 use Websyspro\Entity\Decorators\Required;
+use Websyspro\Entity\Decorators\Unique;
 use Websyspro\Entity\Types\ColumnAutoIncrement;
 use Websyspro\Entity\Types\ColumnBigInt;
 use Websyspro\Entity\Types\ColumnBlob;
@@ -34,7 +35,7 @@ class TestEntity
   public ColumnAutoIncrement $fieldAutoUUID;
 
   #[Column( "fieldSmallInt" )]
-  public ColumnSmallInt $fieldSmallInt_Test;
+  public ColumnSmallInt $fieldSmallInt;
 
   #[Index(1)]
   #[Required()]
@@ -48,6 +49,8 @@ class TestEntity
 
   #[Length(128)]
   #[Required()]
+  #[Index(2)]
+  #[Unique(1)]
   public ColumnText $fieldText;
   public ColumnMediumText $fieldMediumText;
   
