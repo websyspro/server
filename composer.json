@@ -1,7 +1,7 @@
 {
   "name": "websyspro/server",
   "description": "Base template for system server",
-  "version": "1.0.76",
+  "version": "1.0.77",
   "type": "project",
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -12,7 +12,8 @@
     }
   },
   "scripts": {
-    "publish": "php vendor/bin/publish"
+    "publish": "php vendor/bin/publish",
+    "push": "composer update && composer publish"
   },
   "authors": [
     {

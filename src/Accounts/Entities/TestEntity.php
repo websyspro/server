@@ -57,7 +57,6 @@ class TestEntity
   #[Required()]
   public ColumnLongText $fieldLongTest;
   
-  #[Precision(18,12)]
   public ColumnDouble $fieldDouble;
   public ColumnDatetime $fieldDatetime;
   public ColumnTimeStamp $fieldTimeStamp;
