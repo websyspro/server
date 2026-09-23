@@ -19,9 +19,6 @@ use Websyspro\Entity\Types\ColumnDecimal;
 use Websyspro\Entity\Types\ColumnDouble;
 use Websyspro\Entity\Types\ColumnFlag;
 use Websyspro\Entity\Types\ColumnInt;
-use Websyspro\Entity\Types\ColumnLongBlob;
-use Websyspro\Entity\Types\ColumnLongText;
-use Websyspro\Entity\Types\ColumnMediumText;
 use Websyspro\Entity\Types\ColumnSmallInt;
 use Websyspro\Entity\Types\ColumnText;
 use Websyspro\Entity\Types\ColumnTime;
@@ -52,10 +49,6 @@ class TestEntity
   #[Index(2)]
   #[Unique(1)]
   public ColumnText $fieldText;
-  public ColumnMediumText $fieldMediumText;
-  
-  #[Required()]
-  public ColumnLongText $fieldLongTest;
   
   public ColumnDouble $fieldDouble;
   public ColumnDatetime $fieldDatetime;
@@ -63,6 +56,5 @@ class TestEntity
   public ColumnDate $fieldDate;
   public ColumnTime $fieldTime;
   public ColumnFlag $fieldFlag;
-  public ColumnLongBlob $fieldLongBlob;
   public ColumnBlob $fieldBlob;
 }
