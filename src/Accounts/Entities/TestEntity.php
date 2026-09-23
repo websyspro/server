@@ -32,7 +32,7 @@ class TestEntity
 {
   #[PrimaryKey()]
   #[Required()]
-  public ColumnAutoIncrement $fieldAutoUUID;
+  public ColumnAutoIncrement $fieldAutoIncrement;
 
   #[Column( "fieldSmallInt" )]
   public ColumnSmallInt $fieldSmallInt;
