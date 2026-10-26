@@ -2,6 +2,7 @@
 
 namespace Websyspro\Server\Shops;
 
+use Websyspro\Server\Shops\Controllers\BoxController;
 use Websyspro\Server\Shops\Entities\BoxEntity;
 use Websyspro\Server\Shops\Entities\CashMovementEntity;
 use Websyspro\Server\Shops\Entities\ConfigEntity;
@@ -16,7 +17,9 @@ use Websyspro\WorkerServer\Decorators\Module;
 
 #[Module(
   name: 'shops',
-  controllers: [],
+  controllers: [
+    BoxController::class
+  ],
   entities: [
     BoxEntity::class,
     CashMovementEntity::class,
