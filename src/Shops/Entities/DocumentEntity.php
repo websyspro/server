@@ -1,6 +1,6 @@
 <?php
 
-namespace Websyspro\Test\Entities\Shops;
+namespace Websyspro\Server\Shops\Entities;
 
 use Websyspro\Entity\BaseIncrementEntity;
 use Websyspro\Entity\Decorators\EntityList;
