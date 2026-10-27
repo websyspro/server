@@ -18,6 +18,7 @@ class BoxController
   public function getList(
     #[Param("boxId")] int $boxId
   ): mixed {
-    return $this->boxService->list( $boxId );
+    return [ $boxId ];
+    // return $this->boxService->list( $boxId );
   }  
 }
