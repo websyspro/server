@@ -61,6 +61,7 @@ if( defined( "SERVER_TOOLS" ) === false ){
     "port" => 3000,
     "apiVersion" => 1,
     "maxRequests" => 1000,
-    "keepAliveTimeout" => 30
+    "keepAliveTimeout" => 30,
+    "isWorker" => true
   ]);
 }

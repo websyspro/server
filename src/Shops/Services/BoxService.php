@@ -11,7 +11,8 @@ class BoxService
   ){}
 
   public function list(
+    int $boxId
   ): array {
-    return $this->boxRepository->list();
+    return $this->boxRepository->list( $boxId );
   }
 }

@@ -2,8 +2,8 @@
 
 namespace Websyspro\Server\Shops\Repositories;
 
-use Websyspro\ArrowToSql\Repository;
 use Websyspro\Server\Shops\Entities\BoxEntity;
+use Websyspro\ArrowToSql\Repository;
 
 class BoxRepository
 {
@@ -12,14 +12,26 @@ class BoxRepository
   ){}
 
   public function list(
+    int $boxId
   ): array {
     return $this->repo
       ->where(
-        fn( BoxEntity $i ) => $i->isActived == true && $i->isDeleted == false
+        fn( BoxEntity $i ) => (
+          $i->isActived == true
+          && $i->isDeleted == false 
+          && $i->id == $boxId
+        )
       )
       ->select(
         fn( BoxEntity $i ) => [
-          $i->id, $i->name, $i->openingAt, $i->printer, $i->isActived, $i->operatorId
+          $i->id, 
+          $i->name, 
+          $i->openingAt,
+          $i->printer,
+          $i->isActived,
+          $i->operatorId,
+          $i->createdAt,
+          $i->deletedAt
         ]
       )->rows();
   }

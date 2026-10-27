@@ -5,6 +5,7 @@ namespace Websyspro\Server\Shops\Controllers;
 use Websyspro\Server\Shops\Services\BoxService;
 use Websyspro\WorkerServer\Decorators\Controller;
 use Websyspro\WorkerServer\Decorators\Get;
+use Websyspro\WorkerServer\Decorators\Param;
 
 #[Controller("box")]
 class BoxController
@@ -13,9 +14,10 @@ class BoxController
     private readonly BoxService $boxService
   ){}
 
-  #[Get()]
+  #[Get("/:boxId")]
   public function getList(
+    #[Param("boxId")] int $boxId
   ): mixed {
-    return $this->boxService->list();
+    return $this->boxService->list( $boxId );
   }  
 }
