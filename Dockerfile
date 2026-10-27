@@ -27,6 +27,6 @@ WORKDIR /app
 
 COPY . .
 
-CMD [ "php", "index.php" ]
+CMD [ "php", "vendor/bin/server-restart" ]
 
 # docker run --rm --network server_default williamyeh/wrk -t4 -c400 -d15s http://server-server-1:8080/

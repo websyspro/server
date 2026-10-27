@@ -26,7 +26,7 @@ if( defined( "CONNECT_DETAILS_MYSQL" ) === false ){
 if( defined( "CONNECT_DETAILS_SQLITE" ) === false ){
   define( "CONNECT_DETAILS_SQLITE", (object)[
     "driver" => DriverType::SqLite, 
-    "name" => "D:/25-Composer/arrowtosql/db.sqlite"
+    "name" => "db.sqlite"
   ]);
 }
 
