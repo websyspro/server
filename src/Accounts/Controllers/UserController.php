@@ -4,7 +4,6 @@ namespace Websyspro\Server\Accounts\Controllers;
 
 use Websyspro\Server\Accounts\Models\UserModel;
 use Websyspro\Server\Accounts\Services\UserService;
-use Websyspro\WorkerServer\Decorators\Body;
 use Websyspro\WorkerServer\Decorators\Controller;
 use Websyspro\WorkerServer\Decorators\Delete;
 use Websyspro\WorkerServer\Decorators\Get;

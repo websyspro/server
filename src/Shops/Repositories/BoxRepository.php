@@ -15,7 +15,7 @@ class BoxRepository
     int $boxId
   ): array {
     return $this->repo
-      //->include( fn( BoxEntity $i ) => $i->operator )
+      ->include( fn( BoxEntity $i ) => $i->operator )
       ->where(
         fn( BoxEntity $i ) => (
           $i->isActived == true

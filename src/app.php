@@ -6,10 +6,10 @@ use Websyspro\Server\Accounts\AccountsModule;
 use Websyspro\Server\Crm\CrmModule;
 
 $workerService = new WorkerServer(); 
-$workerService->registerModules([
+$workerService->registerModules(
   AccountsModule::class,
   ShopsModule::class,
-  CrmModule::class,
-]);
+  CrmModule::class
+);
 
 $workerService->start();
