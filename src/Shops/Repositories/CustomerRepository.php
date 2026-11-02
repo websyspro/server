@@ -37,10 +37,10 @@ class CustomerRepository
               )
           )
       )
-      ->where( fn( CustomerEntity $i ) => (
-        $i->cpf == $cpf
-      ))
-      ->paged(1, 4)
+      // ->where( fn( CustomerEntity $i ) => (
+      //   $i->cpf == $cpf
+      // ))
+      // ->paged(1, 64)
       ->rows();
   }
 }
