@@ -20,6 +20,7 @@ class CustomerRepository
   ){}
   
   public function getList(
+    string $cpf
   ): mixed {
     return $this->repo
       ->include( 
@@ -37,7 +38,7 @@ class CustomerRepository
           )
       )
       ->where( fn( CustomerEntity $i ) => (
-        $i->cpf == "063.140.123-76"
+        $i->cpf == $cpf
       ))
       ->paged(1, 4)
       ->rows();

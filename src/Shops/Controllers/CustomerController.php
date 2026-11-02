@@ -8,6 +8,7 @@ use Websyspro\Server\Shops\Services\CustomerService;
 use Websyspro\WorkerServer\Decorators\Controller;
 use Websyspro\WorkerServer\Decorators\Get;
 use Websyspro\Utils\Collection;
+use Websyspro\WorkerServer\Decorators\Requests\Param;
 
 
 #[Controller("customer")]
@@ -18,10 +19,11 @@ class CustomerController
     private CustomerService $customerService
   ){}
 
-  #[Get()]
+  #[Get( "/:cpf" )]
   #[AllowAnonymous()]
   public function getList(
+    #[Param("cpf")] string $cpf
   ): Collection {
-    return $this->customerService->getList();
+    return $this->customerService->getList( $cpf );
   }
 }

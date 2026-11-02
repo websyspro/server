@@ -12,7 +12,8 @@ class CustomerService
   ){}
 
   public function getList(
+    string $cpf
   ): Collection {
-    return $this->customerRepository->getList();
+    return $this->customerRepository->getList( $cpf );
   } 
 }
