@@ -2,6 +2,7 @@
 
 namespace Websyspro\Server\Shops\Controllers;
 
+use Websyspro\Utils\Collection;
 use Websyspro\WorkerServer\Decorators\Get;
 use Websyspro\Server\Shops\Services\BoxService;
 use Websyspro\WorkerServer\Decorators\Controller;
@@ -22,7 +23,7 @@ class BoxController
   #[AllowAnonymous()]
   public function getList(
     #[Param("boxId")] int $boxId
-  ): array {
+  ): Collection {
     return $this->boxService->list( $boxId );
   }
 }
