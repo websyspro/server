@@ -3,7 +3,6 @@
 namespace Websyspro\Server\Shops\Repositories;
 
 use Websyspro\ArrowToSql\Repository;
-use Websyspro\Server\Shops\Entities\ProductEntity;
 use Websyspro\Server\Shops\Entities\ProductGroupEntity;
 
 class ProductGroupRepository
