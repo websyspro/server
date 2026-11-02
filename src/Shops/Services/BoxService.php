@@ -3,6 +3,7 @@
 namespace Websyspro\Server\Shops\Services;
 
 use Websyspro\Server\Shops\Repositories\BoxRepository;
+use Websyspro\Utils\Collection;
 
 class BoxService
 {
@@ -12,7 +13,7 @@ class BoxService
 
   public function list(
     int $boxId
-  ): array {
+  ): Collection {
     return $this->boxRepository->list( $boxId );
   } 
 }

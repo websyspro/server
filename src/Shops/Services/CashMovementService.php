@@ -2,8 +2,6 @@
 
 namespace Websyspro\Server\Shops\Services;
 
-use Websyspro\ArrowToSql\Repository;
-use Websyspro\Server\Shops\Repositories\BoxRepository;
 use Websyspro\Server\Shops\Repositories\CashMovementRepository;
 
 class CashMovementService
