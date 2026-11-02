@@ -17,6 +17,9 @@ class CustomerRepository
   
   public function getList(
   ): mixed {
-    return $this->repo->paged(1, 6)->rows();
+    return $this->repo
+      ->orderByDesc( fn( CustomerEntity $i ) => $i->id )
+      ->paged(1, 12)
+      ->rows();
   }
 }

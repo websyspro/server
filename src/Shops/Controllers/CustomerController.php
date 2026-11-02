@@ -2,15 +2,12 @@
 
 namespace Websyspro\Server\Shops\Controllers;
 
-use Websyspro\Server\Shops\Services\CustomerService;
-use Websyspro\Utils\Collection;
 use Websyspro\WorkerServer\Decorators\Middlewares\AllowAnonymous;
 use Websyspro\WorkerServer\Decorators\Middlewares\Authenticate;
-use Websyspro\Entity\Schemas\SqLiteEntityStructure;
+use Websyspro\Server\Shops\Services\CustomerService;
 use Websyspro\WorkerServer\Decorators\Controller;
-use Websyspro\Server\Shops\Entities\BoxEntity;
 use Websyspro\WorkerServer\Decorators\Get;
-use ReflectionClass;
+use Websyspro\Utils\Collection;
 
 
 #[Controller("customer")]
@@ -21,7 +18,7 @@ class CustomerController
     private CustomerService $customerService
   ){}
 
-  #[Get("/")]
+  #[Get()]
   #[AllowAnonymous()]
   public function getList(
   ): Collection {

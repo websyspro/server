@@ -1,6 +1,5 @@
 <?php
 
-use Websyspro\Server\Shops\Controllers\CustomerController;
 use Websyspro\Server\Accounts\AccountsModule;
 use Websyspro\WorkerServer\WorkerServer;
 use Websyspro\Server\Shops\ShopsModule;
@@ -8,7 +7,6 @@ use Websyspro\Server\Crm\CrmModule;
 
 $workerService = new WorkerServer(); 
 $workerService->registerModules(
-  CustomerController::class,
   AccountsModule::class,
   ShopsModule::class,
   CrmModule::class
