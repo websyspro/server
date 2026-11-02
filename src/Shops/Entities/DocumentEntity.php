@@ -5,14 +5,11 @@ namespace Websyspro\Server\Shops\Entities;
 use Websyspro\Entity\BaseIncrementEntity;
 use Websyspro\Entity\Decorators\EntityList;
 use Websyspro\Entity\Decorators\ForeignKey;
-use Websyspro\Entity\Decorators\HasOneToMany;
-use Websyspro\Entity\Decorators\HasOneToOne;
 use Websyspro\Entity\Decorators\Index;
 use Websyspro\Entity\Decorators\Length;
 use Websyspro\Entity\Decorators\Precision;
 use Websyspro\Entity\Types\ColumnBigInt;
 use Websyspro\Entity\Types\ColumnDecimal;
-use Websyspro\Entity\Types\ColumnList;
 use Websyspro\Entity\Types\ColumnText;
 
 class DocumentEntity

@@ -3,6 +3,7 @@
 namespace Websyspro\Server\Shops\Entities;
 
 use Websyspro\Entity\BaseIncrementEntity;
+use Websyspro\Entity\Decorators\EntityList;
 use Websyspro\Entity\Decorators\Index;
 use Websyspro\Entity\Decorators\Length;
 use Websyspro\Entity\Decorators\Unique;
@@ -21,4 +22,7 @@ extends BaseIncrementEntity
   #[Index(2)]
   public ColumnText $cpf;  
   public ColumnDatetime $lastPurchaseAt;
+
+  #[EntityList(DocumentEntity::class)]
+  public EntityList $documents;
 }
