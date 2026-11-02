@@ -16,7 +16,18 @@ class ProductRepository
   public function getList(
   ): mixed {
     return $this->repo
-      ->paged(1, 12)
+      ->include( fn( ProductEntity $i ) => $i->productGroup )
+      ->where( fn( ProductEntity $i ) => $i->productGroupId == 3 )
+      ->select( 
+        fn( ProductEntity $i ) => [
+          $i->id,
+          $i->name,
+          $i->value,
+          $i->state,
+          $i->amount,
+          $i->productGroupId
+        ]
+      )
       ->rows();
   }
 }

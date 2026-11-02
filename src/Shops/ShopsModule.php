@@ -6,6 +6,8 @@ use Websyspro\Server\Shops\Controllers\BoxController;
 use Websyspro\Server\Shops\Controllers\CashMovementController;
 use Websyspro\Server\Shops\Controllers\CustomerController;
 use Websyspro\Server\Shops\Controllers\OperatorController;
+use Websyspro\Server\Shops\Controllers\ProductController;
+use Websyspro\Server\Shops\Controllers\ProductGroupController;
 use Websyspro\Server\Shops\Entities\BoxEntity;
 use Websyspro\Server\Shops\Entities\CashMovementEntity;
 use Websyspro\Server\Shops\Entities\ConfigEntity;
@@ -19,12 +21,13 @@ use Websyspro\WorkerServer\Decorators\Module;
 
 
 #[Module(
-  name: 'shops',
   controllers: [
     BoxController::class,
+    ProductController::class,
     OperatorController::class,
     CustomerController::class,
-    CashMovementController::class
+    CashMovementController::class,
+    ProductGroupController::class
   ],
   entities: [
     BoxEntity::class,
