@@ -29,7 +29,7 @@ extends BaseIncrementEntity
   #[ForeignKey(OperatorEntity::class)]
   #[Index(1)]
   public ColumnBigInt $operatorId;
-  public OperatorEntity $operator;
+  public OperatorEntity|null $operator;
 
   #[Length(255)]
   public ColumnText $printer;

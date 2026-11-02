@@ -14,5 +14,5 @@ class BoxService
     int $boxId
   ): array {
     return $this->boxRepository->list( $boxId );
-  }
+  } 
 }

@@ -4,7 +4,6 @@ namespace Websyspro\Server\Shops\Entities;
 
 use Websyspro\Entity\BaseIncrementEntity;
 use Websyspro\Entity\Decorators\ForeignKey;
-use Websyspro\Entity\Decorators\Index;
 use Websyspro\Entity\Decorators\Length;
 use Websyspro\Entity\Decorators\Precision;
 use Websyspro\Entity\Types\ColumnBigInt;
@@ -26,7 +25,7 @@ extends BaseIncrementEntity
 
   #[ForeignKey(BoxEntity::class)]
   public ColumnBigInt $boxId;
-  public BoxEntity $box;
+  public BoxEntity|null $box;
 
   #[Precision(10,2)]
   public ColumnDecimal $value;

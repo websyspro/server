@@ -1,0 +1,32 @@
+<?php
+
+namespace Websyspro\Server\Shops\Controllers;
+
+use ReflectionClass;
+use Websyspro\Entity\Schemas\SqLiteEntityStructure;
+use Websyspro\Server\Shops\Entities\BoxEntity;
+use Websyspro\Server\Shops\Entities\OperatorEntity;
+use Websyspro\WorkerServer\Decorators\Get;
+use Websyspro\WorkerServer\Decorators\Controller;
+use Websyspro\WorkerServer\Decorators\Middlewares\AllowAnonymous;
+use Websyspro\WorkerServer\Decorators\Middlewares\Authenticate;
+
+
+#[Controller("operator")]
+#[Authenticate()]
+class OperatorController
+{
+  public function __construct(
+  ){}
+
+  #[Get("/")]
+  #[AllowAnonymous()]
+  public function getList(
+  ): mixed {
+    return new SqLiteEntityStructure(
+      new ReflectionClass(
+        BoxEntity::class
+      )
+    );
+  }
+}

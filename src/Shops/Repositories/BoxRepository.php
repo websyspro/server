@@ -33,5 +33,5 @@ class BoxRepository
           $i->operatorId
         ]
       )->rows();
-  }
+  }  
 }

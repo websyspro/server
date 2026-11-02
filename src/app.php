@@ -1,5 +1,6 @@
 <?php
 
+use Websyspro\Server\Shops\Controllers\OperatorController;
 use Websyspro\Server\Shops\ShopsModule;
 use Websyspro\WorkerServer\WorkerServer;
 use Websyspro\Server\Accounts\AccountsModule;

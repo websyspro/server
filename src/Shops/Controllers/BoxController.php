@@ -2,12 +2,12 @@
 
 namespace Websyspro\Server\Shops\Controllers;
 
+use Websyspro\WorkerServer\Decorators\Get;
 use Websyspro\Server\Shops\Services\BoxService;
 use Websyspro\WorkerServer\Decorators\Controller;
-use Websyspro\WorkerServer\Decorators\Get;
+use Websyspro\WorkerServer\Decorators\Requests\Param;
 use Websyspro\WorkerServer\Decorators\Middlewares\AllowAnonymous;
 use Websyspro\WorkerServer\Decorators\Middlewares\Authenticate;
-use Websyspro\WorkerServer\Decorators\Requests\Param;
 
 
 #[Controller("box")]
@@ -22,7 +22,7 @@ class BoxController
   #[AllowAnonymous()]
   public function getList(
     #[Param("boxId")] int $boxId
-  ): mixed {
+  ): array {
     return $this->boxService->list( $boxId );
-  }  
+  }
 }
