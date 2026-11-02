@@ -26,8 +26,11 @@ class CashMovementRepository
       ->where( 
         fn(CashMovementEntity $i) => (
           $i->type == "E" 
-          && $i->boxId == $boxId
           && $i->paymentMethod == "CC"
+          && $i->createdAt->between(
+            "02/04/2023 00:00:01.000", 
+            "02/04/2023 23:59:59.999"
+          )
         )   
       )
       ->select(
@@ -36,9 +39,8 @@ class CashMovementRepository
           $i->sum( $i->value )->as( "value" )
         ]
       )
-      ->groupBy(
-        fn(CashMovementEntity $i) => $i->boxId
-      )
+      ->groupBy( fn(CashMovementEntity $i) => $i->boxId )
+      ->orderByDesc( fn(CashMovementEntity $i) => $i->value )
       ->rows();
   }
 }

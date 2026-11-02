@@ -4,6 +4,7 @@ namespace Websyspro\Server\Shops\Repositories;
 
 use Websyspro\Server\Shops\Entities\BoxEntity;
 use Websyspro\ArrowToSql\Repository;
+use Websyspro\Utils\Collection;
 
 class BoxRepository
 {
@@ -13,7 +14,7 @@ class BoxRepository
 
   public function list(
     int $boxId
-  ): array {
+  ): Collection {
     return $this->repo
       ->include( fn( BoxEntity $i ) => $i->operator )
       ->where(
