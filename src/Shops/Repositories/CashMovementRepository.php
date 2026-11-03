@@ -40,7 +40,7 @@ class CashMovementRepository
         ]
       )
       ->groupBy( fn(CashMovementEntity $i) => $i->boxId )
-      ->orderByDesc( fn(CashMovementEntity $i) => $i->value )
+      ->orderByDesc( fn(CashMovementEntity $i) => $i->sum( $i->value ) )
       ->rows();
   }
 }

@@ -41,8 +41,8 @@ if( defined( "CONNECT_DETAILS_SQLSERVER" ) === false ){
   ]);
 }
 
-if( defined( "CONNECT_DETAILS_POSTGRESSQL" ) === false ){
-  define( "CONNECT_DETAILS_POSTGRESSQL", (object)[
+if( defined( "CONNECT_DETAILS_POSTGRES" ) === false ){
+  define( "CONNECT_DETAILS_POSTGRES", (object)[
     "driver" => DriverType::Postgres,
     "host" => "localhost",
     "port" => "5434",
@@ -53,7 +53,7 @@ if( defined( "CONNECT_DETAILS_POSTGRESSQL" ) === false ){
 }
 
 if( defined( "CONNECT_DETAILS" ) === false ){
-  define( "CONNECT_DETAILS", CONNECT_DETAILS_SQLITE );
+  define( "CONNECT_DETAILS", CONNECT_DETAILS_SQLSERVER );
 }
 
 if( defined( "SERVER_TOOLS" ) === false ){

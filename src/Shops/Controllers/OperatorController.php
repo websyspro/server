@@ -6,6 +6,7 @@ use ReflectionClass;
 use Websyspro\Entity\Schemas\SqLiteEntityStructure;
 use Websyspro\Server\Shops\Entities\BoxEntity;
 use Websyspro\Server\Shops\Entities\OperatorEntity;
+use Websyspro\Server\Shops\Services\OperatorService;
 use Websyspro\WorkerServer\Decorators\Get;
 use Websyspro\WorkerServer\Decorators\Controller;
 use Websyspro\WorkerServer\Decorators\Middlewares\AllowAnonymous;
@@ -17,16 +18,13 @@ use Websyspro\WorkerServer\Decorators\Middlewares\Authenticate;
 class OperatorController
 {
   public function __construct(
+    private readonly OperatorService $service
   ){}
 
   #[Get("/")]
   #[AllowAnonymous()]
   public function getList(
   ): mixed {
-    return new SqLiteEntityStructure(
-      new ReflectionClass(
-        BoxEntity::class
-      )
-    );
+    return $this->service->getList();
   }
 }
