@@ -53,7 +53,7 @@ if( defined( "CONNECT_DETAILS_POSTGRES" ) === false ){
 }
 
 if( defined( "CONNECT_DETAILS" ) === false ){
-  define( "CONNECT_DETAILS", CONNECT_DETAILS_SQLSERVER );
+  define( "CONNECT_DETAILS", CONNECT_DETAILS_POSTGRES );
 }
 
 if( defined( "SERVER_TOOLS" ) === false ){
