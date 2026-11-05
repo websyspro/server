@@ -17,6 +17,7 @@ class OperatorRepository
   public function getList(
   ): Collection {
     return $this->repo
+      ->include( fn( OperatorEntity $i ) => $i->box )
       ->select( fn( OperatorEntity $i ) => 
         [
           $i->id,

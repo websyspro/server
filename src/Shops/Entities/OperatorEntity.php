@@ -12,5 +12,7 @@ extends BaseIncrementEntity
 {
   #[Length(64)]
   #[Unique(1)]
-  public ColumnText $name;  
+  public ColumnText $name;
+
+  public BoxEntity $box;
 }
