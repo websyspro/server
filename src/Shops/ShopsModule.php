@@ -17,6 +17,7 @@ use Websyspro\Server\Shops\Entities\DocumentItemEntity;
 use Websyspro\Server\Shops\Entities\OperatorEntity;
 use Websyspro\Server\Shops\Entities\ProductEntity;
 use Websyspro\Server\Shops\Entities\ProductGroupEntity;
+use Websyspro\Server\Shops\Services\InitalService;
 use Websyspro\WorkerServer\Decorators\Module;
 
 
@@ -39,6 +40,9 @@ use Websyspro\WorkerServer\Decorators\Module;
     OperatorEntity::class,
     ProductEntity::class,
     ProductGroupEntity::class
+  ],
+  services: [
+    InitalService::class
   ]
 )]
 class ShopsModule {}

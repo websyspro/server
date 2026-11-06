@@ -2,7 +2,6 @@
 
 namespace Websyspro\Server\Accounts\Controllers;
 
-use Websyspro\WorkerServer\Container;
 use Websyspro\WorkerServer\Decorators\Controller;
 use Websyspro\WorkerServer\Decorators\Post;
 use Websyspro\WorkerServer\JwtManager;
