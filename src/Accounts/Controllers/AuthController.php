@@ -11,14 +11,14 @@ use Websyspro\WorkerServer\Response;
 #[Controller("auth")]
 class AuthController
 {
+  public function __construct(
+    private readonly JwtManager $jwtManager
+  ){}
+
   #[Post()]
   public function getToken(
   ): mixed {
-    $jwtManager = Container::make(
-      JwtManager::class
-    );
-
-    $token = $jwtManager->sign([
+    $token = $this->jwtManager->sign([
       "sub" => null,
       "name" => "",
     ]);

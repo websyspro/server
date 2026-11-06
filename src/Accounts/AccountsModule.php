@@ -11,7 +11,9 @@ use Websyspro\WorkerServer\Decorators\Module;
 
 #[Module(
   controllers: [
-    AuthController::class
+    AuthController::class,
+    UserController::class,
+    EntityController::class
   ],
   entities: [
     UserEntity::class,
