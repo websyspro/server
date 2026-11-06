@@ -7,7 +7,7 @@ use Websyspro\Entity\Decorators\Column;
 use Websyspro\Entity\Decorators\Entity;
 use Websyspro\Entity\Decorators\ForeignKey;
 use Websyspro\Entity\Decorators\Index;
-use Websyspro\Entity\Decorators\InitialDefault;
+use Websyspro\Entity\Decorators\InitialInsertDefault;
 use Websyspro\Entity\Decorators\Length;
 use Websyspro\Entity\Decorators\Precision;
 use Websyspro\Entity\Decorators\Synchronize;
@@ -58,7 +58,7 @@ extends BaseUUIDEntity
   #[Length(3000)]
   public ColumnText $ComentarioArquivamento;
 
-  #[InitialDefault(0)]
+  #[InitialInsertDefault(0)]
   public ColumnInt $Versao;
 
   #[Length(100)]

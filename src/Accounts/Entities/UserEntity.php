@@ -4,13 +4,12 @@ namespace Websyspro\Server\Accounts\Entities;
 
 use Websyspro\Entity\BaseUUIDEntity;
 use Websyspro\Entity\Decorators\Entity;
-use Websyspro\Entity\Decorators\HasMany;
+use Websyspro\Entity\Decorators\EntityList;
 use Websyspro\Entity\Decorators\Index;
 use Websyspro\Entity\Decorators\Length;
 use Websyspro\Entity\Decorators\Precision;
 use Websyspro\Entity\Decorators\Required;
 use Websyspro\Entity\Types\ColumnDecimal;
-use Websyspro\Entity\Types\ColumnList;
 use Websyspro\Entity\Types\ColumnText;
 
 
@@ -30,6 +29,6 @@ extends BaseUUIDEntity
   #[Precision(10, 2)]
   public ColumnDecimal $balance;
 
-  #[HasMany(AccessEntity::class)]
-  public ColumnList $access;
+  #[EntityList(AccessEntity::class)]
+  public EntityList $access;
 }
