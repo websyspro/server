@@ -20,7 +20,6 @@ class BoxController
   ){}
 
   #[Get("/:boxId")]
-  #[AllowAnonymous()]
   public function getList(
     #[Param("boxId")] int $boxId
   ): Collection {

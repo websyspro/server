@@ -10,11 +10,8 @@ use Websyspro\Server\Accounts\Entities\UserEntity;
 use Websyspro\WorkerServer\Decorators\Module;
 
 #[Module(
-  name: 'accounts',
   controllers: [
-    AuthController::class,
-    UserController::class,
-    EntityController::class
+    AuthController::class
   ],
   entities: [
     UserEntity::class,
