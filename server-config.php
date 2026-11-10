@@ -33,11 +33,11 @@ if( defined( "CONNECT_DETAILS_SQLITE" ) === false ){
 if( defined( "CONNECT_DETAILS_SQLSERVER" ) === false ){
   define( "CONNECT_DETAILS_SQLSERVER", (object)[
     "driver" => DriverType::SqlServer,
-    "host" => "localhost",
+    "host" => "staging-apps-sqlserver-5de76c86.ciba0g6ukgr4.us-east-1.rds.amazonaws.com",
     "port" => "1433",
-    "name" => "app",
-    "user" => "sa",
-    "pass" => "Qazwsx@123"
+    "name" => "PNLD_PAINEL_API_STG",
+    "user" => "pnld-crm-api",
+    "pass" => "1K)[aO7WL)k(AX>W"
   ]);
 }
 
@@ -53,7 +53,7 @@ if( defined( "CONNECT_DETAILS_POSTGRES" ) === false ){
 }
 
 if( defined( "CONNECT_DETAILS" ) === false ){
-  define( "CONNECT_DETAILS", CONNECT_DETAILS_SQLITE );
+  define( "CONNECT_DETAILS", CONNECT_DETAILS_SQLSERVER );
 }
 
 if( defined( "SERVER_TOOLS" ) === false ){
