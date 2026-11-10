@@ -2,60 +2,39 @@
 
 use Websyspro\Connection\Enums\DriverType;
 
+/*
+ * define BASE_DIR
+ * **/
 defined( "BASE_DIR" ) || define(
   "BASE_DIR", realpath(
     dirname( __DIR__ ) 
   ) . DIRECTORY_SEPARATOR
 );
 
+/*
+ * Autoload BASE_DIR
+ * **/
 if( file_exists(  BASE_DIR . "vendor/autoload.php" )){
   require_once BASE_DIR . "vendor/autoload.php";
 }
 
-if( defined( "CONNECT_DETAILS_MYSQL" ) === false ){
-  define( "CONNECT_DETAILS_MYSQL", (object)[
-    "driver" => DriverType::MySql, 
-    "host" => "localhost", 
-    "port" => "3308", 
-    "name" => "app",
-    "user" => "root", 
-    "pass" => "Qazwsx@123"
-  ]);
-}
-
-if( defined( "CONNECT_DETAILS_SQLITE" ) === false ){
-  define( "CONNECT_DETAILS_SQLITE", (object)[
-    "driver" => DriverType::SqLite, 
-    "name" => "db.sqlite"
-  ]);
-}
-
-if( defined( "CONNECT_DETAILS_SQLSERVER" ) === false ){
-  define( "CONNECT_DETAILS_SQLSERVER", (object)[
-    "driver" => DriverType::SqlServer,
-    "host" => "staging-apps-sqlserver-5de76c86.ciba0g6ukgr4.us-east-1.rds.amazonaws.com",
-    "port" => "1433",
-    "name" => "PNLD_PAINEL_API_STG",
-    "user" => "pnld-crm-api",
-    "pass" => "1K)[aO7WL)k(AX>W"
-  ]);
-}
-
-if( defined( "CONNECT_DETAILS_POSTGRES" ) === false ){
-  define( "CONNECT_DETAILS_POSTGRES", (object)[
-    "driver" => DriverType::Postgres,
-    "host" => "localhost",
-    "port" => "5434",
-    "name" => "app",
-    "user" => "root",
-    "pass" => "Qazwsx@123"
-  ]);
-}
-
+/*
+ * define CONNECT_DETAILS
+ * **/
 if( defined( "CONNECT_DETAILS" ) === false ){
-  define( "CONNECT_DETAILS", CONNECT_DETAILS_SQLSERVER );
+  define( "CONNECT_DETAILS", (object)[
+    "driver" => DriverType::SqlServer,
+    "host" => "",
+    "port" => "",
+    "name" => "",
+    "user" => "",
+    "pass" => ""
+  ]);
 }
 
+/*
+ * define SERVER_TOOLS
+ * **/
 if( defined( "SERVER_TOOLS" ) === false ){
   define( "SERVER_TOOLS", [
     "port" => 3000,
