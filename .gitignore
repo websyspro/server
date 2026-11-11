@@ -2,7 +2,7 @@ composer.phar
 /vendor/
 
 # Ignora env
-.env
+.env*
 
 # Ignora todo o src exceto app.php
 /src/*
