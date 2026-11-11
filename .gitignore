@@ -3,6 +3,7 @@ composer.phar
 
 # Ignora env
 .env*
+!.env-default
 
 # Ignora todo o src exceto app.php
 /src/*
