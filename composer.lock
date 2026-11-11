@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7bf8821f8a2c673676278e2635b710c4",
+    "content-hash": "0c949a7aff395d39e4293bea45b07da2",
     "packages": [
         {
             "name": "websyspro/arrowtosql",
@@ -305,16 +305,16 @@
         },
         {
             "name": "websyspro/worker-server",
-            "version": "1.0.121",
+            "version": "1.0.124",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/worker-server.git",
-                "reference": "7b18f0937f331420e73ff481e98db2d81536412f"
+                "reference": "604e223b871a617817503b21f120dbfa64340043"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/7b18f0937f331420e73ff481e98db2d81536412f",
-                "reference": "7b18f0937f331420e73ff481e98db2d81536412f",
+                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/604e223b871a617817503b21f120dbfa64340043",
+                "reference": "604e223b871a617817503b21f120dbfa64340043",
                 "shasum": ""
             },
             "require": {
@@ -326,6 +326,9 @@
                 "websyspro/package": "^1.0",
                 "websyspro/utils": "^1.0"
             },
+            "bin": [
+                "bin/install"
+            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -345,9 +348,9 @@
             "description": "Set of features in PHP for creating entitys for database",
             "support": {
                 "issues": "https://github.com/websyspro/worker-server/issues",
-                "source": "https://github.com/websyspro/worker-server/tree/1.0.121"
+                "source": "https://github.com/websyspro/worker-server/tree/1.0.124"
             },
-            "time": "2026-11-11T00:40:29+00:00"
+            "time": "2026-11-11T01:00:37+00:00"
         }
     ],
     "packages-dev": [],
