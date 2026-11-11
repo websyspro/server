@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a38411bfa64b5bf47eaf3679442931f9",
+    "content-hash": "3d6f0ad1bee9f3d9787e4613229cf079",
     "packages": [
         {
             "name": "websyspro/arrowtosql",
-            "version": "1.0.119",
+            "version": "1.0.121",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/arrowtosql.git",
-                "reference": "e4e0d1ed2d7c69aa2fd984da3383a3b999d7e9bd"
+                "reference": "b1e6ada50081e5f1bf41237a2db18c2d217cce4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/arrowtosql/zipball/e4e0d1ed2d7c69aa2fd984da3383a3b999d7e9bd",
-                "reference": "e4e0d1ed2d7c69aa2fd984da3383a3b999d7e9bd",
+                "url": "https://api.github.com/repos/websyspro/arrowtosql/zipball/b1e6ada50081e5f1bf41237a2db18c2d217cce4c",
+                "reference": "b1e6ada50081e5f1bf41237a2db18c2d217cce4c",
                 "shasum": ""
             },
             "require": {
@@ -47,9 +47,9 @@
             "description": "Convert Arrow FN into SQL queries",
             "support": {
                 "issues": "https://github.com/websyspro/arrowtosql/issues",
-                "source": "https://github.com/websyspro/arrowtosql/tree/1.0.119"
+                "source": "https://github.com/websyspro/arrowtosql/tree/1.0.121"
             },
-            "time": "2026-11-11T15:11:35+00:00"
+            "time": "2026-11-11T21:42:19+00:00"
         },
         {
             "name": "websyspro/connection",
@@ -140,16 +140,16 @@
         },
         {
             "name": "websyspro/entity",
-            "version": "1.0.117",
+            "version": "1.0.118",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/entity.git",
-                "reference": "e73f321feec8fb6858800f76b7427629d6fc2fb6"
+                "reference": "ba978333e0ebb9ca927d22c857c20265849b6bd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/entity/zipball/e73f321feec8fb6858800f76b7427629d6fc2fb6",
-                "reference": "e73f321feec8fb6858800f76b7427629d6fc2fb6",
+                "url": "https://api.github.com/repos/websyspro/entity/zipball/ba978333e0ebb9ca927d22c857c20265849b6bd6",
+                "reference": "ba978333e0ebb9ca927d22c857c20265849b6bd6",
                 "shasum": ""
             },
             "require": {
@@ -176,9 +176,9 @@
             "description": "Library for managing controllers and services",
             "support": {
                 "issues": "https://github.com/websyspro/entity/issues",
-                "source": "https://github.com/websyspro/entity/tree/1.0.117"
+                "source": "https://github.com/websyspro/entity/tree/1.0.118"
             },
-            "time": "2026-11-11T15:11:51+00:00"
+            "time": "2026-11-11T21:39:01+00:00"
         },
         {
             "name": "websyspro/logger",
@@ -305,16 +305,16 @@
         },
         {
             "name": "websyspro/worker-server",
-            "version": "1.0.133",
+            "version": "1.0.135",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websyspro/worker-server.git",
-                "reference": "dfd61fb56fda37c03c726359f3f409c8fb7971a3"
+                "reference": "0ef122dc028e131b56ecdd85482dc0aa9f3b8ff6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/dfd61fb56fda37c03c726359f3f409c8fb7971a3",
-                "reference": "dfd61fb56fda37c03c726359f3f409c8fb7971a3",
+                "url": "https://api.github.com/repos/websyspro/worker-server/zipball/0ef122dc028e131b56ecdd85482dc0aa9f3b8ff6",
+                "reference": "0ef122dc028e131b56ecdd85482dc0aa9f3b8ff6",
                 "shasum": ""
             },
             "require": {
@@ -348,9 +348,9 @@
             "description": "Set of features in PHP for creating entitys for database",
             "support": {
                 "issues": "https://github.com/websyspro/worker-server/issues",
-                "source": "https://github.com/websyspro/worker-server/tree/1.0.133"
+                "source": "https://github.com/websyspro/worker-server/tree/1.0.135"
             },
-            "time": "2026-11-11T14:51:18+00:00"
+            "time": "2026-11-11T21:42:59+00:00"
         }
     ],
     "packages-dev": [],
